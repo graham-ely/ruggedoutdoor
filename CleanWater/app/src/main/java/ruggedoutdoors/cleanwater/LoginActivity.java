@@ -192,6 +192,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        // Check for username and password
+        if (!email.equals("example@gatech.edu")) {
+            mEmailView.setError(getString(R.string.error_email_not_found));
+            cancel = true;
+            focusView = mEmailView;
+        } else if (!password.equals("12345")) {
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
+            cancel = true;
+            mPasswordView.setText("");
+            focusView = mPasswordView;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.

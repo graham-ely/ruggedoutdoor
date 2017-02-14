@@ -9,6 +9,7 @@
     <string name="action_cancel_short">Cancel</string>
     <string name="action_register">Register</string>
     <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_email_not_found">This email address was not found in the system.</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
