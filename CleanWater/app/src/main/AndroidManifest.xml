@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="LoginActivity"
+            android:name=".LoginActivity"
             android:label="Clean Water"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".HomescreenActivity"></activity>
     </application>
 
 </manifest>

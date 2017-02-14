@@ -34,6 +34,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
             }
         });
+
+        Button mCancelButton = (Button) findViewById(R.id.login_button);
 }
 
 }

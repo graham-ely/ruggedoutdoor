@@ -3,6 +3,7 @@ package ruggedoutdoors.cleanwater;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -90,6 +91,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mEmailCancelButton = (Button) findViewById(R.id.email_cancel_button);
+        mEmailCancelButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelLogin();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -137,6 +146,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+
+    private void cancelLogin() {
+        Intent nextScreen = new Intent(getApplicationContext(), WelcomeActivity.class);
+
+        startActivity(nextScreen);
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -333,6 +348,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
+
+                startActivity(nextScreen);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
