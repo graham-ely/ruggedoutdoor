@@ -266,7 +266,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            //showProgress(true);
             Users.add(new User(firstName, lastName, username, password, email, phone, birthday, address, type));
 
                 Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
