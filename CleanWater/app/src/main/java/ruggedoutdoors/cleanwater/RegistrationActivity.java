@@ -3,12 +3,14 @@ package ruggedoutdoors.cleanwater;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.telephony.PhoneNumberUtils;
 
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -77,7 +79,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         mUsernameView = (EditText) findViewById(R.id.register_username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordConfirmView = (EditText) findViewById(R.id.passwordConfirm);
-        mEmailView = (EditText) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.register_email);
         mPhoneView = (EditText) findViewById(R.id.register_phone);
         mAddressView = (EditText) findViewById(R.id.register_address);
         mBirthdayView = (EditText) findViewById(R.id.register_birthday);
@@ -183,10 +185,10 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         String passwordConfirm = mPasswordConfirmView.getText().toString();
         String email           = mEmailView.getText().toString();
         String phone           = mPhoneView.getText().toString();
-        Address address        = (Address) mAddressView.getText();
-        Date birthday          = (Date) mBirthdayView.getText();
+        String address         = mAddressView.getText().toString();
+        String birthday          = mBirthdayView.getText().toString();
         //hardcoding to test
-        UserType type          = UserType.ADMIN;
+        UserType type          = (UserType) mUserTypeView.getSelectedItem();
 
         boolean cancel = false;
         View focusView = null;
@@ -201,41 +203,14 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         }
 
         // Check for a valid last name.
-        if (TextUtils.isEmpty(lastName)) {
+        else if (TextUtils.isEmpty(lastName)) {
             mLastNameView.setError(getString(R.string.error_field_required));
             focusView = mLastNameView;
             cancel = true;
         }
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Checks that passwords are the same
-        if (!password.equals(passwordConfirm)) {
-            mPasswordView.setError("Passwords must match!");
-            mPasswordConfirmView.setText("");
-            mPasswordView.setText("");
-            focusView = mPasswordConfirmView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
         // Check for valid username
-        if (TextUtils.isEmpty(username)) {
+        else if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mUsernameView;
             cancel = true;
@@ -245,16 +220,58 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             cancel = true;
         }
 
+        // Check for a valid password, if the user entered one.
+        else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Checks that passwords are the same
+        else if (!password.equals(passwordConfirm)) {
+            mPasswordView.setError("Passwords must match!");
+            mPasswordConfirmView.setText("");
+            mPasswordView.setText("");
+            focusView = mPasswordConfirmView;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        else if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
+
+        // Check for valid phone number
+        else if (TextUtils.isEmpty(phone)) {
+            mPhoneView.setError(getString(R.string.error_field_required));
+            focusView = mPhoneView;
+            cancel = true;
+        } else if (!PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
+            mPhoneView.setError("Invalid phone number");
+            focusView = mPhoneView;
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Users.add(new User("first", "last", username, password, email, phone, birthday, address, type));
+            Users.add(new User(firstName, lastName, username, password, email, phone, birthday, address, type));
 
+                Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
+
+                startActivity(nextScreen);
             /*mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);*/
         }

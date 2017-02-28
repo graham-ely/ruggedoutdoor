@@ -11,11 +11,11 @@ import java.util.Date;
 public class User {
 
     private String firstName, lastName, username, password, email, phone;
-    private Date birthday;
-    private Address address;
+    private String birthday;
+    private String address;
     private UserType userType;
 
-    public User (String fn, String ln, String un, String password, String email, String phone, Date bday, Address address, UserType type) {
+    public User (String fn, String ln, String un, String password, String email, String phone, String bday, String address, UserType type) {
         firstName = fn;
         lastName = ln;
         username = un;
@@ -75,19 +75,19 @@ public class User {
         this.phone = phone;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
