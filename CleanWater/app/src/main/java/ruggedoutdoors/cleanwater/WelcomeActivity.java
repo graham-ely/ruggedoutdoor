@@ -31,7 +31,9 @@ public class WelcomeActivity extends AppCompatActivity {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent nextScreen = new Intent(getApplicationContext(), RegistrationActivity.class);
 
+                startActivity(nextScreen);
             }
         });
 
