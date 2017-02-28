@@ -53,10 +53,12 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mUsernameView;
+    private EditText mFirstNameView;
+    private EditText mLastNameView;
+    private EditText mUsernameView;
     private EditText mPasswordView;
     private EditText mPasswordConfirmView;
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPhoneView;
     private EditText mAddressView;
     private EditText mBirthdayView;
@@ -70,15 +72,23 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         // Set up the login form.
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.register_username);
+        mFirstNameView = (EditText)  findViewById(R.id.register_first_name);
+        mLastNameView = (EditText)  findViewById(R.id.register_last_name);
+        mUsernameView = (EditText) findViewById(R.id.register_username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordConfirmView = (EditText) findViewById(R.id.passwordConfirm);
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.email);
         mPhoneView = (EditText) findViewById(R.id.register_phone);
         mAddressView = (EditText) findViewById(R.id.register_address);
         mBirthdayView = (EditText) findViewById(R.id.register_birthday);
-        //TODO: populate spinner
         mUserTypeView = (Spinner) findViewById(R.id.register_type);
+
+        /*
+          Set up the adapter to display the allowable User Types in the spinner
+         */
+        ArrayAdapter<String> adapter1 = new ArrayAdapter(this,android.R.layout.simple_spinner_item, UserType.values());
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mUserTypeView.setAdapter(adapter1);
 
         //populateAutoComplete();
 
@@ -161,12 +171,14 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         }
 
         // Reset errors.
-        mUsernameView.setError(null);
+       /* mUsernameView.setError(null);
         mEmailView.setError(null);
-        mPasswordView.setError(null);
+        mPasswordView.setError(null);*/
 
         // Store values at the time of the login attempt.
-        String username        = mUserTypeView.toString();
+        String firstName       = mFirstNameView.getText().toString();
+        String lastName        = mLastNameView.getText().toString();
+        String username        = mUsernameView.getText().toString();
         String password        = mPasswordView.getText().toString();
         String passwordConfirm = mPasswordConfirmView.getText().toString();
         String email           = mEmailView.getText().toString();
@@ -181,6 +193,20 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 
         //TODO: Additional checkers for other variables
 
+        // Check for a valid first name.
+        if (TextUtils.isEmpty(firstName)) {
+            mFirstNameView.setError(getString(R.string.error_field_required));
+            focusView = mFirstNameView;
+            cancel = true;
+        }
+
+        // Check for a valid last name.
+        if (TextUtils.isEmpty(lastName)) {
+            mLastNameView.setError(getString(R.string.error_field_required));
+            focusView = mLastNameView;
+            cancel = true;
+        }
+
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
@@ -191,6 +217,8 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         // Checks that passwords are the same
         if (!password.equals(passwordConfirm)) {
             mPasswordView.setError("Passwords must match!");
+            mPasswordConfirmView.setText("");
+            mPasswordView.setText("");
             focusView = mPasswordConfirmView;
             cancel = true;
         }
@@ -203,6 +231,17 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
+            cancel = true;
+        }
+
+        // Check for valid username
+        if (TextUtils.isEmpty(username)) {
+            mUsernameView.setError(getString(R.string.error_field_required));
+            focusView = mUsernameView;
+            cancel = true;
+        } else if (Users.hasUser(username)) {
+            mUsernameView.setError(getString(R.string.error_duplicate_username));
+            focusView = mUsernameView;
             cancel = true;
         }
 
@@ -293,7 +332,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             cursor.moveToNext();
         }
 
-        addEmailsToAutoComplete(emails);
+        //addEmailsToAutoComplete(emails);
     }
 
     @Override
@@ -301,14 +340,14 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 
     }
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(RegistrationActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
+//    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+//        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+//        ArrayAdapter<String> adapter =
+//                new ArrayAdapter<>(RegistrationActivity.this,
+//                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+//
+//        mEmailView.setAdapter(adapter);
+//    }
 
 
     private interface ProfileQuery {

@@ -11,21 +11,17 @@ import java.util.NoSuchElementException;
  */
 
 public class Users {
-    private static HashMap<String, User> userSet;
-
-    public Users () {
-        userSet = new HashMap<>();
-    }
+    private static HashMap<String, User> userSet = new HashMap<>();
 
     public static void add(User u) {
         userSet.put(u.getUsername(), u);
     }
 
-    public boolean hasUser(String username) {
+    public static boolean hasUser(String username) {
         return userSet.containsKey(username);
     }
 
-    public User getUser(String username) throws NoSuchElementException {
+    public static User getUser(String username) throws NoSuchElementException {
         if (hasUser(username)) {
             return userSet.get(username);
         } else {
@@ -34,7 +30,7 @@ public class Users {
 
     }
 
-    public User getUser(String username, String password) {
+    public static User getUser(String username, String password) {
         if (hasUser(username)) {
             User user = userSet.get(username);
             if (user.getPassword().equals(password)) {
