@@ -128,6 +128,16 @@
                 android:text="@string/action_register_submit"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/register_cancel_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_cancel_short"
+                android:textStyle="bold"
+                tools:text="Cancel" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

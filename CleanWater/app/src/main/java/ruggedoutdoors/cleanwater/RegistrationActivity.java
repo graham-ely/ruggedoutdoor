@@ -113,6 +113,15 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             }
         });
 
+        Button mCancelButton = (Button) findViewById(R.id.register_cancel_button);
+        mCancelButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextScreen = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(nextScreen);
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
