@@ -25,8 +25,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="Clean Water"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".HomescreenActivity"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".HomescreenActivity" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="@string/title_activity_registration"></activity>
     </application>
 
 </manifest>

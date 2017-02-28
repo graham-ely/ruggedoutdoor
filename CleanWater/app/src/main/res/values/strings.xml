@@ -4,7 +4,10 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Login or register</string>
+    <string name="action_register_submit">Register</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_username">Username</string>
     <string name="action_sign_in_short">Login</string>
     <string name="action_cancel_short">Cancel</string>
     <string name="action_register">Register</string>
@@ -16,4 +19,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_registration">Registration</string>
 </resources>
