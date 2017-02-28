@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,9 +28,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -45,20 +48,20 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
+    private EditText mPasswordConfirmView;
+    private AutoCompleteTextView mEmailView;
+    private EditText mPhoneView;
+    private EditText mAddressView;
+    private EditText mBirthdayView;
+    private Spinner mUserTypeView;
+
     private View mProgressView;
     private View mLoginFormView;
 
@@ -67,11 +70,19 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
-
+        mUsernameView = (AutoCompleteTextView) findViewById(R.id.register_username);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mPasswordConfirmView = (EditText) findViewById(R.id.passwordConfirm);
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mPhoneView = (EditText) findViewById(R.id.register_phone);
+        mAddressView = (EditText) findViewById(R.id.register_address);
+        mBirthdayView = (EditText) findViewById(R.id.register_birthday);
+        //TODO: populate spinner
+        mUserTypeView = (Spinner) findViewById(R.id.register_type);
+
+        //populateAutoComplete();
+
+        /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -80,13 +91,13 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
                 }
                 return false;
             }
-        });
+        });*/
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptRegister();
             }
         });
 
@@ -139,30 +150,48 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
+     * Attempts to register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegister() {
+
         if (mAuthTask != null) {
             return;
         }
 
         // Reset errors.
+        mUsernameView.setError(null);
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String username        = mUserTypeView.toString();
+        String password        = mPasswordView.getText().toString();
+        String passwordConfirm = mPasswordConfirmView.getText().toString();
+        String email           = mEmailView.getText().toString();
+        String phone           = mPhoneView.getText().toString();
+        Address address        = (Address) mAddressView.getText();
+        Date birthday          = (Date) mBirthdayView.getText();
+        //hardcoding to test
+        UserType type          = UserType.ADMIN;
 
         boolean cancel = false;
         View focusView = null;
+
+        //TODO: Additional checkers for other variables
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Checks that passwords are the same
+        if (!password.equals(passwordConfirm)) {
+            mPasswordView.setError("Passwords must match!");
+            focusView = mPasswordConfirmView;
             cancel = true;
         }
 
@@ -185,8 +214,10 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            Users.add(new User("first", "last", username, password, email, phone, birthday, address, type));
+
+            /*mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Void) null);*/
         }
     }
 
@@ -315,13 +346,13 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
 
             // TODO: register the new account here.
             return true;

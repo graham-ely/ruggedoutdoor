@@ -11,13 +11,13 @@ import java.util.NoSuchElementException;
  */
 
 public class Users {
-    private HashMap<String, User> userSet;
+    private static HashMap<String, User> userSet;
 
     public Users () {
         userSet = new HashMap<>();
     }
 
-    public void add(User u) {
+    public static void add(User u) {
         userSet.put(u.getUsername(), u);
     }
 

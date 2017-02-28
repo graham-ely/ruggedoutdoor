@@ -10,17 +10,18 @@ import java.util.Date;
 
 public class User {
 
-    private String firstName, lastName, username, password, email;
+    private String firstName, lastName, username, password, email, phone;
     private Date birthday;
     private Address address;
     private UserType userType;
 
-    public User (String fn, String ln, String un, String pass, String email, Date bday, Address address, UserType type) {
+    public User (String fn, String ln, String un, String password, String email, String phone, Date bday, Address address, UserType type) {
         firstName = fn;
         lastName = ln;
         username = un;
-        password = pass;
+        this.password = password;
         this.email = email;
+        this.phone = phone;
         birthday = bday;
         this.address = address;
         userType = type;
@@ -64,6 +65,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Date getBirthday() {

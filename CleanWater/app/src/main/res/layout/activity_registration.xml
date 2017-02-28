@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPostalAddress"
                 android:ems="10"
-                android:id="@+id/editText4"
+                android:id="@+id/register_address"
                 android:hint="Address" />
 
             <EditText
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="date"
                 android:ems="10"
-                android:id="@+id/editText5"
+                android:id="@+id/register_birthday"
                 android:hint="Birthday" />
 
             <Spinner
@@ -98,7 +98,7 @@
                 android:id="@+id/register_type" />
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/register_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
