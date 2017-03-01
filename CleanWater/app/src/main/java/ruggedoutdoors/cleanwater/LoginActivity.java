@@ -332,7 +332,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-
+                nextScreen.putExtra("USERNAME", mUsernameView.getText().toString());
                 startActivity(nextScreen);
                 finish();
             } else {
