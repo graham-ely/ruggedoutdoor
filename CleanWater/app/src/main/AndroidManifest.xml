@@ -30,6 +30,9 @@
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"></activity>
+        <activity
+            android:name=".EditUserActivity"
+            android:label="Edit User"></activity>
     </application>
 
 </manifest>

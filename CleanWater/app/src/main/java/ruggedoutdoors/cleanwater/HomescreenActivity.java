@@ -25,7 +25,7 @@ public class HomescreenActivity extends AppCompatActivity {
             }
         });
         Button mEditUserButton = (Button) findViewById(R.id.editUserButton);
-        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+        mEditUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), EditUserActivity.class);

@@ -17,6 +17,9 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        // for ease of testing
+        Users.add(new User("test","person","tester","12345","test@gatech.edu","1234567890","","123 test ave",UserType.ADMIN));
+
         Button mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
