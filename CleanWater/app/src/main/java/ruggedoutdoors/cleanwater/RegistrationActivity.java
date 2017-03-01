@@ -74,8 +74,8 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         // Set up the login form.
-        mFirstNameView = (EditText)  findViewById(R.id.register_first_name);
-        mLastNameView = (EditText)  findViewById(R.id.register_last_name);
+        mFirstNameView = (EditText) findViewById(R.id.register_first_name);
+        mLastNameView = (EditText) findViewById(R.id.register_last_name);
         mUsernameView = (EditText) findViewById(R.id.register_username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordConfirmView = (EditText) findViewById(R.id.passwordConfirm);
@@ -88,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         /*
           Set up the adapter to display the allowable User Types in the spinner
          */
-        ArrayAdapter<String> adapter1 = new ArrayAdapter(this,android.R.layout.simple_spinner_item, UserType.values());
+        ArrayAdapter<String> adapter1 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, UserType.values());
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserTypeView.setAdapter(adapter1);
 
@@ -187,17 +187,17 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         mPasswordView.setError(null);*/
 
         // Store values at the time of the login attempt.
-        String firstName       = mFirstNameView.getText().toString();
-        String lastName        = mLastNameView.getText().toString();
-        String username        = mUsernameView.getText().toString();
-        String password        = mPasswordView.getText().toString();
+        String firstName = mFirstNameView.getText().toString();
+        String lastName = mLastNameView.getText().toString();
+        String username = mUsernameView.getText().toString();
+        String password = mPasswordView.getText().toString();
         String passwordConfirm = mPasswordConfirmView.getText().toString();
-        String email           = mEmailView.getText().toString();
-        String phone           = mPhoneView.getText().toString();
-        String address         = mAddressView.getText().toString();
-        String birthday          = mBirthdayView.getText().toString();
+        String email = mEmailView.getText().toString();
+        String phone = mPhoneView.getText().toString();
+        String address = mAddressView.getText().toString();
+        String birthday = mBirthdayView.getText().toString();
         //hardcoding to test
-        UserType type          = (UserType) mUserTypeView.getSelectedItem();
+        UserType type = (UserType) mUserTypeView.getSelectedItem();
 
         boolean cancel = false;
         View focusView = null;
@@ -278,19 +278,31 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             //showProgress(true);
             Users.add(new User(firstName, lastName, username, password, email, phone, birthday, address, type));
 
-                Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
 
-                startActivity(nextScreen);
+            startActivity(nextScreen);
             /*mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);*/
         }
     }
 
+    /**
+     * checks for valid email
+     *
+     * @param email to check
+     * @return whether string is a valid email
+     */
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
+    /**
+     * checks for valid password
+     *
+     * @param password to check
+     * @return whether string is a valid password
+     */
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;

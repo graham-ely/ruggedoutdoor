@@ -52,8 +52,6 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
     // UI references.
     private TextView mNameTextView;
     private TextView mUsernameTextView;
-    private EditText mPasswordView;
-    private EditText mPasswordConfirmView;
     private EditText mEmailView;
     private EditText mPhoneView;
     private EditText mAddressView;
@@ -69,10 +67,10 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
         String username = getIntent().getStringExtra("USERNAME");
         me = Users.getUser(username);
 
-        mNameTextView = (TextView)  findViewById(R.id.editUser_name_label_dynamic);
+        mNameTextView = (TextView) findViewById(R.id.editUser_name_label_dynamic);
         mNameTextView.setText(me.getFirstName() + " " + me.getLastName());
 
-        mUsernameTextView = (TextView)  findViewById(R.id.editUser_username_label_dynamic);
+        mUsernameTextView = (TextView) findViewById(R.id.editUser_username_label_dynamic);
         mUsernameTextView.setText(me.getUsername());
 
         mEmailView = (EditText) findViewById(R.id.editUser_email);
@@ -93,7 +91,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
         /*
           Set up the adapter to display the allowable User Types in the spinner
          */
-        ArrayAdapter<String> adapter1 = new ArrayAdapter(this,android.R.layout.simple_spinner_item, UserType.values());
+        ArrayAdapter<String> adapter1 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, UserType.values());
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserTypeView.setAdapter(adapter1);
         mUserTypeView.setSelection(me.getUserType().ordinal());
@@ -193,12 +191,12 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
 
         // Store values at the time of the login attempt.
 
-        String email           = mEmailView.getText().toString();
-        String phone           = mPhoneView.getText().toString();
-        String address         = mAddressView.getText().toString();
-        String birthday          = mBirthdayView.getText().toString();
+        String email = mEmailView.getText().toString();
+        String phone = mPhoneView.getText().toString();
+        String address = mAddressView.getText().toString();
+        String birthday = mBirthdayView.getText().toString();
         //hardcoding to test
-        UserType type          = (UserType) mUserTypeView.getSelectedItem();
+        UserType type = (UserType) mUserTypeView.getSelectedItem();
 
         ArrayList<String> whatChanged = new ArrayList<>();
 
@@ -238,15 +236,15 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             //showProgress(true);
-                me.setAddress(address);
-                me.setBirthday(birthday);
+            me.setAddress(address);
+            me.setBirthday(birthday);
             me.setPhone(phone);
             me.setEmail(email);
             me.setUserType(type);
 
-                Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-                nextScreen.putExtra("USERNAME", me.getUsername());
-                startActivity(nextScreen);
+            Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
+            nextScreen.putExtra("USERNAME", me.getUsername());
+            startActivity(nextScreen);
             /*mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);*/
         }
@@ -300,29 +298,30 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
+//        return new CursorLoader(this,
+//                // Retrieve data rows for the device user's 'profile' contact.
+//                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
+//                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
+//
+//                // Select only email addresses.
+//                ContactsContract.Contacts.Data.MIMETYPE +
+//                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
+//                .CONTENT_ITEM_TYPE},
+//
+//                // Show primary email addresses first. Note that there won't be
+//                // a primary email address if the user hasn't specified one.
+//                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
+//        List<String> emails = new ArrayList<>();
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            emails.add(cursor.getString(ProfileQuery.ADDRESS));
+//            cursor.moveToNext();
+//        }
 
         //addEmailsToAutoComplete(emails);
     }
@@ -341,16 +340,6 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
 //        mEmailView.setAdapter(adapter);
 //    }
 
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -397,8 +386,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
             }
         }
 
