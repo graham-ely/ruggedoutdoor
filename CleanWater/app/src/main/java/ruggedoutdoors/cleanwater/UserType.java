@@ -5,6 +5,5 @@ package ruggedoutdoors.cleanwater;
  */
 
 public enum UserType {
-    REGUSER, WORKER, MANAGER, ADMIN;
-
+    REGUSER, WORKER, MANAGER, ADMIN
 }

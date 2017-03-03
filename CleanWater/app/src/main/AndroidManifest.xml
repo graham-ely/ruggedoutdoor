@@ -26,13 +26,17 @@
             android:name=".LoginActivity"
             android:label="Clean Water"
             android:theme="@style/AppTheme" />
-        <activity android:name=".HomescreenActivity" />
+        <activity
+            android:name=".HomescreenActivity"></activity>
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"></activity>
         <activity
             android:name=".EditUserActivity"
             android:label="Edit User"></activity>
+        <activity
+            android:name=".FileReportActivity"
+            android:label="File Report"></activity>
     </application>
 
 </manifest>
