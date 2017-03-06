@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by gde on 3/2/17.
+ * Modified by Austin Dunn on 3/6/17
  * Represents a water report filled out by a system user.
  */
 
@@ -33,4 +34,57 @@ public class Report {
         this.waterType = waterType;
         this.waterCondition = waterCondition;
     }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Date dt) {
+        dateTime = dt;
+    }
+
+    public int getReportNumber() {
+        return reportNumber;
+    }
+
+    public void setReportNumber(int rnum) {
+        reportNumber = rnum;
+    }
+
+    public String getReporterName() {
+        return reporterName;
+    }
+
+    public void setReporterName(String rname) {
+        reporterName = rname;
+    }
+
+    public String getWaterLocation() {
+        return waterLocation;
+    }
+
+    public void setWaterLocation(String wl) {
+        waterLocation = wl;
+    }
+
+    public WaterType getWaterType() {
+        return waterType;
+    }
+
+    public void setWaterType(WaterType wt) {
+        waterType = wt;
+    }
+
+    public WaterCondition getWaterCondition() {
+        return waterCondition;
+    }
+
+    public void setWaterCondition(WaterCondition wc) {
+        waterCondition = wc;
+    }
+
+    public int getReportsTotal() {
+        return reportsTotal;
+    }
+
 }
