@@ -34,18 +34,20 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
     private EditText mWaterLocationView;
     private Spinner mWaterTypeView;
     private Spinner mWaterConditionView;
-    private EditText mReporterView;
+    private User me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_report);
 
+        String username = getIntent().getStringExtra("USERNAME");
+        me = Users.getUser(username);
+
         // Set up the file report form.
         mWaterLocationView = (EditText) findViewById(R.id.water_location);
         mWaterTypeView = (Spinner) findViewById(R.id.water_type);
         mWaterConditionView = (Spinner) findViewById(R.id.water_condition);
-        mReporterView = (EditText) findViewById(R.id.reporter);
 
         /*
           Set up the adapter to display the allowable Water Types & Conditions in the spinner
@@ -87,24 +89,9 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
         String waterLocation = mWaterLocationView.getText().toString();
         WaterType waterType = (WaterType) mWaterTypeView.getSelectedItem();
         WaterCondition waterCondition = (WaterCondition) mWaterConditionView.getSelectedItem();
-        String reporter = mReporterView.getText().toString();
-        User userReporter = null;
 
         boolean cancel = false;
         View focusView = null;
-
-        //Username validation: if the username is in the system, grab the User object. Otherwise, cancel the filing
-        if (TextUtils.isEmpty(reporter)) {
-            mReporterView.setError(getString(R.string.error_field_required));
-            focusView = mReporterView;
-            cancel = true;
-        } else if (!Users.hasUser(reporter)) {
-            mReporterView.setError("This username does not exist in the system!");
-            focusView = mReporterView;
-            cancel = true;
-        } else {
-            userReporter = Users.getUser( reporter );
-        }
 
 
         if (cancel) {
@@ -114,12 +101,10 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
 
         } else {
             // Add the report to the system and advance to the homescreen
-            Reports.add(new Report( userReporter, waterLocation, waterType, waterCondition ) );
-            //TODO: remove this, used for testing before reports page existed
-            Log.d("err", Reports.getReport(0).getWaterLocation());
+            Reports.add(new Report( me, waterLocation, waterType, waterCondition ) );
 
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-
+            nextScreen.putExtra("USERNAME", me.getUsername());
             startActivity(nextScreen);
         }
     }

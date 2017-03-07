@@ -1,11 +1,22 @@
 package ruggedoutdoors.cleanwater.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
 
 import ruggedoutdoors.cleanwater.R;
 
@@ -16,6 +27,7 @@ import ruggedoutdoors.cleanwater.R;
  * in a {@link ReportListActivity}.
  */
 public class ReportDetailActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +53,20 @@ public class ReportDetailActivity extends AppCompatActivity {
         //
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
+            // using a fragment transaction.  Pass the course info to
+            //the fragment
             Bundle arguments = new Bundle();
-            arguments.putString(ReportDetailFragment.ARG_REPORT_ID,
-                    getIntent().getStringExtra(ReportDetailFragment.ARG_REPORT_ID));
+            arguments.putInt(ReportDetailFragment.ARG_REPORT_ID,
+                    getIntent().getIntExtra(ReportDetailFragment.ARG_REPORT_ID, 0));
+
             ReportDetailFragment fragment = new ReportDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.report_detail_container, fragment)
                     .commit();
         }
+
+
     }
 
     @Override

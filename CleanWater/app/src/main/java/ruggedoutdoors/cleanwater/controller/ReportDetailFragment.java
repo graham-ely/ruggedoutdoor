@@ -12,7 +12,6 @@ import android.widget.TextView;
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Report;
 import ruggedoutdoors.cleanwater.model.Reports;
-import ruggedoutdoors.cleanwater.dummy.DummyContent;
 
 /**
  * A fragment representing a single Report detail screen.
@@ -21,6 +20,9 @@ import ruggedoutdoors.cleanwater.dummy.DummyContent;
  * on handsets.
  */
 public class ReportDetailFragment extends Fragment {
+
+    private TextView mReporterTextView, mLocationTextView, mTimestampTextView, mConditionTextView, mTypeTextView;
+
     /**
      * The fragment arguments representing the  ID's that this fragment
      * represents.  Used to pass keys into other activities through Bundle/Intent
@@ -43,9 +45,9 @@ public class ReportDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Check if we got a valid course passed to us
+        //Check if we got a valid report passed to us
         if (getArguments().containsKey(ARG_REPORT_ID)) {
-            mReport = Reports.getReport(Integer.parseInt(ARG_REPORT_ID));
+            mReport = Reports.getReport(getArguments().getInt(ARG_REPORT_ID));
             //Log.d("CourseDetailFragment", "Passing over course: " + mCourse);
             //Log.d("CourseDetailFragment", "Got students: " + mCourse.getStudents().size());
 
@@ -53,7 +55,7 @@ public class ReportDetailFragment extends Fragment {
 
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mReport.getDateTime().toString());
+                appBarLayout.setTitle(mReport.getReportNumber() + "");
             }
         }
     }
@@ -65,7 +67,20 @@ public class ReportDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mReport != null) {
-            ((TextView) rootView.findViewById(R.id.report_detail)).setText(mReport.getDateTime().toString());
+            mReporterTextView = (TextView) rootView.findViewById(R.id.viewReport_reporterLabel);
+            mReporterTextView.setText(mReport.getReporterName());
+
+            mLocationTextView = (TextView) rootView.findViewById(R.id.viewReport_locationLabel);
+            mLocationTextView.setText(mReport.getWaterLocation());
+
+            mTimestampTextView = (TextView) rootView.findViewById(R.id.viewReport_timestampLabel);
+            mTimestampTextView.setText(mReport.getDateTime().toString());
+
+            mConditionTextView = (TextView) rootView.findViewById(R.id.viewReport_conditionLabel);
+            mConditionTextView.setText(mReport.getWaterCondition().toString());
+
+            mTypeTextView = (TextView) rootView.findViewById(R.id.viewReport_typeLabel);
+            mTypeTextView.setText(mReport.getWaterType().toString());
         }
 
         return rootView;
