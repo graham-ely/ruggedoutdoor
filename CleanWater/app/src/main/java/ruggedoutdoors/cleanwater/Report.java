@@ -1,5 +1,6 @@
 package ruggedoutdoors.cleanwater;
 
+import java.security.InvalidParameterException;
 import java.util.Date;
 
 /**
@@ -8,8 +9,25 @@ import java.util.Date;
  * Represents a water report filled out by a system user.
  */
 
-public class Report {
+public class Report implements Comparable{
     private Date dateTime;
+
+    @Override
+    public int compareTo(Object o) {
+        if (!(o instanceof Report)) {
+            throw new InvalidParameterException("Can't pass in non reports.");
+        }
+
+        Report that = (Report) o;
+        if (this.reportNumber < that.reportNumber) {
+            return -1;
+        } else if (this.reportNumber > that.reportNumber) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     private int reportNumber;
     private static int reportsTotal = 0;
     private User reporter;

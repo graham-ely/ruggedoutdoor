@@ -19,13 +19,7 @@
         android:layout_marginTop="47dp"
         android:id="@+id/homescreenText" />
 
-    <Button
-    android:text="@string/logout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-        android:id="@+id/logoutButton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+
 
     <Button
         android:text="@string/edit_user_info"
@@ -43,4 +37,23 @@
         android:id="@+id/fileReportButton"
         android:layout_below="@+id/editUserButton"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="View Reports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewReportsButton"
+        android:layout_below="@+id/fileReportButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="@string/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logoutButton"
+        android:layout_below="@+id/viewReportsButton"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>

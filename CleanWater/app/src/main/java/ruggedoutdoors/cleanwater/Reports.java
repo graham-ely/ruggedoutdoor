@@ -1,6 +1,9 @@
 package ruggedoutdoors.cleanwater;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -44,6 +47,13 @@ public class Reports {
         }
 
     }
-    
 
+    public static List<Report> getReportArray() {
+        ArrayList<Report> reports = new ArrayList<Report>();
+        for (Report report : reportSet.values()) {
+            reports.add(report);
+        }
+        Collections.sort(reports);
+        return reports;
+    }
 }

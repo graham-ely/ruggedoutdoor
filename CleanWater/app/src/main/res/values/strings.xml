@@ -26,4 +26,6 @@
     <string name="file_report">File Report</string>
     <string name="logout">Logout</string>
     <string name="homescreen_message">Welcome to the App!</string>
+    <string name="title_report_list">Reports</string>
+    <string name="title_report_detail">Report Detail</string>
 </resources>

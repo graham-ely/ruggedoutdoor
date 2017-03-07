@@ -62,7 +62,7 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextScreen = new Intent(getApplicationContext(), WelcomeActivity.class);
+                Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
                 startActivity(nextScreen);
             }
         });

@@ -44,5 +44,14 @@ public class HomescreenActivity extends AppCompatActivity {
                 startActivity(nextScreen);
             }
         });
+
+        Button mViewReportsButton = (Button) findViewById(R.id.viewReportsButton);
+        mEditUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextScreen = new Intent(getApplicationContext(), ReportListActivity.class);
+                startActivity(nextScreen);
+            }
+        });
     }
 }

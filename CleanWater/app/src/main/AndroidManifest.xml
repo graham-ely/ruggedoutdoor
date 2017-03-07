@@ -26,17 +26,29 @@
             android:name=".LoginActivity"
             android:label="Clean Water"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".HomescreenActivity"></activity>
+        <activity android:name=".HomescreenActivity" />
         <activity
             android:name=".RegistrationActivity"
-            android:label="@string/title_activity_registration"></activity>
+            android:label="@string/title_activity_registration" />
         <activity
             android:name=".EditUserActivity"
-            android:label="Edit User"></activity>
+            android:label="Edit User" />
         <activity
             android:name=".FileReportActivity"
-            android:label="File Report"></activity>
+            android:label="File Report" />
+        <activity
+            android:name=".ReportListActivity"
+            android:label="@string/title_report_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ReportDetailActivity"
+            android:label="@string/title_report_detail"
+            android:parentActivityName=".ReportListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ruggedoutdoors.cleanwater.ReportListActivity" />
+        </activity>
     </application>
 
 </manifest>
