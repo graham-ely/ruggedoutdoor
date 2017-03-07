@@ -6,6 +6,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,16 +26,18 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
     private EditText mWaterLocationView;
     private Spinner mWaterTypeView;
     private Spinner mWaterConditionView;
+    private EditText mReporterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_file_report);
 
         // Set up the file report form.
         mWaterLocationView = (EditText) findViewById(R.id.water_location);
         mWaterTypeView = (Spinner) findViewById(R.id.water_type);
         mWaterConditionView = (Spinner) findViewById(R.id.water_condition);
+        mReporterView = (EditText) findViewById(R.id.reporter);
 
         /*
           Set up the adapter to display the allowable Water Types & Conditions in the spinner
@@ -44,16 +48,15 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
 
         ArrayAdapter<String> adapter_water_condition = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterCondition.values());
         adapter_water_condition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mWaterTypeView.setAdapter(adapter_water_condition);
+        mWaterConditionView.setAdapter(adapter_water_condition);
 
-        //TODO: Check if we need this, if so implement for file report
-        /*Button mRegisterButton = (Button) findViewById(R.id.register_button);
-        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+        Button mFileReportButton = (Button) findViewById(R.id.file_report_button);
+        mFileReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptRegister();
+                attemptReport();
             }
-        });*/
+        });
 
         Button mCancelButton = (Button) findViewById(R.id.register_cancel_button);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
@@ -66,33 +69,48 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
     }
 
     /**
-     * Attempts to register the account specified by the login form.
+     * Attempts to file a water source report.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptRegister() {
+    private void attemptReport() {
 
         // Store values at the time of the login attempt.
-        //TODO: get current user & name
         String waterLocation = mWaterLocationView.getText().toString();
         WaterType waterType = (WaterType) mWaterTypeView.getSelectedItem();
         WaterCondition waterCondition = (WaterCondition) mWaterConditionView.getSelectedItem();
+        String reporter = mReporterView.getText().toString();
+        User userReporter = null;
 
         boolean cancel = false;
         View focusView = null;
 
-        //TODO: Do we want any validation?
+        //Username validation: if the username is in the system, grab the User object. Otherwise, cancel the filing
+        if (TextUtils.isEmpty(reporter)) {
+            mReporterView.setError(getString(R.string.error_field_required));
+            focusView = mReporterView;
+            cancel = true;
+        } else if (!Users.hasUser(reporter)) {
+            mReporterView.setError("This username does not exist in the system!");
+            focusView = mReporterView;
+            cancel = true;
+        } else {
+            userReporter = Users.getUser( reporter );
+        }
+
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
 
         } else {
-            // Add the user to the system and advance to the login screen
-            //TODO: Create Reports.java class to store reports and add new report there
-            //Users.add(new User(firstName, lastName, username, password, email, phone, birthday, address, type));
+            // Add the report to the system and advance to the homescreen
+            Reports.add(new Report( userReporter, waterLocation, waterType, waterCondition ) );
+            //TODO: remove this, used for testing before reports page existed
+            Log.d("err", Reports.getReport(0).getWaterLocation());
 
-            Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
 
             startActivity(nextScreen);
         }

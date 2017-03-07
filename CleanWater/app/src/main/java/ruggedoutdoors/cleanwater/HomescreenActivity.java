@@ -15,6 +15,16 @@ public class HomescreenActivity extends AppCompatActivity {
         final String username = getIntent().getStringExtra("USERNAME");
         User me = Users.getUser(username);
 
+        Button mFileReportButton = (Button) findViewById(R.id.fileReportButton);
+        mFileReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextScreen = new Intent(getApplicationContext(), FileReportActivity.class);
+                //TODO: optionally pass in user from this screen and skip "username" text field in file report form
+                startActivity(nextScreen);
+            }
+        });
+
         Button mLogoutButton = (Button) findViewById(R.id.logoutButton);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,6 +34,7 @@ public class HomescreenActivity extends AppCompatActivity {
                 startActivity(nextScreen);
             }
         });
+
         Button mEditUserButton = (Button) findViewById(R.id.editUserButton);
         mEditUserButton.setOnClickListener(new View.OnClickListener() {
             @Override

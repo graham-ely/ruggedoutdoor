@@ -11,8 +11,8 @@ import java.util.Date;
 public class Report {
     private Date dateTime;
     private int reportNumber;
-    private static int reportsTotal;
-    private String reporterName;
+    private static int reportsTotal = 0;
+    private User reporter;
     private String waterLocation;
     private WaterType waterType;
     private WaterCondition waterCondition;
@@ -25,11 +25,11 @@ public class Report {
      * @param waterType      - enum value representing water source
      * @param waterCondition - enum value representing water condition
      */
-    public Report(String reporterName, String waterLocation, WaterType waterType, WaterCondition waterCondition)
+    public Report(User reporter, String waterLocation, WaterType waterType, WaterCondition waterCondition)
     {
         this.dateTime = new Date();
         this.reportNumber = reportsTotal++;
-        this.reporterName = reporterName;
+        this.reporter = reporter;
         this.waterLocation = waterLocation;
         this.waterType = waterType;
         this.waterCondition = waterCondition;
@@ -52,11 +52,12 @@ public class Report {
     }
 
     public String getReporterName() {
-        return reporterName;
+        return ( reporter.getFirstName() + " " + reporter.getLastName() );
     }
 
-    public void setReporterName(String rname) {
-        reporterName = rname;
+    public void setReporterName(String firstName, String lastName) {
+        reporter.setFirstName(firstName);
+        reporter.setLastName(lastName);
     }
 
     public String getWaterLocation() {

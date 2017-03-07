@@ -11,7 +11,7 @@
     tools:context="ruggedoutdoors.cleanwater.HomescreenActivity">
 
     <TextView
-        android:text="Welcome to the App!"
+        android:text="@string/homescreen_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -20,19 +20,27 @@
         android:id="@+id/homescreenText" />
 
     <Button
-    android:text="Logout"
+    android:text="@string/logout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/homescreenText"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="37dp"
-    android:id="@+id/logoutButton" />
+        android:id="@+id/logoutButton"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Edit User Info"
+        android:text="@string/edit_user_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editUserButton"
-        android:layout_below="@+id/logoutButton"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/homescreenText"
+        android:layout_alignEnd="@+id/homescreenText" />
+
+    <Button
+        android:text="@string/file_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fileReportButton"
+        android:layout_below="@+id/editUserButton"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -22,4 +22,8 @@
         completions."
     </string>
     <string name="title_activity_registration">Registration</string>
+    <string name="edit_user_info">Edit User Info</string>
+    <string name="file_report">File Report</string>
+    <string name="logout">Logout</string>
+    <string name="homescreen_message">Welcome to the App!</string>
 </resources>
