@@ -1,4 +1,4 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.controller;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -24,15 +24,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
+
+import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Users;
 
 import static android.Manifest.permission.READ_CONTACTS;
 

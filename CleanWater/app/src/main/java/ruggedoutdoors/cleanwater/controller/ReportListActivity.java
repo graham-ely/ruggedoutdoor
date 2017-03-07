@@ -1,4 +1,4 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.controller;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 
 import java.util.List;
+
+import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Report;
+import ruggedoutdoors.cleanwater.model.Reports;
 
 /**
  * An activity representing a list of Reports. This activity

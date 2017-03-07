@@ -1,4 +1,4 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.controller;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.User;
+import ruggedoutdoors.cleanwater.model.UserType;
+import ruggedoutdoors.cleanwater.model.Users;
 
 /**
  * A login screen that offers login via email/password.

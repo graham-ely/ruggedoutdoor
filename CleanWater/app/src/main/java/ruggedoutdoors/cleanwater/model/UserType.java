@@ -1,4 +1,4 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.model;
 
 /**
  * Created by karanachtani on 2/27/17.

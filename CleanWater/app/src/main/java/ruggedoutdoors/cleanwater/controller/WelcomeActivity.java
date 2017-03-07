@@ -1,10 +1,17 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+
+import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.controller.LoginActivity;
+import ruggedoutdoors.cleanwater.controller.RegistrationActivity;
+import ruggedoutdoors.cleanwater.model.User;
+import ruggedoutdoors.cleanwater.model.UserType;
+import ruggedoutdoors.cleanwater.model.Users;
 
 /**
  * Created by Austin Dunn on 2/13/2017.

@@ -1,8 +1,4 @@
-package ruggedoutdoors.cleanwater;
-
-import android.location.Address;
-
-import java.util.Date;
+package ruggedoutdoors.cleanwater.model;
 
 /**
  * Created by karanachtani on 2/27/17.

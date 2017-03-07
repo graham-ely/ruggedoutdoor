@@ -1,4 +1,4 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.model;
 
 import java.security.InvalidParameterException;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.controller;
 
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -13,6 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Report;
+import ruggedoutdoors.cleanwater.model.Reports;
+import ruggedoutdoors.cleanwater.model.User;
+import ruggedoutdoors.cleanwater.model.Users;
+import ruggedoutdoors.cleanwater.model.WaterCondition;
+import ruggedoutdoors.cleanwater.model.WaterType;
 
 /**
  * Created by gde on 3/3/17.

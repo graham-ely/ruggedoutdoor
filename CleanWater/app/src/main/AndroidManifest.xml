@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".controller.WelcomeActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,31 +23,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".controller.LoginActivity"
             android:label="Clean Water"
             android:theme="@style/AppTheme" />
-        <activity android:name=".HomescreenActivity" />
+        <activity android:name=".controller.HomescreenActivity" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".controller.RegistrationActivity"
             android:label="@string/title_activity_registration" />
         <activity
-            android:name=".EditUserActivity"
+            android:name=".controller.EditUserActivity"
             android:label="Edit User" />
         <activity
-            android:name=".FileReportActivity"
+            android:name=".controller.FileReportActivity"
             android:label="File Report" />
         <activity
-            android:name=".ReportListActivity"
+            android:name=".controller.ReportListActivity"
             android:label="@string/title_report_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".ReportDetailActivity"
+            android:name=".controller.ReportDetailActivity"
             android:label="@string/title_report_detail"
-            android:parentActivityName=".ReportListActivity"
+            android:parentActivityName=".controller.ReportListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ruggedoutdoors.cleanwater.ReportListActivity" />
+                android:value="ruggedoutdoors.cleanwater.controller.ReportListActivity" />
         </activity>
     </application>
 

@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="ruggedoutdoors.cleanwater.ReportListActivity"
+    tools:context="ruggedoutdoors.cleanwater.controller.ReportListActivity"
     tools:listitem="@layout/report_list_content" />

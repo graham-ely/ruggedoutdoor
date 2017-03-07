@@ -1,10 +1,14 @@
-package ruggedoutdoors.cleanwater;
+package ruggedoutdoors.cleanwater.controller;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.User;
+import ruggedoutdoors.cleanwater.model.Users;
 
 public class HomescreenActivity extends AppCompatActivity {
 
