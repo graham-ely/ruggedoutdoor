@@ -30,7 +30,7 @@ public class ReportDetailFragment extends Fragment {
     public static final String ARG_REPORT_ID = "report_id";
 
     /**
-     * The course that this detail view is for.
+     * The report that this detail view is for.
      */
     private Report mReport;
 
@@ -65,7 +65,6 @@ public class ReportDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.report_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mReport != null) {
             mReporterTextView = (TextView) rootView.findViewById(R.id.viewReport_reporterLabel);
             mReporterTextView.setText(mReport.getReporterName());

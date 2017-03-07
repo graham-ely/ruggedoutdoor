@@ -48,6 +48,10 @@ public class Reports {
 
     }
 
+    /**
+     * converts the hashset of Reports into a list of Reports ordered by report id
+     * @return the list of ordered reports
+     */
     public static List<Report> getReportArray() {
         ArrayList<Report> reports = new ArrayList<Report>();
         for (Report report : reportSet.values()) {
