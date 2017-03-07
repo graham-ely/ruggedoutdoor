@@ -73,6 +73,7 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
+                nextScreen.putExtra("USERNAME", me.getUsername());
                 startActivity(nextScreen);
             }
         });

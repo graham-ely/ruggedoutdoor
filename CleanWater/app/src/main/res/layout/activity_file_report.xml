@@ -61,11 +61,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/water_condition" />
 
-            <EditText
-                android:text="Reporter Username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/reporter" />
 
             <Button
                 android:id="@+id/file_report_button"
