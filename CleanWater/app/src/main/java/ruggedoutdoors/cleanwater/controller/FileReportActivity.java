@@ -21,9 +21,11 @@ import ruggedoutdoors.cleanwater.model.User;
 import ruggedoutdoors.cleanwater.model.Users;
 import ruggedoutdoors.cleanwater.model.WaterCondition;
 import ruggedoutdoors.cleanwater.model.WaterType;
+import ruggedoutdoors.cleanwater.model.Location;
 
 /**
  * Created by gde on 3/3/17.
+ * Modified by Austin Dunn on 3/13/17.
  *
  * Screen that prompts for report details and allows the user to file a water report.
  */
@@ -31,7 +33,8 @@ import ruggedoutdoors.cleanwater.model.WaterType;
 public class FileReportActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // UI references.
-    private EditText mWaterLocationView;
+    private EditText mWaterLocationLatView;
+    private EditText mWaterLocationLonView;
     private Spinner mWaterTypeView;
     private Spinner mWaterConditionView;
     private User me;
@@ -45,7 +48,8 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
         me = Users.getUser(username);
 
         // Set up the file report form.
-        mWaterLocationView = (EditText) findViewById(R.id.water_location);
+        mWaterLocationLatView = (EditText) findViewById(R.id.water_location_latitude);
+        mWaterLocationLonView = (EditText) findViewById(R.id.water_location_longitude);
         mWaterTypeView = (Spinner) findViewById(R.id.water_type);
         mWaterConditionView = (Spinner) findViewById(R.id.water_condition);
 
@@ -86,14 +90,45 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
      */
     private void attemptReport() {
 
+        //check for valid
+
         // Store values at the time of the login attempt.
-        String waterLocation = mWaterLocationView.getText().toString();
+        String waterLocationLat = mWaterLocationLatView.getText().toString();
+        String waterLocationLon = mWaterLocationLonView.getText().toString();
         WaterType waterType = (WaterType) mWaterTypeView.getSelectedItem();
         WaterCondition waterCondition = (WaterCondition) mWaterConditionView.getSelectedItem();
+        double lat = 0.0;
+        double lon = 0.0;
 
         boolean cancel = false;
         View focusView = null;
 
+        try {
+            lat = Double.valueOf(waterLocationLat);
+            if (lat < -90.0 || lat < 90.0) {
+                mWaterLocationLatView.setError(getString(R.string.error_invalid_latitude));
+                focusView = mWaterLocationLatView;
+                cancel = true;
+            }
+        } catch (NumberFormatException e) {
+            mWaterLocationLatView.setError(getString(R.string.error_invalid_latitude));
+            focusView = mWaterLocationLatView;
+            cancel = true;
+        }
+
+
+        try {
+            lon = Double.valueOf(waterLocationLon);
+            if (lon < -180.0 || lon < 180.0) {
+                mWaterLocationLonView.setError(getString(R.string.error_invalid_longitude));
+                focusView = mWaterLocationLonView;
+                cancel = true;
+            }
+        } catch (NumberFormatException e) {
+            mWaterLocationLonView.setError(getString(R.string.error_invalid_longitude));
+            focusView = mWaterLocationLonView;
+            cancel = true;
+        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -102,7 +137,7 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
 
         } else {
             // Add the report to the system and advance to the homescreen
-            Reports.add(new Report( me, waterLocation, waterType, waterCondition ) );
+            Reports.add(new Report( me, new Location(lat, lon), waterType, waterCondition ) );
 
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             nextScreen.putExtra("USERNAME", me.getUsername());

@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * Created by gde on 3/2/17.
- * Modified by Austin Dunn on 3/6/17
+ * Modified by Austin Dunn on 3/13/17
  * Represents a water report filled out by a system user.
  */
 
@@ -36,7 +36,7 @@ public class Report implements Comparable{
     private int reportNumber;
     private static int reportsTotal = 0;
     private User reporter;
-    private String waterLocation;
+    private Location waterLocation;
     private WaterType waterType;
     private WaterCondition waterCondition;
 
@@ -48,7 +48,7 @@ public class Report implements Comparable{
      * @param waterType      - enum value representing water source
      * @param waterCondition - enum value representing water condition
      */
-    public Report(User reporter, String waterLocation, WaterType waterType, WaterCondition waterCondition)
+    public Report(User reporter, Location waterLocation, WaterType waterType, WaterCondition waterCondition)
     {
         this.dateTime = new Date();
         this.reportNumber = reportsTotal++;
@@ -115,24 +115,6 @@ public class Report implements Comparable{
     }
 
     /**
-     * Returns the water location
-     *
-     * @return waterLocation    the water location
-     */
-    public String getWaterLocation() {
-        return waterLocation;
-    }
-
-    /**
-     * Sets the water location
-     *
-     * @param wl    new water location
-     */
-    public void setWaterLocation(String wl) {
-        waterLocation = wl;
-    }
-
-    /**
      * Returns the water type at the location
      *
      * @return waterType    the water type at the location
@@ -175,6 +157,24 @@ public class Report implements Comparable{
      */
     public int getReportsTotal() {
         return reportsTotal;
+    }
+
+    /**
+     * Returns the latitude of the report
+     *
+     * @return latitude of the report
+     */
+    public double getLatitude() {
+        return waterLocation.getLatitude();
+    }
+
+    /**
+     * Returns the longitude of the report
+     *
+     * @return longitude of the report
+     */
+    public double getLongitude() {
+        return waterLocation.get_longitude();
     }
 
 }

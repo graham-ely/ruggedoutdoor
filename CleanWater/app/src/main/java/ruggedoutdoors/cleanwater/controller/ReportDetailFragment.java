@@ -70,7 +70,8 @@ public class ReportDetailFragment extends Fragment {
             mReporterTextView.setText(mReport.getReporterName());
 
             mLocationTextView = (TextView) rootView.findViewById(R.id.viewReport_locationLabel);
-            mLocationTextView.setText(mReport.getWaterLocation());
+            mLocationTextView.setText(Double.toString(mReport.getLatitude()) + ", "
+                    + Double.toString(mReport.getLongitude()));
 
             mTimestampTextView = (TextView) rootView.findViewById(R.id.viewReport_timestampLabel);
             mTimestampTextView.setText(mReport.getDateTime().toString());

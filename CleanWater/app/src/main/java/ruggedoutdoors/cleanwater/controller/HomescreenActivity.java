@@ -57,5 +57,14 @@ public class HomescreenActivity extends AppCompatActivity {
                 startActivity(nextScreen);
             }
         });
+
+        Button mViewMapButton = (Button) findViewById(R.id.viewMapButton);
+        mViewMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextScreen = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(nextScreen);
+            }
+        });
     }
 }
