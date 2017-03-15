@@ -105,7 +105,7 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
 
         try {
             lat = Double.valueOf(waterLocationLat);
-            if (lat < -90.0 || lat < 90.0) {
+            if (lat < -90.0 || lat > 90.0) {
                 mWaterLocationLatView.setError(getString(R.string.error_invalid_latitude));
                 focusView = mWaterLocationLatView;
                 cancel = true;
@@ -119,7 +119,7 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
 
         try {
             lon = Double.valueOf(waterLocationLon);
-            if (lon < -180.0 || lon < 180.0) {
+            if (lon < -180.0 || lon > 180.0) {
                 mWaterLocationLonView.setError(getString(R.string.error_invalid_longitude));
                 focusView = mWaterLocationLonView;
                 cancel = true;

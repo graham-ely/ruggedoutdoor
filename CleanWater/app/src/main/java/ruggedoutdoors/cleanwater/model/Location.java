@@ -8,11 +8,25 @@ public class Location {
     private double latitude;
     private double longitude;
 
+    /**
+     * Constructs new Location object
+     * @param lat latitude parameter
+     * @param lon longitude
+     */
     public Location(double lat, double lon) {
         latitude = lat;
         longitude = lon;
     }
 
+    /**
+     * gets the latitude
+     * @return latitude
+     */
     public double getLatitude() { return latitude; }
+
+    /**
+     * gets the longitude
+     * @return the longitude
+     */
     public double get_longitude() { return longitude; }
 }
