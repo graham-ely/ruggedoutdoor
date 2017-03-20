@@ -1,0 +1,133 @@
+package ruggedoutdoors.cleanwater.model;
+
+/**
+ * Created by karanachtani on 3/19/17.
+ */
+
+public class Model {
+
+    //Singleton attributes
+
+    private static Model singleton;
+
+    public static Model getInstance() {
+        if (singleton == null) {
+            singleton = new Model();
+        }
+        return singleton;
+    }
+
+
+    // instance attributes
+    private User currentUser;
+    private Report activeReport;
+
+    public boolean logIn(String username, String password) {
+        try {
+            currentUser = Users.getUser(username, password);
+            return true;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getUsername() {
+        return currentUser.getUsername();
+    }
+
+    public String getFirstName() {
+        return currentUser.getFirstName();
+    }
+
+    public String getLastName() {
+        return currentUser.getLastName();
+    }
+
+    public String getAddress() {
+        return currentUser.getAddress();
+    }
+
+    public String getBirthday() {
+        return currentUser.getBirthday();
+    }
+
+    public String getPhone() {
+        return currentUser.getPhone();
+    }
+
+    public String getEmail() {
+        return currentUser.getEmail();
+    }
+
+    public String getUserType() {
+        return currentUser.getUserType().toString();
+    }
+
+    public boolean addReport(double latitude, double longitude, String waterType,
+                             String waterCondition) {
+        Reports.add(new Report(currentUser, new Location(latitude, longitude),
+                WaterType.valueOf(waterType), WaterCondition.valueOf(waterCondition)));
+        return true;
+    }
+
+    public Model logOut() {
+        singleton = new Model();
+        return singleton;
+    }
+
+    public void updateUserInfo(String birthday, String email, String phone, String address, String userType) {
+        currentUser.setAddress(address);
+        currentUser.setBirthday(birthday);
+        currentUser.setPhone(phone);
+        currentUser.setEmail(email);
+        currentUser.setUserType(UserType.valueOf(userType));
+    }
+
+    public boolean checkIfUserExists(String username) {
+        return Users.hasUser(username);
+    }
+
+    public void addUser(String firstName, String lastName, String username, String password,
+                        String email, String phone, String birthday, String address, String type) {
+        Users.add(new User(firstName, lastName, username, password, email, phone, birthday,
+                address, UserType.valueOf(type)));
+    }
+
+    public void setActiveReport(int reportId) {
+        activeReport = Reports.getReport(reportId);
+    }
+
+    public boolean hasActiveReport() {
+        return activeReport != null;
+    }
+
+    public int getReportNumber() {
+            return activeReport.getReportNumber();
+    }
+
+    public String getReporterName() {
+        return activeReport.getReporterName();
+    }
+
+    public double getLatitude() {
+        return activeReport.getLatitude();
+    }
+
+    public double getLongitude() {
+        return activeReport.getLongitude();
+    }
+
+    public String getDateTime() {
+        return activeReport.getDateTime().toString();
+    }
+
+    public String getWaterCondition() {
+        return activeReport.getWaterCondition().toString();
+    }
+
+    public String getWaterType() {
+        return activeReport.getWaterType().toString();
+    }
+
+
+}

@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.User;
 import ruggedoutdoors.cleanwater.model.UserType;
 import ruggedoutdoors.cleanwater.model.Users;
@@ -34,34 +35,31 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
     private EditText mAddressView;
     private EditText mBirthdayView;
     private Spinner mUserTypeView;
-    private User me;
+    private Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
 
-        // Set up the edit form.
-        String username = getIntent().getStringExtra("USERNAME");
-        me = Users.getUser(username);
-
+        // set up the edit form
         mNameTextView = (TextView) findViewById(R.id.editUser_name_label_dynamic);
-        mNameTextView.setText(me.getFirstName() + " " + me.getLastName());
+        mNameTextView.setText(model.getFirstName() + " " + model.getLastName());
 
         mUsernameTextView = (TextView) findViewById(R.id.editUser_username_label_dynamic);
-        mUsernameTextView.setText(me.getUsername());
+        mUsernameTextView.setText(model.getUsername());
 
         mEmailView = (EditText) findViewById(R.id.editUser_email);
-        mEmailView.setText(me.getEmail());
+        mEmailView.setText(model.getEmail());
 
         mPhoneView = (EditText) findViewById(R.id.editUser_phone);
-        mPhoneView.setText(me.getPhone());
+        mPhoneView.setText(model.getPhone());
 
         mAddressView = (EditText) findViewById(R.id.editUser_address);
-        mAddressView.setText(me.getAddress());
+        mAddressView.setText(model.getAddress());
 
         mBirthdayView = (EditText) findViewById(R.id.editUser_birthday);
-        mBirthdayView.setText(me.getBirthday());
+        mBirthdayView.setText(model.getBirthday());
 
         mUserTypeView = (Spinner) findViewById(R.id.editUser_type);
 
@@ -71,7 +69,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
         ArrayAdapter<String> adapter1 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, UserType.values());
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mUserTypeView.setAdapter(adapter1);
-        mUserTypeView.setSelection(me.getUserType().ordinal());
+        mUserTypeView.setSelection(UserType.valueOf(model.getUserType()).ordinal());
 
         Button mSubmitButton = (Button) findViewById(R.id.editUser_submit_button);
         mSubmitButton.setOnClickListener(new OnClickListener() {
@@ -86,7 +84,6 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-                nextScreen.putExtra("USERNAME", me.getUsername());
                 startActivity(nextScreen);
             }
         });
@@ -104,7 +101,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
         String phone = mPhoneView.getText().toString();
         String address = mAddressView.getText().toString();
         String birthday = mBirthdayView.getText().toString();
-        UserType type = (UserType) mUserTypeView.getSelectedItem();
+        String type = mUserTypeView.getSelectedItem().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -138,14 +135,8 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
 
         } else {
             // Update the fields changed, then progress to the next screen
-            me.setAddress(address);
-            me.setBirthday(birthday);
-            me.setPhone(phone);
-            me.setEmail(email);
-            me.setUserType(type);
-
+            model.updateUserInfo(birthday, email, phone, address, type);
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-            nextScreen.putExtra("USERNAME", me.getUsername());
             startActivity(nextScreen);
         }
     }

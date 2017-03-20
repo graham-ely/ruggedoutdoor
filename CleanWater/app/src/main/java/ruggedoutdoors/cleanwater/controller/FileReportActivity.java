@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.Report;
 import ruggedoutdoors.cleanwater.model.Reports;
 import ruggedoutdoors.cleanwater.model.User;
@@ -30,22 +31,22 @@ import ruggedoutdoors.cleanwater.model.Location;
  * Screen that prompts for report details and allows the user to file a water report.
  */
 
-public class FileReportActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class FileReportActivity extends AppCompatActivity {
 
     // UI references.
     private EditText mWaterLocationLatView;
     private EditText mWaterLocationLonView;
     private Spinner mWaterTypeView;
     private Spinner mWaterConditionView;
-    private User me;
+    Model model = Model.getInstance();
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_report);
 
-        String username = getIntent().getStringExtra("USERNAME");
-        me = Users.getUser(username);
+        username = model.getUsername();
 
         // Set up the file report form.
         mWaterLocationLatView = (EditText) findViewById(R.id.water_location_latitude);
@@ -77,7 +78,6 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-                nextScreen.putExtra("USERNAME", me.getUsername());
                 startActivity(nextScreen);
             }
         });
@@ -137,22 +137,10 @@ public class FileReportActivity extends AppCompatActivity implements LoaderManag
 
         } else {
             // Add the report to the system and advance to the homescreen
-            Reports.add(new Report( me, new Location(lat, lon), waterType, waterCondition ) );
+            model.addReport(lat, lon, waterType.toString(), waterCondition.toString());
 
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-            nextScreen.putExtra("USERNAME", me.getUsername());
             startActivity(nextScreen);
         }
     }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {}
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {}
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.Report;
 import ruggedoutdoors.cleanwater.model.Reports;
 
@@ -32,7 +33,7 @@ public class ReportDetailFragment extends Fragment {
     /**
      * The report that this detail view is for.
      */
-    private Report mReport;
+    private Model model = Model.getInstance();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,7 +48,7 @@ public class ReportDetailFragment extends Fragment {
 
         //Check if we got a valid report passed to us
         if (getArguments().containsKey(ARG_REPORT_ID)) {
-            mReport = Reports.getReport(getArguments().getInt(ARG_REPORT_ID));
+            model.setActiveReport(getArguments().getInt(ARG_REPORT_ID));
             //Log.d("CourseDetailFragment", "Passing over course: " + mCourse);
             //Log.d("CourseDetailFragment", "Got students: " + mCourse.getStudents().size());
 
@@ -55,7 +56,7 @@ public class ReportDetailFragment extends Fragment {
 
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mReport.getReportNumber() + "");
+                appBarLayout.setTitle(model.getReportNumber() + "");
             }
         }
     }
@@ -65,22 +66,22 @@ public class ReportDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.report_detail, container, false);
 
-        if (mReport != null) {
+        if (model.hasActiveReport()) {
             mReporterTextView = (TextView) rootView.findViewById(R.id.viewReport_reporterLabel);
-            mReporterTextView.setText(mReport.getReporterName());
+            mReporterTextView.setText(model.getReporterName());
 
             mLocationTextView = (TextView) rootView.findViewById(R.id.viewReport_locationLabel);
-            mLocationTextView.setText(Double.toString(mReport.getLatitude()) + ", "
-                    + Double.toString(mReport.getLongitude()));
+            mLocationTextView.setText(Double.toString(model.getLatitude()) + ", "
+                    + Double.toString(model.getLongitude()));
 
             mTimestampTextView = (TextView) rootView.findViewById(R.id.viewReport_timestampLabel);
-            mTimestampTextView.setText(mReport.getDateTime().toString());
+            mTimestampTextView.setText(model.getDateTime());
 
             mConditionTextView = (TextView) rootView.findViewById(R.id.viewReport_conditionLabel);
-            mConditionTextView.setText(mReport.getWaterCondition().toString());
+            mConditionTextView.setText(model.getWaterCondition());
 
             mTypeTextView = (TextView) rootView.findViewById(R.id.viewReport_typeLabel);
-            mTypeTextView.setText(mReport.getWaterType().toString());
+            mTypeTextView.setText(model.getWaterType());
         }
 
         return rootView;

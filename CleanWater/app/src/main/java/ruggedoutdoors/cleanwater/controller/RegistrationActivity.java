@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.User;
 import ruggedoutdoors.cleanwater.model.UserType;
 import ruggedoutdoors.cleanwater.model.Users;
@@ -25,7 +26,7 @@ import ruggedoutdoors.cleanwater.model.Users;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegistrationActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RegistrationActivity extends AppCompatActivity {
 
     // UI references.
     private EditText mFirstNameView;
@@ -38,6 +39,8 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
     private EditText mAddressView;
     private EditText mBirthdayView;
     private Spinner mUserTypeView;
+
+    private Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +101,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         String phone = mPhoneView.getText().toString();
         String address = mAddressView.getText().toString();
         String birthday = mBirthdayView.getText().toString();
-        UserType type = (UserType) mUserTypeView.getSelectedItem();
+        String type = mUserTypeView.getSelectedItem().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -122,7 +125,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mUsernameView;
             cancel = true;
-        } else if (Users.hasUser(username)) {
+        } else if (model.checkIfUserExists(username)) {
             mUsernameView.setError(getString(R.string.error_duplicate_username));
             focusView = mUsernameView;
             cancel = true;
@@ -173,10 +176,10 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 
         } else {
             // Add the user to the system and advance to the login screen
-            Users.add(new User(firstName, lastName, username, password, email, phone, birthday, address, type));
+            model.addUser(firstName, lastName, username, password, email, phone, birthday, address,
+                    type);
 
             Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
-
             startActivity(nextScreen);
         }
     }
@@ -202,17 +205,6 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         //TODO: Update validation logic
         return password.length() > 4;
     }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {}
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {}
 
 }
 

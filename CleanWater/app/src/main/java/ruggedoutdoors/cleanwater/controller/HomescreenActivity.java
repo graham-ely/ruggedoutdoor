@@ -7,24 +7,22 @@ import android.view.View;
 import android.widget.Button;
 
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.model.User;
-import ruggedoutdoors.cleanwater.model.Users;
+import ruggedoutdoors.cleanwater.model.Model;
 
 public class HomescreenActivity extends AppCompatActivity {
+
+    Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
-        final String username = getIntent().getStringExtra("USERNAME");
-        User me = Users.getUser(username);
 
         Button mFileReportButton = (Button) findViewById(R.id.fileReportButton);
         mFileReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), FileReportActivity.class);
-                nextScreen.putExtra("USERNAME", username);
                 startActivity(nextScreen);
             }
         });
@@ -34,7 +32,7 @@ public class HomescreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
-
+                model = model.logOut();
                 startActivity(nextScreen);
             }
         });
@@ -44,7 +42,6 @@ public class HomescreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), EditUserActivity.class);
-                nextScreen.putExtra("USERNAME", username);
                 startActivity(nextScreen);
             }
         });
