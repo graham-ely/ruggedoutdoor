@@ -16,6 +16,7 @@ import android.widget.Spinner;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
+import ruggedoutdoors.cleanwater.model.OverallCondition;
 import ruggedoutdoors.cleanwater.model.Report;
 import ruggedoutdoors.cleanwater.model.Reports;
 import ruggedoutdoors.cleanwater.model.User;
@@ -31,39 +32,37 @@ import ruggedoutdoors.cleanwater.model.Location;
  * Screen that prompts for report details and allows the user to file a water report.
  */
 
-public class FileReportActivity extends AppCompatActivity {
+public class FilePurityReportActivity extends AppCompatActivity {
 
     // UI references.
     private EditText mWaterLocationLatView;
     private EditText mWaterLocationLonView;
-    private Spinner mWaterTypeView;
-    private Spinner mWaterConditionView;
+    private Spinner mOverallCondition;
+    private EditText mVirusPPM;
+    private EditText mContaminantPPM;
     Model model = Model.getInstance();
     private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_report);
+        setContentView(R.layout.activity_file_purity_report);
 
         username = model.getUsername();
 
         // Set up the file report form.
         mWaterLocationLatView = (EditText) findViewById(R.id.water_location_latitude);
         mWaterLocationLonView = (EditText) findViewById(R.id.water_location_longitude);
-        mWaterTypeView = (Spinner) findViewById(R.id.water_type);
-        mWaterConditionView = (Spinner) findViewById(R.id.water_condition);
+        mOverallCondition = (Spinner) findViewById(R.id.overall_condition);
+        mVirusPPM = (EditText) findViewById(R.id.virus_ppm);
+        mContaminantPPM = (EditText) findViewById(R.id.contaminant_ppm);
 
         /*
           Set up the adapter to display the allowable Water Types & Conditions in the spinner
          */
-        ArrayAdapter<String> adapter_water_type = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterType.values());
+        ArrayAdapter<String> adapter_water_type = new ArrayAdapter(this, android.R.layout.simple_spinner_item, OverallCondition.values());
         adapter_water_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mWaterTypeView.setAdapter(adapter_water_type);
-
-        ArrayAdapter<String> adapter_water_condition = new ArrayAdapter(this, android.R.layout.simple_spinner_item, WaterCondition.values());
-        adapter_water_condition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mWaterConditionView.setAdapter(adapter_water_condition);
+        mOverallCondition.setAdapter(adapter_water_type);
 
         Button mFileReportButton = (Button) findViewById(R.id.file_report_button);
         mFileReportButton.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +72,7 @@ public class FileReportActivity extends AppCompatActivity {
             }
         });
 
-        Button mCancelButton = (Button) findViewById(R.id.file_report_cancel_button);
+        Button mCancelButton = (Button) findViewById(R.id.register_cancel_button);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,10 +94,13 @@ public class FileReportActivity extends AppCompatActivity {
         // Store values at the time of the login attempt.
         String waterLocationLat = mWaterLocationLatView.getText().toString();
         String waterLocationLon = mWaterLocationLonView.getText().toString();
-        WaterType waterType = (WaterType) mWaterTypeView.getSelectedItem();
-        WaterCondition waterCondition = (WaterCondition) mWaterConditionView.getSelectedItem();
+        String overallCondition = mOverallCondition.getSelectedItem().toString();
+        String virusPPM = mVirusPPM.getText().toString();
+        String contaminantPPM = mContaminantPPM.getText().toString();
         double lat = 0.0;
         double lon = 0.0;
+        double vPPM = 0.0;
+        double cPPM = 0.0;
 
         boolean cancel = false;
         View focusView = null;
@@ -130,6 +132,28 @@ public class FileReportActivity extends AppCompatActivity {
             cancel = true;
         }
 
+        try {
+            vPPM = Double.valueOf(virusPPM);
+            if (vPPM < 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            mVirusPPM.setError("Invalid Number.");
+            focusView = mVirusPPM;
+            cancel = true;
+        }
+
+        try {
+            cPPM = Double.valueOf(contaminantPPM);
+            if (cPPM < 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            mContaminantPPM.setError("Invalid Number.");
+            focusView = mContaminantPPM;
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -137,8 +161,7 @@ public class FileReportActivity extends AppCompatActivity {
 
         } else {
             // Add the report to the system and advance to the homescreen
-            model.addSourceReport(lat, lon, waterType.toString(), waterCondition.toString());
-
+            model.addPurityReport(lat, lon, overallCondition, vPPM, cPPM);
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);
         }

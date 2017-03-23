@@ -48,14 +48,12 @@ public class Report implements Comparable{
      * @param waterType      - enum value representing water source
      * @param waterCondition - enum value representing water condition
      */
-    public Report(User reporter, Location waterLocation, WaterType waterType, WaterCondition waterCondition)
+    public Report(User reporter, Location waterLocation)
     {
         this.dateTime = new Date();
         this.reportNumber = reportsTotal++;
         this.reporter = reporter;
         this.waterLocation = waterLocation;
-        this.waterType = waterType;
-        this.waterCondition = waterCondition;
     }
 
     /**

@@ -31,4 +31,5 @@
     <string name="title_report_list">Reports</string>
     <string name="title_report_detail">Report Detail</string>
     <string name="google_maps_key">AIzaSyCf6amwaX-rGb6jxLpM8uqJl1izEiSyY04</string>
+    <string name="title_activity_file_purity_report">FilePurityReportActivity</string>
 </resources>

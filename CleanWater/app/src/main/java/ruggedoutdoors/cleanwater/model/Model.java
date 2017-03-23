@@ -63,10 +63,17 @@ public class Model {
         return currentUser.getUserType().toString();
     }
 
-    public boolean addReport(double latitude, double longitude, String waterType,
+    public boolean addSourceReport(double latitude, double longitude, String waterType,
                              String waterCondition) {
-        Reports.add(new Report(currentUser, new Location(latitude, longitude),
+        Reports.add(new SourceReport(currentUser, new Location(latitude, longitude),
                 WaterType.valueOf(waterType), WaterCondition.valueOf(waterCondition)));
+        return true;
+    }
+
+    public boolean addPurityReport(double latitude, double longitude,
+                                   String overallCondition, double virusPPM, double contaminantPPM) {
+        Reports.add(new PurityReport(currentUser, new Location(latitude, longitude),
+                OverallCondition.valueOf(overallCondition), virusPPM, contaminantPPM));
         return true;
     }
 
@@ -128,6 +135,5 @@ public class Model {
     public String getWaterType() {
         return activeReport.getWaterType().toString();
     }
-
 
 }

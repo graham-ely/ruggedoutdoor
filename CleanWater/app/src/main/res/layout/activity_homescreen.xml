@@ -55,11 +55,27 @@
         android:layout_centerHorizontal="true" />
 
     <Button
+        android:text="File Quality Report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fileQualityReportButton"
+        android:layout_below="@+id/viewReportsButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="View Quality Reports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewQualityReportsButton"
+        android:layout_below="@+id/fileQualityReportButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
         android:text="Water Availability"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/viewMapButton"
-        android:layout_below="@+id/button2"
+        android:layout_below="@+id/viewQualityReportsButton"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -67,8 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logoutButton"
-        android:layout_below="@+id/viewReportsButton"
-        android:layout_marginTop="48dp"
+        android:layout_below="@+id/viewMapButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
