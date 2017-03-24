@@ -29,4 +29,8 @@ public class Location {
      * @return the longitude
      */
     public double get_longitude() { return longitude; }
+
+    public String toString() {
+        return String.format("%.4f", latitude) + ", " + String.format("%.4f", longitude);
+    }
 }

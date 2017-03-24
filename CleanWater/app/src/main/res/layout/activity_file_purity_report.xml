@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Water Location Latitude"
-            android:inputType="numberDecimal" />
+            android:inputType="numberSigned" />
 
         <EditText
             android:id="@+id/water_location_longitude"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Water Location Longitude"
-            android:inputType="numberDecimal" />
+            android:inputType="numberSigned" />
 
         <TextView
             android:id="@+id/overall_condition_label"

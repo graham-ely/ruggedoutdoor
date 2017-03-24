@@ -64,7 +64,7 @@ public class FilePurityReportActivity extends AppCompatActivity {
         adapter_water_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mOverallCondition.setAdapter(adapter_water_type);
 
-        Button mFileReportButton = (Button) findViewById(R.id.file_report_button);
+        Button mFileReportButton = (Button) findViewById(R.id.file_purity_report_button);
         mFileReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +72,7 @@ public class FilePurityReportActivity extends AppCompatActivity {
             }
         });
 
-        Button mCancelButton = (Button) findViewById(R.id.register_cancel_button);
+        Button mCancelButton = (Button) findViewById(R.id.file_report_cancel_button);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

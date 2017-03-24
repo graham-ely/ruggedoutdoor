@@ -76,7 +76,7 @@ public class HomescreenActivity extends AppCompatActivity {
             mViewPurityReportsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent nextScreen = new Intent(getApplicationContext(), FilePurityReportActivity.class);
+                    Intent nextScreen = new Intent(getApplicationContext(), PurityReportListActivity.class);
                     startActivity(nextScreen);
                 }
             });

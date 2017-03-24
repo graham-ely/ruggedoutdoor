@@ -1,5 +1,6 @@
 package ruggedoutdoors.cleanwater.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -131,11 +132,19 @@ public class Model {
     }
 
     public String getWaterCondition() {
-        return activeReport.getWaterCondition().toString();
+        return ((SourceReport) activeReport).getWaterCondition().toString();
     }
 
     public String getWaterType() {
-        return activeReport.getWaterType().toString();
+        return ((SourceReport) activeReport).getWaterType().toString();
+    }
+
+    public double getVirusPPM() {
+        return ((PurityReport) activeReport).getVirusPPM();
+    }
+
+    public double getContaminantPPM() {
+        return ((PurityReport) activeReport).getContaminantPPM();
     }
 
     public boolean canFilePurityReport() {
@@ -148,22 +157,24 @@ public class Model {
 
     public List<Report> getSourceReportArray() {
         List<Report> reports = Reports.getReportArray();
+        ArrayList<Report> toReturn = new ArrayList<>();
         for (Report r : reports) {
-            if (!(r instanceof SourceReport)) {
-                reports.remove(r);
+            if ((r instanceof SourceReport)) {
+                toReturn.add(r);
             }
         }
-        return reports;
+        return toReturn;
     }
 
     public List<Report> getPurityReportArray() {
         List<Report> reports = Reports.getReportArray();
+        ArrayList<Report> toReturn = new ArrayList<>();
         for (Report r : reports) {
-            if (!(r instanceof PurityReport)) {
-                reports.remove(r);
+            if ((r instanceof PurityReport)) {
+                toReturn.add(r);
             }
         }
-        return reports;
+        return toReturn;
     }
 
 }

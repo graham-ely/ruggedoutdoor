@@ -24,8 +24,9 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         // for ease of testing
-        Users.add(new User("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", UserType.ADMIN));
+        Users.add(new User("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", UserType.MANAGER));
         Reports.add(new SourceReport(Users.getUser("tester"), new Location(33.749, -84.388), WaterType.BOTTLED, WaterCondition.POTABLE));
+        Reports.add(new PurityReport(Users.getUser("tester"), new Location(33.749, -84.388), OverallCondition.SAFE, 12.5, 19.2));
 
         Button mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {

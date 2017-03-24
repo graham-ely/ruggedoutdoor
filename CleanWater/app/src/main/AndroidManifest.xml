@@ -67,7 +67,20 @@
         <activity
             android:name=".controller.FilePurityReportActivity"
             android:label="@string/title_activity_file_purity_report"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".controller.PurityReportListActivity"
+            android:label="@string/title_purityreport_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".controller.PurityReportDetailActivity"
+            android:label="@string/title_purityreport_detail"
+            android:parentActivityName=".controller.PurityReportListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ruggedoutdoors.cleanwater.controller.PurityReportListActivity" />
+        </activity>
     </application>
 
 </manifest>
