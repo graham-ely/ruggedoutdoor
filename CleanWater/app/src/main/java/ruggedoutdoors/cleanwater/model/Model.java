@@ -69,7 +69,7 @@ public class Model {
     public boolean addSourceReport(double latitude, double longitude, String waterType,
                              String waterCondition) {
         Reports.add(new SourceReport(currentUser, new Location(latitude, longitude),
-                WaterType.valueOf(waterType), WaterCondition.valueOf(waterCondition)));
+                WaterType.valueOf(waterType.toUpperCase()), WaterCondition.valueOf(waterCondition.toUpperCase())));
         return true;
     }
 
@@ -132,7 +132,12 @@ public class Model {
     }
 
     public String getWaterCondition() {
-        return ((SourceReport) activeReport).getWaterCondition().toString();
+        if (activeReport instanceof SourceReport) {
+            return ((SourceReport) activeReport).getWaterCondition().toString();
+        } else if (activeReport instanceof PurityReport) {
+            return ((PurityReport) activeReport).getOverallCondition().toString();
+        }
+        return "";
     }
 
     public String getWaterType() {

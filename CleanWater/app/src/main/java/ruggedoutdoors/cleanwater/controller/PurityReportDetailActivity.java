@@ -45,11 +45,7 @@ public class PurityReportDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(PurityReportDetailFragment.ARG_REPORT_ID,
-                    getIntent().getStringExtra(PurityReportDetailFragment.ARG_REPORT_ID));
             PurityReportDetailFragment fragment = new PurityReportDetailFragment();
-            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.purity_report_detail_container, fragment)
                     .commit();

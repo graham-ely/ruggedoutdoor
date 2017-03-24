@@ -39,7 +39,7 @@
         android:layout_alignEnd="@+id/homescreenText" />
 
     <Button
-        android:text="@string/file_report"
+        android:text="File Source Report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fileReportButton"
@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="View Reports"
+        android:text="View Source Reports"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/viewReportsButton"
@@ -71,7 +71,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Water Availability"
+        android:text="Map of Source Reports"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/viewMapButton"

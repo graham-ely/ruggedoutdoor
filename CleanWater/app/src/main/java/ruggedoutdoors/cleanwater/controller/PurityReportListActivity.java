@@ -104,7 +104,7 @@ public class PurityReportListActivity extends AppCompatActivity {
                     if (mTwoPane) {
                         //if a two pane window, we change the contents on the main screen
                         Bundle arguments = new Bundle();
-                        arguments.putInt(ReportDetailFragment.ARG_REPORT_ID, holder.mReport.getReportNumber());
+                        model.setActiveReport(holder.mReport.getReportNumber());
 
                         ReportDetailFragment fragment = new ReportDetailFragment();
                         fragment.setArguments(arguments);
@@ -120,7 +120,7 @@ public class PurityReportListActivity extends AppCompatActivity {
                             pass along the id of the course so we can retrieve the correct data in
                             the next window
                          */
-                        intent.putExtra(PurityReportDetailFragment.ARG_REPORT_ID, holder.mReport.getReportNumber());
+                        model.setActiveReport(holder.mReport.getReportNumber());
 
                         //now just display the new window
                         context.startActivity(intent);

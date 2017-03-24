@@ -47,8 +47,8 @@ public class PurityReportDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //Check if we got a valid report passed to us
-        if (getArguments().containsKey(ARG_REPORT_ID)) {
-            model.setActiveReport(getArguments().getInt(ARG_REPORT_ID));
+        if (model.hasActiveReport()) {
+
             //Log.d("CourseDetailFragment", "Passing over course: " + mCourse);
             //Log.d("CourseDetailFragment", "Got students: " + mCourse.getStudents().size());
 
