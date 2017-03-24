@@ -55,19 +55,19 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="File Quality Report"
+        android:text="File Purity Report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fileQualityReportButton"
+        android:id="@+id/filePurityReportButton"
         android:layout_below="@+id/viewReportsButton"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="View Quality Reports"
+        android:text="View Purity Reports"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/viewQualityReportsButton"
-        android:layout_below="@+id/fileQualityReportButton"
+        android:id="@+id/viewPurityReportsButton"
+        android:layout_below="@+id/filePurityReportButton"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/viewMapButton"
-        android:layout_below="@+id/viewQualityReportsButton"
+        android:layout_below="@+id/viewPurityReportsButton"
         android:layout_centerHorizontal="true" />
 
     <Button

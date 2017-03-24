@@ -37,4 +37,11 @@ public class PurityReport extends Report {
     public double getContaminantPPM() {
         return contaminantPPM;
     }
+
+    @Override
+    public String getMapInformation() {
+        return "Condition: " + overallCondition.toString() + "\n"
+                + "Virus PPM: " + String.format("%.2f", virusPPM) + "\n"
+                + "Contaminant PPM" + String.format("%.2f", contaminantPPM);
+    }
 }

@@ -1,5 +1,7 @@
 package ruggedoutdoors.cleanwater.model;
 
+import java.util.List;
+
 /**
  * Created by karanachtani on 3/19/17.
  */
@@ -134,6 +136,34 @@ public class Model {
 
     public String getWaterType() {
         return activeReport.getWaterType().toString();
+    }
+
+    public boolean canFilePurityReport() {
+        return currentUser.getUserType() == UserType.WORKER || currentUser.getUserType() == UserType.MANAGER;
+    }
+
+    public boolean canViewPurityReport() {
+        return currentUser.getUserType() == UserType.MANAGER;
+    }
+
+    public List<Report> getSourceReportArray() {
+        List<Report> reports = Reports.getReportArray();
+        for (Report r : reports) {
+            if (!(r instanceof SourceReport)) {
+                reports.remove(r);
+            }
+        }
+        return reports;
+    }
+
+    public List<Report> getPurityReportArray() {
+        List<Report> reports = Reports.getReportArray();
+        for (Report r : reports) {
+            if (!(r instanceof PurityReport)) {
+                reports.remove(r);
+            }
+        }
+        return reports;
     }
 
 }

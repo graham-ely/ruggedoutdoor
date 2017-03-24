@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.Report;
 import ruggedoutdoors.cleanwater.model.Reports;
 
@@ -34,6 +35,7 @@ public class ReportListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class ReportListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleReportRecyclerViewAdapter(Reports.getReportArray()));
+        recyclerView.setAdapter(new SimpleReportRecyclerViewAdapter(model.getSourceReportArray()));
     }
 
     public class SimpleReportRecyclerViewAdapter

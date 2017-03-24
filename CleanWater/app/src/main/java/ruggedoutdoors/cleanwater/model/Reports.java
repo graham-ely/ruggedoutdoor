@@ -53,7 +53,7 @@ public class Reports {
      * @return the list of ordered reports
      */
     public static List<Report> getReportArray() {
-        ArrayList<Report> reports = new ArrayList<Report>();
+        ArrayList<Report> reports = new ArrayList<>();
         for (Report report : reportSet.values()) {
             reports.add(report);
         }

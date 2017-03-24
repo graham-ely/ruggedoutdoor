@@ -63,4 +63,9 @@ public class SourceReport extends Report{
         waterCondition = wc;
     }
 
+    @Override
+    public String getMapInformation() {
+        return "Condition: " + waterCondition.toString() + "\n"
+                + "Type: " + waterType.toString();
+    }
 }

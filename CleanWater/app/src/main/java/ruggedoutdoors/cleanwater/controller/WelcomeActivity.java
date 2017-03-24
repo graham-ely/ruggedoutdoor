@@ -25,7 +25,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // for ease of testing
         Users.add(new User("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", UserType.ADMIN));
-        Reports.add(new Report(Users.getUser("tester"), new Location(33.749, -84.388), WaterType.BOTTLED, WaterCondition.POTABLE));
+        Reports.add(new SourceReport(Users.getUser("tester"), new Location(33.749, -84.388), WaterType.BOTTLED, WaterCondition.POTABLE));
 
         Button mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {

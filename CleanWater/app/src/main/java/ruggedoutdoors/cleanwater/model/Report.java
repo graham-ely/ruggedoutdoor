@@ -9,7 +9,7 @@ import java.util.Date;
  * Represents a water report filled out by a system user.
  */
 
-public class Report implements Comparable{
+public abstract class Report implements Comparable{
     private Date dateTime;
 
     /* Compares the report to another object
@@ -174,5 +174,7 @@ public class Report implements Comparable{
     public double getLongitude() {
         return waterLocation.get_longitude();
     }
+
+    public abstract String getMapInformation();
 
 }

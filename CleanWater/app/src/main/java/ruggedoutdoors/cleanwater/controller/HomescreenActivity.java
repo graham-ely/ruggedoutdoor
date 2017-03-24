@@ -55,6 +55,35 @@ public class HomescreenActivity extends AppCompatActivity {
             }
         });
 
+        Button mFilePurityReportButton = (Button) findViewById(R.id.filePurityReportButton);
+        if (model.canFilePurityReport()) {
+            mFilePurityReportButton.setVisibility(View.VISIBLE);
+            mFilePurityReportButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent nextScreen = new Intent(getApplicationContext(), FilePurityReportActivity.class);
+                    startActivity(nextScreen);
+                }
+            });
+        } else {
+            mFilePurityReportButton.setVisibility(View.GONE);
+        }
+
+
+        Button mViewPurityReportsButton = (Button) findViewById(R.id.viewPurityReportsButton);
+        if (model.canViewPurityReport()) {
+            mViewPurityReportsButton.setVisibility(View.VISIBLE);
+            mViewPurityReportsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent nextScreen = new Intent(getApplicationContext(), FilePurityReportActivity.class);
+                    startActivity(nextScreen);
+                }
+            });
+        } else {
+            mViewPurityReportsButton.setVisibility(View.GONE);
+        }
+
         Button mViewMapButton = (Button) findViewById(R.id.viewMapButton);
         mViewMapButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.Report;
 import ruggedoutdoors.cleanwater.model.Reports;
 
@@ -38,6 +39,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     private List<Report> reports;
+    private Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        reports = Reports.getReportArray();
-
+        reports = model.getSourceReportArray();
     }
 
 
@@ -101,8 +102,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         for (Report r : reports) {
             LatLng loc = new LatLng(r.getLatitude(), r.getLongitude());
             mMap.addMarker(new MarkerOptions().position(loc).title("Reporter: " + r.getReporterName(
-                    )).snippet("Type: " + r.getWaterType().toString() + "\n" + "Condition: "
-                            + r.getWaterCondition().toString()));
+                    )).snippet(r.getMapInformation()));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
         }
 
