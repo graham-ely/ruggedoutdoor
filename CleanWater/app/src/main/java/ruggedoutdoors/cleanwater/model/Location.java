@@ -30,6 +30,10 @@ public class Location {
      */
     public double get_longitude() { return longitude; }
 
+    /**
+     *
+     * @return a String representation of the location
+     */
     public String toString() {
         return String.format("%.4f", latitude) + ", " + String.format("%.4f", longitude);
     }
