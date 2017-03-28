@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "689003705273",
+    "firebase_url": "https://rugged-outdoors.firebaseio.com",
+    "project_id": "rugged-outdoors",
+    "storage_bucket": "rugged-outdoors.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689003705273:android:83e24138d0e7b1fe",
+        "android_client_info": {
+          "package_name": "ruggedoutdoors.cleanwater"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689003705273-v2h7ngpd1g6lp9hii8r91804pd3kn01p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ruggedoutdoors.cleanwater",
+            "certificate_hash": "75aa3fbc14f2394700e1da8373ca50af5b43962f"
+          }
+        },
+        {
+          "client_id": "689003705273-g1n2scqu5sgcnumn42k22v6vqt47m3f0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzjlI15jbJJV6qF_hBKXSnO--032XQaKA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689003705273-g1n2scqu5sgcnumn42k22v6vqt47m3f0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
