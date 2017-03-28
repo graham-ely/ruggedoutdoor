@@ -1,7 +1,15 @@
 package ruggedoutdoors.cleanwater.model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by karanachtani on 3/19/17.
@@ -29,6 +37,10 @@ public class Model {
     private User currentUser;
     private Report activeReport;
 
+    //set up firebase
+    private FirebaseDatabase database;
+    private DatabaseReference mDatabase = database.getInstance().getReference("users");
+
     /**
      * logs in the user
      * @param username String username
@@ -36,8 +48,25 @@ public class Model {
      * @return whether the user has been logged in or not
      */
     public boolean logIn(String username, String password) {
+        final String un = username;
+        final String p = password;
         try {
-            currentUser = Users.getUser(username, password);
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        currentUser = snapshot.getValue(User.class);
+                        if (currentUser.getUsername().equals(un)) {
+                            throw new NoSuchElementException("User not found.");
+                        } else if (currentUser.getPassword().equals(p)) {
+                            throw new InvalidParameterException("Incorrect Password");
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
             return true;
         } catch (Exception e) {
             throw e;
