@@ -1,5 +1,11 @@
 package ruggedoutdoors.cleanwater.model;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
@@ -9,7 +15,12 @@ import java.util.NoSuchElementException;
  */
 
 public class Users {
-    private static HashMap<String, User> userSet = new HashMap<>();
+
+    //set up firebase
+    private static FirebaseDatabase database;
+    private static DatabaseReference mDatabase = database.getInstance().getReference("users");
+
+    private static User toReturn;
 
     /**
      * adds a user to the map of users
@@ -17,7 +28,20 @@ public class Users {
      * @param u user to be added
      */
     public static void add(User u) {
-        userSet.put(u.getUsername(), u);
+        final User user = u;
+        mDatabase.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mDatabase.child(user.getUsername()).setValue(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     /**
@@ -27,7 +51,12 @@ public class Users {
      * @return whether the user is in the map or not
      */
     public static boolean hasUser(String username) {
-        return userSet.containsKey(username);
+        DatabaseReference thisUser = mDatabase.child(username);
+        if (thisUser == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -37,13 +66,27 @@ public class Users {
      * @return the User object that matches the username passed in
      * @throws NoSuchElementException if the user does not exist in the map
      */
-    public static User getUser(String username) {
-        if (hasUser(username)) {
-            return userSet.get(username);
-        } else {
+    public static User getUser(final String username) {
+        final DatabaseReference thisUser = mDatabase.child(username);
+        if (thisUser == null) {
             throw new NoSuchElementException("User not found.");
         }
 
+        thisUser.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // somethings wrong here
+                toReturn = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return toReturn;
     }
 
     /**
@@ -56,15 +99,11 @@ public class Users {
      * @throws NoSuchElementException    if user is not found in map
      */
     public static User getUser(String username, String password) {
-        if (hasUser(username)) {
-            User user = userSet.get(username);
-            if (user.getPassword().equals(password)) {
-                return user;
-            } else {
-                throw new InvalidParameterException("Password is incorrect.");
-            }
+        User u = getUser(username);
+        if (u.getPassword().equals(password)) {
+            return u;
         } else {
-            throw new NoSuchElementException("User not found.");
+            throw new InvalidParameterException("Password is incorrect.");
         }
     }
 }

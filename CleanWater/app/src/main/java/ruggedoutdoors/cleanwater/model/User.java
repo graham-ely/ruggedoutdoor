@@ -1,5 +1,8 @@
 package ruggedoutdoors.cleanwater.model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by karanachtani on 2/27/17.
  */
@@ -10,6 +13,10 @@ public class User {
     private String birthday;
     private String address;
     private UserType userType;
+
+    //set up firebase
+    private static FirebaseDatabase database;
+    private static DatabaseReference mDatabase;
 
     /**
      * Blank constructor required for firebase support
@@ -38,6 +45,7 @@ public class User {
         birthday = bday;
         this.address = address;
         userType = type;
+        mDatabase = database.getInstance().getReference("users").child(un);
     }
 
     /**
@@ -54,6 +62,7 @@ public class User {
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+        mDatabase.child("firstName").setValue(firstName);
     }
 
     /**
@@ -70,6 +79,7 @@ public class User {
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
+        mDatabase.child("lastName").setValue(lastName);
     }
 
     /**
@@ -78,14 +88,6 @@ public class User {
      */
     public String getUsername() {
         return username;
-    }
-
-    /**
-     * sets username
-     * @param username
-     */
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     /**
@@ -102,6 +104,7 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+        mDatabase.child("password").setValue(password);
     }
 
     /**
@@ -118,6 +121,7 @@ public class User {
      */
     public void setEmail(String email) {
         this.email = email;
+        mDatabase.child("email").setValue(email);
     }
 
     /**
@@ -134,6 +138,7 @@ public class User {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+        mDatabase.child("phone").setValue(phone);
     }
 
     /**
@@ -150,6 +155,7 @@ public class User {
      */
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+        mDatabase.child("birthday").setValue(birthday);
     }
 
     /**
@@ -166,6 +172,7 @@ public class User {
      */
     public void setAddress(String address) {
         this.address = address;
+        mDatabase.child("address").setValue(address);
     }
 
     /**
@@ -182,5 +189,6 @@ public class User {
      */
     public void setUserType(UserType userType) {
         this.userType = userType;
+        mDatabase.child("userType").setValue(userType);
     }
 }
