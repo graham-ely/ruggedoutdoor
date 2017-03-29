@@ -47,26 +47,30 @@ public class Model {
      * @param password String password
      * @return whether the user has been logged in or not
      */
-    public boolean logIn(String username, String password) {
-        final String un = username;
-        final String p = password;
+    public boolean logIn(final String username, final String password) {
+//        try {
+//            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        currentUser = snapshot.getValue(User.class);
+//                        if (!snapshot.hasChild(currentUser.getUsername())) {
+//                            throw new NoSuchElementException("User not found.");
+//                        } else if (!snapshot.hasChild(currentUser.getPassword())) {
+//                            throw new InvalidParameterException("Incorrect Password");
+//                        }
+//                    }
+//                }
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                }
+//            });
+//            return true;
+//        } catch (Exception e) {
+//            throw e;
+//        }
         try {
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        currentUser = snapshot.getValue(User.class);
-                        if (currentUser.getUsername().equals(un)) {
-                            throw new NoSuchElementException("User not found.");
-                        } else if (currentUser.getPassword().equals(p)) {
-                            throw new InvalidParameterException("Incorrect Password");
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
+            currentUser = Users.getUser(username);
             return true;
         } catch (Exception e) {
             throw e;
