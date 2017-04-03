@@ -1,10 +1,13 @@
 package ruggedoutdoors.cleanwater.model;
 
+import com.google.android.gms.fitness.data.Value;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import android.util.Log;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ public class Model {
     // instance attributes
     private User currentUser;
     private Report activeReport;
+    private ValueEventListener listener;
 
     //set up firebase
     private FirebaseDatabase database;
@@ -48,33 +52,38 @@ public class Model {
      * @return whether the user has been logged in or not
      */
     public boolean logIn(final String username, final String password) {
+        try {
+            listener = mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d("TEST", "OnDataChange Ran");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if (snapshot.getValue(User.class) != null) {
+                            setUser(snapshot.getValue(User.class));
+                            if (!snapshot.hasChild(getUsername())) {
+                                throw new NoSuchElementException("User not found.");
+                            } else if (!snapshot.hasChild(getPassword())) {
+                                throw new InvalidParameterException("Incorrect Password");
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            mDatabase.removeEventListener(listener);
+            return true;
+        } catch (Exception e) {
+            mDatabase.removeEventListener(listener);
+            throw e;
+        }
 //        try {
-//            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        currentUser = snapshot.getValue(User.class);
-//                        if (!snapshot.hasChild(currentUser.getUsername())) {
-//                            throw new NoSuchElementException("User not found.");
-//                        } else if (!snapshot.hasChild(currentUser.getPassword())) {
-//                            throw new InvalidParameterException("Incorrect Password");
-//                        }
-//                    }
-//                }
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//                }
-//            });
+//            currentUser = Users.getUser(username);
 //            return true;
 //        } catch (Exception e) {
 //            throw e;
 //        }
-        try {
-            currentUser = Users.getUser(username);
-            return true;
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     /**
@@ -83,6 +92,14 @@ public class Model {
      */
     public String getUsername() {
         return currentUser.getUsername();
+    }
+
+    /**
+     *
+     * @return password of current user
+     */
+    public String getPassword() {
+        return currentUser.getPassword();
     }
 
     /**
@@ -139,6 +156,14 @@ public class Model {
      */
     public String getUserType() {
         return currentUser.getUserType().toString();
+    }
+
+    /**
+     * sets currentUser
+     * @param user
+     */
+    public void setUser(User user) {
+        this.currentUser = user;
     }
 
     /**
@@ -302,5 +327,4 @@ public class Model {
         }
         return toReturn;
     }
-
 }
