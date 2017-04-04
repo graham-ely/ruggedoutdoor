@@ -10,6 +10,8 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.io.File;
+import android.content.Context;
 
 /**
  * Created by karanachtani on 3/19/17.
@@ -37,9 +39,8 @@ public class Model {
     private User currentUser;
     private Report activeReport;
 
-    //set up firebase
-    private FirebaseDatabase database;
-    private DatabaseReference mDatabase = database.getInstance().getReference("users");
+    private UserManagementFacade umf = UserManagementFacade.getInstance();
+    private SourceReportManagementFacade srmf = SourceReportManagementFacade.getInstance();
 
     /**
      * logs in the user
@@ -48,29 +49,21 @@ public class Model {
      * @return whether the user has been logged in or not
      */
     public boolean logIn(String username, String password) {
-        final String un = username;
-        final String p = password;
-        try {
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        currentUser = snapshot.getValue(User.class);
-                        if (currentUser.getUsername().equals(un)) {
-                            throw new NoSuchElementException("User not found.");
-                        } else if (currentUser.getPassword().equals(p)) {
-                            throw new InvalidParameterException("Incorrect Password");
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-            return true;
-        } catch (Exception e) {
-            throw e;
+        umf.loadJson(new File(UserManagementFacade.DEFAULT_JSON_FILE_NAME));
+        User u = umf.getUserByUsername(username);
+        if (u == null) {
+            throw new NoSuchElementException();
         }
+        if (u.checkPassword(password)) {
+            currentUser = u;
+            return true;
+        } else {
+            throw new InvalidParameterException();
+        }
+    }
+
+    public void updateCurrentUser(User u) {
+        currentUser = u;
     }
 
     /**
@@ -147,8 +140,8 @@ public class Model {
      */
     public boolean addSourceReport(double latitude, double longitude, String waterType,
                              String waterCondition) {
-        Reports.add(new SourceReport(currentUser, new Location(latitude, longitude),
-                WaterType.valueOf(waterType.toUpperCase()), WaterCondition.valueOf(waterCondition.toUpperCase())));
+        srmf.addNewSourceReport(currentUser, new Location(latitude, longitude),
+                WaterType.valueOf(waterType.toUpperCase()), WaterCondition.valueOf(waterCondition.toUpperCase()));
         return true;
     }
 
@@ -199,7 +192,7 @@ public class Model {
      * @return whether it exists or not
      */
     public boolean checkIfUserExists(String username) {
-        return Users.hasUser(username);
+        return umf.getUserByUsername(username) != null;
     }
 
     /**
@@ -216,12 +209,29 @@ public class Model {
      */
     public void addUser(String firstName, String lastName, String username, String password,
                         String email, String phone, String birthday, String address, String type) {
-        Users.add(new User(firstName, lastName, username, password, email, phone, birthday,
-                address, UserType.valueOf(type)));
+
+        umf.addNewUser(firstName, lastName, username, password, email, phone, birthday,
+                address, type);
+    }
+
+    public void saveUserData(File file) {
+        umf.saveText(file);
+    }
+
+    public void loadUserData(File file) {
+        umf.loadText(file);
+    }
+
+    public void saveSourceReportData(File file) {
+        srmf.saveText(file);
+    }
+
+    public void loadSourceReportData(File file) {
+        srmf.loadText(file);
     }
 
     public void setActiveReport(int reportId) {
-        activeReport = Reports.getReport(reportId);
+        activeReport = srmf.getSourceReportById(reportId);
     }
 
     public boolean hasActiveReport() {
@@ -277,15 +287,8 @@ public class Model {
         return currentUser.getUserType() == UserType.MANAGER;
     }
 
-    public List<Report> getSourceReportArray() {
-        List<Report> reports = Reports.getReportArray();
-        ArrayList<Report> toReturn = new ArrayList<>();
-        for (Report r : reports) {
-            if ((r instanceof SourceReport)) {
-                toReturn.add(r);
-            }
-        }
-        return toReturn;
+    public List<SourceReport> getSourceReportArray() {
+        return srmf.getSourceReportsAsList();
     }
 
     public List<Report> getPurityReportArray() {

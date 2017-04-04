@@ -1,24 +1,9 @@
 package ruggedoutdoors.cleanwater.controller;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,10 +17,9 @@ import java.security.InvalidParameterException;
 import java.util.NoSuchElementException;
 
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Users;
+import ruggedoutdoors.cleanwater.model.*;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import java.io.File;
 
 /**
  * A login screen that offers login via email/password.
@@ -47,10 +31,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model.loadUserData(new File(getFilesDir(), UserManagementFacade.DEFAULT_TEXT_FILE_NAME));
+
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.login_username);
@@ -125,11 +112,9 @@ public class LoginActivity extends AppCompatActivity {
         // try to login with credentials
         else {
             try {
-                if (Model.getInstance().logIn(username, password)) {
-                    Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
-                    nextScreen.putExtra("USERNAME", mUsernameView.getText().toString());
-                    startActivity(nextScreen);
-                }
+                model.logIn(username, password);
+                Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
+                startActivity(nextScreen);
             } catch (NoSuchElementException e) {
                 mUsernameView.setError("This username was not found");
                 focusView = mUsernameView;

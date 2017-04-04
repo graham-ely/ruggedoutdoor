@@ -13,15 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import java.io.File;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.User;
+import ruggedoutdoors.cleanwater.model.UserManagementFacade;
 import ruggedoutdoors.cleanwater.model.UserType;
 
 /**
@@ -41,9 +38,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mBirthdayView;
     private Spinner  mUserTypeView;
 
-    //set up firebase
-    private FirebaseDatabase database;
-    private DatabaseReference mDatabase = database.getInstance().getReference("users");
 
 
     private Model model = Model.getInstance();
@@ -96,9 +90,7 @@ public class RegistrationActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptRegister() {
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+
                 // Store values at the time of the login attempt.
                 String firstName = mFirstNameView.getText().toString();
                 String lastName = mLastNameView.getText().toString();
@@ -133,7 +125,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     mUsernameView.setError(getString(R.string.error_field_required));
                     focusView = mUsernameView;
                     cancel = true;
-                } else if (dataSnapshot.hasChild(username)) {
+                } else if (model.checkIfUserExists(username)) {
                     mUsernameView.setError(getString(R.string.error_duplicate_username));
                     focusView = mUsernameView;
                     cancel = true;
@@ -184,7 +176,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 } else {
                     // Add the user to the system and advance to the login screen
-                    mDatabase.child(username).setValue(new User(firstName, lastName, username, password, email, phone, birthday, address, UserType.valueOf(type)));
                     model.addUser(firstName, lastName, username, password, email, phone, birthday, address,
                             type);
 
@@ -193,13 +184,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 }
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     /**
      * checks for valid email
@@ -221,6 +205,13 @@ public class RegistrationActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         //TODO: Update validation logic
         return password.length() > 4;
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        model.saveUserData(new File(getFilesDir(), UserManagementFacade.DEFAULT_TEXT_FILE_NAME));
     }
 
 }

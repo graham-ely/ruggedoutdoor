@@ -2,6 +2,7 @@ package ruggedoutdoors.cleanwater.model;
 
 import java.security.InvalidParameterException;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by gde on 3/2/17.
@@ -51,7 +52,7 @@ public abstract class Report implements Comparable{
     public Report(User reporter, Location waterLocation)
     {
         this.dateTime = new Date();
-        this.reportNumber = reportsTotal++;
+        this.reportNumber = (new Random()).nextInt(9999);
         this.reporter = reporter;
         this.waterLocation = waterLocation;
     }
@@ -99,6 +100,10 @@ public abstract class Report implements Comparable{
      */
     public String getReporterName() {
         return ( reporter.getFirstName() + " " + reporter.getLastName() );
+    }
+
+    public String getReporterUsername() {
+        return reporter.getUsername();
     }
 
     /**

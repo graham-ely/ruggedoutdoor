@@ -32,13 +32,12 @@ import java.util.List;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Report;
-import ruggedoutdoors.cleanwater.model.Reports;
+import ruggedoutdoors.cleanwater.model.SourceReport;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private List<Report> reports;
+    private List<SourceReport> reports;
     private Model model = Model.getInstance();
 
     @Override
@@ -99,7 +98,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 //            }
 //        });
 
-        for (Report r : reports) {
+        for (SourceReport r : reports) {
             LatLng loc = new LatLng(r.getLatitude(), r.getLongitude());
             mMap.addMarker(new MarkerOptions().position(loc).title("Reporter: " + r.getReporterName(
                     )).snippet(r.getMapInformation()));

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_cleanwater" default="compile.module.cleanwater">
+  <dirname property="module.cleanwater.basedir" file="${ant.file.module_cleanwater}"/>
+  
+  <property name="module.jdk.home.cleanwater" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.cleanwater" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.cleanwater" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.cleanwater" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="cleanwater.output.dir" value="${module.cleanwater.basedir}/build/classes/production/CleanWater"/>
+  <property name="cleanwater.testoutput.dir" value="${module.cleanwater.basedir}/build/classes/test/CleanWater"/>
+  
+  <path id="cleanwater.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="cleanwater.module.production.classpath">
+    <path refid="${module.jdk.classpath.cleanwater}"/>
+  </path>
+  
+  <path id="cleanwater.runtime.production.module.classpath">
+    <pathelement location="${cleanwater.output.dir}"/>
+  </path>
+  
+  <path id="cleanwater.module.classpath">
+    <path refid="${module.jdk.classpath.cleanwater}"/>
+    <pathelement location="${cleanwater.output.dir}"/>
+  </path>
+  
+  <path id="cleanwater.runtime.module.classpath">
+    <pathelement location="${cleanwater.testoutput.dir}"/>
+    <pathelement location="${cleanwater.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.cleanwater">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.cleanwater">
+    <patternset refid="excluded.from.module.cleanwater"/>
+  </patternset>
+  
+  
+  <target name="compile.module.cleanwater" depends="compile.module.cleanwater.production,compile.module.cleanwater.tests" description="Compile module CleanWater"/>
+  
+  <target name="compile.module.cleanwater.production" depends="register.custom.compilers" description="Compile module CleanWater; production classes"/>
+  
+  <target name="compile.module.cleanwater.tests" depends="register.custom.compilers,compile.module.cleanwater.production" description="compile module CleanWater; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.cleanwater" description="cleanup module">
+    <delete dir="${cleanwater.output.dir}"/>
+    <delete dir="${cleanwater.testoutput.dir}"/>
+  </target>
+</project>

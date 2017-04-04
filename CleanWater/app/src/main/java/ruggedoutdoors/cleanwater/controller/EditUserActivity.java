@@ -16,11 +16,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
+
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.User;
+import ruggedoutdoors.cleanwater.model.UserManagementFacade;
 import ruggedoutdoors.cleanwater.model.UserType;
-import ruggedoutdoors.cleanwater.model.Users;
 
 /**
  * An edit screen that allows the user to update his/her details
@@ -136,6 +137,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
         } else {
             // Update the fields changed, then progress to the next screen
             model.updateUserInfo(birthday, email, phone, address, type);
+            model.saveUserData(new File(getFilesDir(), UserManagementFacade.DEFAULT_TEXT_FILE_NAME));
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);
         }

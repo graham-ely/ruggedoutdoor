@@ -14,11 +14,12 @@ import android.widget.TextView;
 
 
 import java.util.List;
+import java.io.File;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Report;
-import ruggedoutdoors.cleanwater.model.Reports;
+import ruggedoutdoors.cleanwater.model.SourceReport;
+import ruggedoutdoors.cleanwater.model.SourceReportManagementFacade;
 
 /**
  * An activity representing a list of Reports. This activity
@@ -40,6 +41,7 @@ public class ReportListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model.loadSourceReportData(new File(getFilesDir(), SourceReportManagementFacade.SOURCE_REPORT_TEXT_FILE_NAME));
         setContentView(R.layout.activity_report_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,9 +68,9 @@ public class ReportListActivity extends AppCompatActivity {
     public class SimpleReportRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleReportRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Report> mReports;
+        private final List<SourceReport> mReports;
 
-        public SimpleReportRecyclerViewAdapter(List<Report> reports) {
+        public SimpleReportRecyclerViewAdapter(List<SourceReport> reports) {
             mReports = reports;
         }
 
@@ -138,7 +140,7 @@ public class ReportListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public Report mReport;
+            public SourceReport mReport;
 
             public ViewHolder(View view) {
                 super(view);

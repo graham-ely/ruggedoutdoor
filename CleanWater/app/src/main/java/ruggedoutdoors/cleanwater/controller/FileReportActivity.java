@@ -1,28 +1,21 @@
 package ruggedoutdoors.cleanwater.controller;
 
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.io.File;
+
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Report;
-import ruggedoutdoors.cleanwater.model.Reports;
-import ruggedoutdoors.cleanwater.model.User;
-import ruggedoutdoors.cleanwater.model.Users;
+import ruggedoutdoors.cleanwater.model.SourceReportManagementFacade;
 import ruggedoutdoors.cleanwater.model.WaterCondition;
 import ruggedoutdoors.cleanwater.model.WaterType;
-import ruggedoutdoors.cleanwater.model.Location;
 
 /**
  * Created by gde on 3/3/17.
@@ -138,6 +131,7 @@ public class FileReportActivity extends AppCompatActivity {
         } else {
             // Add the report to the system and advance to the homescreen
             model.addSourceReport(lat, lon, waterType.toString(), waterCondition.toString());
+            model.saveSourceReportData(new File(getFilesDir(), SourceReportManagementFacade.SOURCE_REPORT_TEXT_FILE_NAME));
 
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);
