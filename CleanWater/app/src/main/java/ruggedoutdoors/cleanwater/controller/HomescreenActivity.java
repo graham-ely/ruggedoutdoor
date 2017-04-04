@@ -7,16 +7,15 @@ import android.view.View;
 import android.widget.Button;
 
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.model.Model;
+import ruggedoutdoors.cleanwater.model.AnyDBAdapter;
 
 public class HomescreenActivity extends AppCompatActivity {
-
-    Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
+        AnyDBAdapter dba = new AnyDBAdapter(this);
 
         Button mFileReportButton = (Button) findViewById(R.id.fileReportButton);
         mFileReportButton.setOnClickListener(new View.OnClickListener() {
@@ -32,7 +31,6 @@ public class HomescreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
-                model = model.logOut();
                 startActivity(nextScreen);
             }
         });
@@ -56,7 +54,9 @@ public class HomescreenActivity extends AppCompatActivity {
         });
 
         Button mFilePurityReportButton = (Button) findViewById(R.id.filePurityReportButton);
-        if (model.canFilePurityReport()) {
+        dba.open();
+        if (dba.canFilePurityReport()) {
+            dba.close();
             mFilePurityReportButton.setVisibility(View.VISIBLE);
             mFilePurityReportButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,12 +66,15 @@ public class HomescreenActivity extends AppCompatActivity {
                 }
             });
         } else {
+            dba.close();
             mFilePurityReportButton.setVisibility(View.GONE);
         }
 
 
         Button mViewPurityReportsButton = (Button) findViewById(R.id.viewPurityReportsButton);
-        if (model.canViewPurityReport()) {
+        dba.open();
+        if (dba.canViewPurityReport()) {
+            dba.close();
             mViewPurityReportsButton.setVisibility(View.VISIBLE);
             mViewPurityReportsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,6 +84,7 @@ public class HomescreenActivity extends AppCompatActivity {
                 }
             });
         } else {
+            dba.close();
             mViewPurityReportsButton.setVisibility(View.GONE);
         }
 

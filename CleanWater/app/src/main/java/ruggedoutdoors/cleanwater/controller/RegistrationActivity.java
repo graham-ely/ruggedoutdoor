@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.AnyDBAdapter;
 import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.User;
 import ruggedoutdoors.cleanwater.model.UserType;
@@ -184,9 +185,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 } else {
                     // Add the user to the system and advance to the login screen
-                    mDatabase.child(username).setValue(new User(firstName, lastName, username, password, email, phone, birthday, address, UserType.valueOf(type)));
-                    model.addUser(firstName, lastName, username, password, email, phone, birthday, address,
-                            type);
+                    AnyDBAdapter dba = new AnyDBAdapter(RegistrationActivity.this);
+                    dba.open();
+                    dba.addUser(firstName, lastName, username, password, email, phone, birthday,
+                            address, type);
+                    dba.close();
 
                     Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(nextScreen);

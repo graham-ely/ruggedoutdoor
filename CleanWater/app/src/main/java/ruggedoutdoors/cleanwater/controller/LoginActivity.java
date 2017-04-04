@@ -32,6 +32,7 @@ import java.security.InvalidParameterException;
 import java.util.NoSuchElementException;
 
 import ruggedoutdoors.cleanwater.R;
+import ruggedoutdoors.cleanwater.model.AnyDBAdapter;
 import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.Users;
 
@@ -124,17 +125,22 @@ public class LoginActivity extends AppCompatActivity {
         }
         // try to login with credentials
         else {
+            AnyDBAdapter dba = new AnyDBAdapter(this);
+            dba.open();
             try {
-                if (Model.getInstance().logIn(username, password)) {
+                if (dba.logIn(username, password)) {
+                    dba.close();
                     Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
                     nextScreen.putExtra("USERNAME", mUsernameView.getText().toString());
                     startActivity(nextScreen);
                 }
             } catch (NoSuchElementException e) {
+                dba.close();
                 mUsernameView.setError("This username was not found");
                 focusView = mUsernameView;
                 cancel = true;
             } catch (InvalidParameterException e) {
+                dba.close();
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 cancel = true;
                 mPasswordView.setText("");

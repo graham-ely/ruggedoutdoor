@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.database.Cursor;
+import android.util.Log;
+
+import java.io.IOException;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.controller.LoginActivity;
@@ -22,6 +26,30 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        AnyDBAdapter dba = new AnyDBAdapter(this);
+        dba.open();
+//        dba.ExampleCommand("en-CA");
+
+        Cursor c = dba.ExampleSelect();
+        String select = "";
+        Boolean test = false;
+        try {
+            if (c.moveToFirst()){
+                do{
+                    String data = c.getString(c.getColumnIndex("username"));
+                    if (data.equals("builder")) {
+                        test = true;
+                    }
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
+        }
+        dba.close();
+        if (!test) {
+            throw new IllegalArgumentException("Logic Failed");
+        }
 
         // for ease of testing
         //Users.add(new User("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", UserType.MANAGER));
