@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Report;
-import ruggedoutdoors.cleanwater.model.Reports;
 
 /**
  * A fragment representing a single Report detail screen.
@@ -48,7 +46,7 @@ public class ReportDetailFragment extends Fragment {
 
         //Check if we got a valid report passed to us
         if (getArguments().containsKey(ARG_REPORT_ID)) {
-            model.setActiveReport(getArguments().getInt(ARG_REPORT_ID));
+            model.setActiveSourceReport(getArguments().getInt(ARG_REPORT_ID));
             //Log.d("CourseDetailFragment", "Passing over course: " + mCourse);
             //Log.d("CourseDetailFragment", "Got students: " + mCourse.getStudents().size());
 

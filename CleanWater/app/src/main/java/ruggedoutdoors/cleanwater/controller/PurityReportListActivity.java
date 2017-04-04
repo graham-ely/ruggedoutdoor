@@ -14,11 +14,12 @@ import android.widget.TextView;
 
 
 import java.util.List;
+import java.io.File;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Report;
-import ruggedoutdoors.cleanwater.model.Reports;
+import ruggedoutdoors.cleanwater.model.PurityReport;
+import ruggedoutdoors.cleanwater.model.PurityReportManagementFacade;
 
 /**
  * An activity representing a list of PurityReports. This activity
@@ -40,6 +41,7 @@ public class PurityReportListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model.loadPurityReportData(new File(getFilesDir(), PurityReportManagementFacade.PURITY_REPORT_TEXT_FILE_NAME));
         setContentView(R.layout.activity_purityreport_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,9 +68,9 @@ public class PurityReportListActivity extends AppCompatActivity {
     public class SimpleReportRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleReportRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Report> mReports;
+        private final List<PurityReport> mReports;
 
-        public SimpleReportRecyclerViewAdapter(List<Report> reports) {
+        public SimpleReportRecyclerViewAdapter(List<PurityReport> reports) {
             mReports = reports;
         }
 
@@ -104,7 +106,7 @@ public class PurityReportListActivity extends AppCompatActivity {
                     if (mTwoPane) {
                         //if a two pane window, we change the contents on the main screen
                         Bundle arguments = new Bundle();
-                        model.setActiveReport(holder.mReport.getReportNumber());
+                        model.setActivePurityReport(holder.mReport.getReportNumber());
 
                         ReportDetailFragment fragment = new ReportDetailFragment();
                         fragment.setArguments(arguments);
@@ -120,7 +122,7 @@ public class PurityReportListActivity extends AppCompatActivity {
                             pass along the id of the course so we can retrieve the correct data in
                             the next window
                          */
-                        model.setActiveReport(holder.mReport.getReportNumber());
+                        model.setActivePurityReport(holder.mReport.getReportNumber());
 
                         //now just display the new window
                         context.startActivity(intent);
@@ -138,7 +140,7 @@ public class PurityReportListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public Report mReport;
+            public PurityReport mReport;
 
             public ViewHolder(View view) {
                 super(view);

@@ -8,10 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import java.io.File;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.OverallCondition;
+import ruggedoutdoors.cleanwater.model.PurityReportManagementFacade;
 
 /**
  * Created by gde on 3/3/17.
@@ -150,6 +152,7 @@ public class FilePurityReportActivity extends AppCompatActivity {
         } else {
             // Add the report to the system and advance to the homescreen
             model.addPurityReport(lat, lon, overallCondition, vPPM, cPPM);
+            model.savePurityReportData(new File(getFilesDir(), PurityReportManagementFacade.PURITY_REPORT_TEXT_FILE_NAME));
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);
         }

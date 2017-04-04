@@ -41,6 +41,7 @@ public class Model {
 
     private UserManagementFacade umf = UserManagementFacade.getInstance();
     private SourceReportManagementFacade srmf = SourceReportManagementFacade.getInstance();
+    private PurityReportManagementFacade prmf = PurityReportManagementFacade.getInstance();
 
     /**
      * logs in the user
@@ -156,8 +157,8 @@ public class Model {
      */
     public boolean addPurityReport(double latitude, double longitude,
                                    String overallCondition, double virusPPM, double contaminantPPM) {
-        Reports.add(new PurityReport(currentUser, new Location(latitude, longitude),
-                OverallCondition.valueOf(overallCondition), virusPPM, contaminantPPM));
+        prmf.addNewPurityReport(currentUser, new Location(latitude, longitude),
+                OverallCondition.valueOf(overallCondition), virusPPM, contaminantPPM);
         return true;
     }
 
@@ -230,8 +231,20 @@ public class Model {
         srmf.loadText(file);
     }
 
-    public void setActiveReport(int reportId) {
+    public void savePurityReportData(File file) {
+        prmf.saveText(file);
+    }
+
+    public void loadPurityReportData(File file) {
+        prmf.loadText(file);
+    }
+
+    public void setActiveSourceReport(int reportId) {
         activeReport = srmf.getSourceReportById(reportId);
+    }
+
+    public void setActivePurityReport(int reportId) {
+        activeReport = prmf.getPurityReportById(reportId);
     }
 
     public boolean hasActiveReport() {
@@ -291,15 +304,8 @@ public class Model {
         return srmf.getSourceReportsAsList();
     }
 
-    public List<Report> getPurityReportArray() {
-        List<Report> reports = Reports.getReportArray();
-        ArrayList<Report> toReturn = new ArrayList<>();
-        for (Report r : reports) {
-            if ((r instanceof PurityReport)) {
-                toReturn.add(r);
-            }
-        }
-        return toReturn;
+    public List<PurityReport> getPurityReportArray() {
+        return prmf.getPurityReportsAsList();
     }
 
 }

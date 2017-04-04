@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Report;
-import ruggedoutdoors.cleanwater.model.Reports;
 
 /**
  * A fragment representing a single Report detail screen.
