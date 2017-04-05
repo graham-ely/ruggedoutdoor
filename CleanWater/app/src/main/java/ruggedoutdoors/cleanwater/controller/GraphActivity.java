@@ -57,14 +57,26 @@ public class GraphActivity extends AppCompatActivity {
         latGo = (Button) findViewById(R.id.graph_lat_go);
         longGo = (Button) findViewById(R.id.graph_long_go);
 
-        yearGo.setOnLongClickListener(new View.OnLongClickListener() {
+        yearGo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 updateGraphs();
-                return false;
             }
         });
 
+        latGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateGraphs();
+            }
+        });
+
+        longGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateGraphs();
+            }
+        });
 
         //Graph 1
         mGraph.setTitle("History Graph (Virus PPM)");
@@ -120,7 +132,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = 0; i < purityReports.size(); i++) {
                 cal.setTime(purityReports.get(i).getDateTime());
                 int year1 = cal.get(Calendar.YEAR);
-                if (year != year) {
+                if (year != (int) year1) {
                     purityReports.remove(i);
                     i--;
                 }
@@ -129,16 +141,17 @@ public class GraphActivity extends AppCompatActivity {
 
         if (lat != null) {
             for (int i = 0; i < purityReports.size(); i++) {
-                if (purityReports.get(i).getLatitude() != lat) {
+                if (Double.compare(purityReports.get(i).getLatitude(),lat) != 0) {
                     purityReports.remove(i);
                     i--;
                 }
             }
         }
 
+
         if (lon != null) {
             for (int i = 0; i < purityReports.size(); i++) {
-                if (purityReports.get(i).getLongitude() != lon) {
+                if (Double.compare(purityReports.get(i).getLongitude(), lon) != 0) {
                     purityReports.remove(i);
                     i--;
                 }
