@@ -1,24 +1,9 @@
 package ruggedoutdoors.cleanwater.controller;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,11 +17,7 @@ import java.security.InvalidParameterException;
 import java.util.NoSuchElementException;
 
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.model.AnyDBAdapter;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.Users;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -125,22 +106,22 @@ public class LoginActivity extends AppCompatActivity {
         }
         // try to login with credentials
         else {
-            AnyDBAdapter dba = new AnyDBAdapter(this);
-            dba.open();
+            Model model = new Model(this);
+            model.open();
             try {
-                if (dba.logIn(username, password)) {
-                    dba.close();
+                if (model.logIn(username, password)) {
+                    model.close();
                     Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
                     nextScreen.putExtra("USERNAME", mUsernameView.getText().toString());
                     startActivity(nextScreen);
                 }
             } catch (NoSuchElementException e) {
-                dba.close();
+                model.close();
                 mUsernameView.setError("This username was not found");
                 focusView = mUsernameView;
                 cancel = true;
             } catch (InvalidParameterException e) {
-                dba.close();
+                model.close();
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 cancel = true;
                 mPasswordView.setText("");
@@ -154,11 +135,6 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.model.AnyDBAdapter;
+import ruggedoutdoors.cleanwater.model.Model;
 
 public class HomescreenActivity extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class HomescreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
-        AnyDBAdapter dba = new AnyDBAdapter(this);
+        Model model = new Model(this);
 
         Button mFileReportButton = (Button) findViewById(R.id.fileReportButton);
         mFileReportButton.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +54,9 @@ public class HomescreenActivity extends AppCompatActivity {
         });
 
         Button mFilePurityReportButton = (Button) findViewById(R.id.filePurityReportButton);
-        dba.open();
-        if (dba.canFilePurityReport()) {
-            dba.close();
+        model.open();
+        if (model.canFilePurityReport()) {
+            model.close();
             mFilePurityReportButton.setVisibility(View.VISIBLE);
             mFilePurityReportButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,15 +66,15 @@ public class HomescreenActivity extends AppCompatActivity {
                 }
             });
         } else {
-            dba.close();
+            model.close();
             mFilePurityReportButton.setVisibility(View.GONE);
         }
 
 
         Button mViewPurityReportsButton = (Button) findViewById(R.id.viewPurityReportsButton);
-        dba.open();
-        if (dba.canViewPurityReport()) {
-            dba.close();
+        model.open();
+        if (model.canViewPurityReport()) {
+            model.close();
             mViewPurityReportsButton.setVisibility(View.VISIBLE);
             mViewPurityReportsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,7 +84,7 @@ public class HomescreenActivity extends AppCompatActivity {
                 }
             });
         } else {
-            dba.close();
+            model.close();
             mViewPurityReportsButton.setVisibility(View.GONE);
         }
 

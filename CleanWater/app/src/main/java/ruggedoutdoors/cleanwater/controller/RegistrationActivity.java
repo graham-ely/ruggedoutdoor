@@ -13,16 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.model.AnyDBAdapter;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.User;
 import ruggedoutdoors.cleanwater.model.UserType;
 
 /**
@@ -41,13 +33,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mAddressView;
     private EditText mBirthdayView;
     private Spinner  mUserTypeView;
-
-    //set up firebase
-    private FirebaseDatabase database;
-    private DatabaseReference mDatabase = database.getInstance().getReference("users");
-
-
-    private Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,111 +82,104 @@ public class RegistrationActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptRegister() {
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Store values at the time of the login attempt.
-                String firstName = mFirstNameView.getText().toString();
-                String lastName = mLastNameView.getText().toString();
-                final String username = mUsernameView.getText().toString();
-                String password = mPasswordView.getText().toString();
-                String passwordConfirm = mPasswordConfirmView.getText().toString();
-                String email = mEmailView.getText().toString();
-                String phone = mPhoneView.getText().toString();
-                String address = mAddressView.getText().toString();
-                String birthday = mBirthdayView.getText().toString();
-                String type = mUserTypeView.getSelectedItem().toString();
 
-                boolean cancel = false;
-                View focusView = null;
+        // Store values at the time of the login attempt.
+        String firstName = mFirstNameView.getText().toString();
+        String lastName = mLastNameView.getText().toString();
+        final String username = mUsernameView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        String passwordConfirm = mPasswordConfirmView.getText().toString();
+        String email = mEmailView.getText().toString();
+        String phone = mPhoneView.getText().toString();
+        String address = mAddressView.getText().toString();
+        String birthday = mBirthdayView.getText().toString();
+        String type = mUserTypeView.getSelectedItem().toString();
 
-                // Check for a valid first name.
-                if (TextUtils.isEmpty(firstName)) {
-                    mFirstNameView.setError(getString(R.string.error_field_required));
-                    focusView = mFirstNameView;
-                    cancel = true;
-                }
+        boolean cancel = false;
+        View focusView = null;
 
-                // Check for a valid last name.
-                else if (TextUtils.isEmpty(lastName)) {
-                    mLastNameView.setError(getString(R.string.error_field_required));
-                    focusView = mLastNameView;
-                    cancel = true;
-                }
+        Model model = new Model(RegistrationActivity.this);
+        model.open();
 
-                // Check for valid username
-                else if (TextUtils.isEmpty(username)) {
-                    mUsernameView.setError(getString(R.string.error_field_required));
-                    focusView = mUsernameView;
-                    cancel = true;
-                } else if (dataSnapshot.hasChild(username)) {
-                    mUsernameView.setError(getString(R.string.error_duplicate_username));
-                    focusView = mUsernameView;
-                    cancel = true;
-                }
+        // Check for a valid first name.
+        if (TextUtils.isEmpty(firstName)) {
+            mFirstNameView.setError(getString(R.string.error_field_required));
+            focusView = mFirstNameView;
+            cancel = true;
+        }
 
-                // Check for a valid password, if the user entered one.
-                else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-                    mPasswordView.setError(getString(R.string.error_invalid_password));
-                    focusView = mPasswordView;
-                    cancel = true;
-                }
+        // Check for a valid last name.
+        else if (TextUtils.isEmpty(lastName)) {
+            mLastNameView.setError(getString(R.string.error_field_required));
+            focusView = mLastNameView;
+            cancel = true;
+        }
 
-                // Checks that passwords are the same
-                else if (!password.equals(passwordConfirm)) {
-                    mPasswordView.setError("Passwords must match!");
-                    mPasswordConfirmView.setText("");
-                    mPasswordView.setText("");
-                    focusView = mPasswordConfirmView;
-                    cancel = true;
-                }
+        // Check for valid username
+        else if (TextUtils.isEmpty(username)) {
+            mUsernameView.setError(getString(R.string.error_field_required));
+            focusView = mUsernameView;
+            cancel = true;
+        } else if (model.checkUsername(username)) {
+            mUsernameView.setError(getString(R.string.error_duplicate_username));
+            focusView = mUsernameView;
+            cancel = true;
+        }
 
-                // Check for a valid email address.
-                else if (TextUtils.isEmpty(email)) {
-                    mEmailView.setError(getString(R.string.error_field_required));
-                    focusView = mEmailView;
-                    cancel = true;
-                } else if (!isEmailValid(email)) {
-                    mEmailView.setError(getString(R.string.error_invalid_email));
-                    focusView = mEmailView;
-                    cancel = true;
-                }
+        // Check for a valid password, if the user entered one.
+        else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
 
-                // Check for valid phone number
-                else if (TextUtils.isEmpty(phone)) {
-                    mPhoneView.setError(getString(R.string.error_field_required));
-                    focusView = mPhoneView;
-                    cancel = true;
-                } else if (!PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
-                    mPhoneView.setError("Invalid phone number");
-                    focusView = mPhoneView;
-                    cancel = true;
-                }
+        // Checks that passwords are the same
+        else if (!password.equals(passwordConfirm)) {
+            mPasswordView.setError("Passwords must match!");
+            mPasswordConfirmView.setText("");
+            mPasswordView.setText("");
+            focusView = mPasswordConfirmView;
+            cancel = true;
+        }
 
-                if (cancel) {
-                    // There was an error; don't attempt login and focus the first
-                    // form field with an error.
-                    focusView.requestFocus();
+        // Check for a valid email address.
+        else if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
 
-                } else {
-                    // Add the user to the system and advance to the login screen
-                    AnyDBAdapter dba = new AnyDBAdapter(RegistrationActivity.this);
-                    dba.open();
-                    dba.addUser(firstName, lastName, username, password, email, phone, birthday,
-                            address, type);
-                    dba.close();
+        // Check for valid phone number
+        else if (TextUtils.isEmpty(phone)) {
+            mPhoneView.setError(getString(R.string.error_field_required));
+            focusView = mPhoneView;
+            cancel = true;
+        } else if (!PhoneNumberUtils.isGlobalPhoneNumber(phone)) {
+            mPhoneView.setError("Invalid phone number");
+            focusView = mPhoneView;
+            cancel = true;
+        }
 
-                    Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(nextScreen);
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            model.close();
+            focusView.requestFocus();
 
-                }
-            }
+        } else {
+            // Add the user to the system and advance to the login screen
+            model.addUser(firstName, lastName, username, password, email, phone, birthday,
+                    address, type);
+            model.close();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(nextScreen);
 
-            }
-        });
+        }
     }
 
     /**

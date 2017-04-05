@@ -6,13 +6,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.database.Cursor;
-import android.util.Log;
-
-import java.io.IOException;
 
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.controller.LoginActivity;
-import ruggedoutdoors.cleanwater.controller.RegistrationActivity;
 import ruggedoutdoors.cleanwater.model.*;
 
 
@@ -27,11 +22,11 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        AnyDBAdapter dba = new AnyDBAdapter(this);
-        dba.open();
+        Model model = new Model(this);
+        model.open();
 //        dba.ExampleCommand("en-CA");
 
-        Cursor c = dba.ExampleSelect();
+        Cursor c = model.ExampleSelect();
         String select = "";
         Boolean test = false;
         try {
@@ -46,7 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
         } finally {
             c.close();
         }
-        dba.close();
+        model.close();
         if (!test) {
             throw new IllegalArgumentException("Logic Failed");
         }

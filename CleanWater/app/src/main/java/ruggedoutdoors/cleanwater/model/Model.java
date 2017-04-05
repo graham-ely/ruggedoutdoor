@@ -1,330 +1,213 @@
 package ruggedoutdoors.cleanwater.model;
 
-import com.google.android.gms.fitness.data.Value;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import android.util.Log;
-
+import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 /**
- * Created by karanachtani on 3/19/17.
+ * Created by Austin Dunn on 4/3/17.
  */
 
 public class Model {
 
-    //Singleton attributes
+    private static final String TAG = "AnyDBAdapter";
+    private DatabaseHelper mDbHelper;
+    private static SQLiteDatabase mDb;
+    private static String currUserType;
 
-    private static Model singleton;
+    private static String DB_PATH = "/data/data/ruggedoutdoors.cleanwater/databases/";
 
-    /**
-     * gets the single instance of the model
-     * @return the instance of the model
-     */
-    public static Model getInstance() {
-        if (singleton == null) {
-            singleton = new Model();
-        }
-        return singleton;
+    private static final String DATABASE_NAME = "model";
+
+    private static final int DATABASE_VERSION = 3;
+
+    private final Context adapterContext;
+
+    public Model(Context context) {
+        this.adapterContext = context;
     }
 
+    public Model open() throws SQLException {
+        mDbHelper = new DatabaseHelper(adapterContext);
 
-    // instance attributes
-    private User currentUser;
-    private Report activeReport;
-    private ValueEventListener listener;
-
-    //set up firebase
-    private FirebaseDatabase database;
-    private DatabaseReference mDatabase = database.getInstance().getReference("users");
-
-    /**
-     * logs in the user
-     * @param username String username
-     * @param password String password
-     * @return whether the user has been logged in or not
-     */
-    public boolean logIn(final String username, final String password) {
         try {
-            listener = mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.d("TEST", "OnDataChange Ran");
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        if (snapshot.getValue(User.class) != null) {
-                            setUser(snapshot.getValue(User.class));
-                            if (!snapshot.hasChild(getUsername())) {
-                                throw new NoSuchElementException("User not found.");
-                            } else if (!snapshot.hasChild(getPassword())) {
-                                throw new InvalidParameterException("Incorrect Password");
-                            }
-                        }
+            mDbHelper.createDataBase();
+        } catch (IOException ioe) {
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            mDbHelper.openDataBase();
+        } catch (SQLException sqle) {
+            throw sqle;
+        }
+        return this;
+    }
+
+    public Cursor ExampleSelect()
+    {
+        String query = "SELECT username FROM Users";
+        return mDb.rawQuery(query, null);
+    }
+
+    public void ExampleCommand(String myVariable1)
+    {
+//        String command = "create table Users (_id integer primary key autoincrement, " +
+//                "firstName text, lastName text, username text, password text, " +
+//                "email text, phone text, birthday text, address text, userType text)";
+        String command = "INSERT INTO Users (firstName, lastName, username, password, email, phone, birthday, address, userType) " +
+                "VALUES ('Bob', 'Builder', 'builder', '12345', '@build', '890674381', '00/00/00', 'random address', 'MANAGER')";
+        mDb.execSQL(command);
+    }
+
+    public void addUser(String firstname, String lastname, String username, String password,
+                        String email, String phone, String birthday, String address,
+                        String userType) {
+        String command = "INSERT INTO Users (firstName, lastName, username, password, email, " +
+                "phone, birthday, address, userType) " + "VALUES ('" + firstname + "', '" +
+                lastname + "', '" + username + "', '" + password + "', '" + email + "', " + "'" +
+                phone + "', '" + birthday + "', '" + address + "', '" + userType + "')";
+        mDb.execSQL(command);
+    }
+
+    public Cursor selectUser() {
+        String query = "SELECT firstName, lastName, username, password, email, phone, birthday, " +
+                "address, userType FROM Users";
+        return mDb.rawQuery(query, null);
+    }
+
+    public Boolean checkUsername(String username) {
+        String query = "SELECT username FROM Users";
+        Cursor c = mDb.rawQuery(query, null);
+        try {
+            if (c.moveToFirst()){
+                do{
+                    String user = c.getString(0);
+                    if (user.equals(username)) {
+                        c.close();
+                        mDb.close();
+                        return true;
                     }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-            mDatabase.removeEventListener(listener);
-            return true;
-        } catch (Exception e) {
-            mDatabase.removeEventListener(listener);
-            throw e;
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
         }
-//        try {
-//            currentUser = Users.getUser(username);
-//            return true;
-//        } catch (Exception e) {
-//            throw e;
-//        }
+        mDb.close();
+        return false;
     }
 
-    /**
-     *
-     * @return username of current user
-     */
-    public String getUsername() {
-        return currentUser.getUsername();
-    }
-
-    /**
-     *
-     * @return password of current user
-     */
-    public String getPassword() {
-        return currentUser.getPassword();
-    }
-
-    /**
-     *
-     * @return first name of current user
-     */
-    public String getFirstName() {
-        return currentUser.getFirstName();
-    }
-
-    /**
-     *
-     * @return last name of current user
-     */
-    public String getLastName() {
-        return currentUser.getLastName();
-    }
-
-    /**
-     *
-     * @return address of current user
-     */
-    public String getAddress() {
-        return currentUser.getAddress();
-    }
-
-    /**
-     *
-     * @return birthday  of current user
-     */
-    public String getBirthday() {
-        return currentUser.getBirthday();
-    }
-
-    /**
-     *
-     * @return phone number of current user
-     */
-    public String getPhone() {
-        return currentUser.getPhone();
-    }
-
-    /**
-     *
-     * @return email of current user
-     */
-    public String getEmail() {
-        return currentUser.getEmail();
-    }
-
-    /**
-     *
-     * @return userType of current user
-     */
-    public String getUserType() {
-        return currentUser.getUserType().toString();
-    }
-
-    /**
-     * sets currentUser
-     * @param user
-     */
-    public void setUser(User user) {
-        this.currentUser = user;
-    }
-
-    /**
-     * adds a new source report to the model
-     * @param latitude
-     * @param longitude
-     * @param waterType
-     * @param waterCondition
-     * @return whether it was added or not
-     */
-    public boolean addSourceReport(double latitude, double longitude, String waterType,
-                             String waterCondition) {
-        Reports.add(new SourceReport(currentUser, new Location(latitude, longitude),
-                WaterType.valueOf(waterType.toUpperCase()), WaterCondition.valueOf(waterCondition.toUpperCase())));
-        return true;
-    }
-
-    /**
-     * adds a new purity report to the model
-     * @param latitude
-     * @param longitude
-     * @param overallCondition
-     * @param virusPPM
-     * @param contaminantPPM
-     * @return whether it was added or not
-     */
-    public boolean addPurityReport(double latitude, double longitude,
-                                   String overallCondition, double virusPPM, double contaminantPPM) {
-        Reports.add(new PurityReport(currentUser, new Location(latitude, longitude),
-                OverallCondition.valueOf(overallCondition), virusPPM, contaminantPPM));
-        return true;
-    }
-
-    /**
-     * logs the user out of the model and resets the singleton
-     * @return the new singleton
-     */
-    public Model logOut() {
-        singleton = new Model();
-        return singleton;
-    }
-
-    /**
-     * updates user information
-     * @param birthday
-     * @param email
-     * @param phone
-     * @param address
-     * @param userType
-     */
-    public void updateUserInfo(String birthday, String email, String phone, String address, String userType) {
-        currentUser.setAddress(address);
-        currentUser.setBirthday(birthday);
-        currentUser.setPhone(phone);
-        currentUser.setEmail(email);
-        currentUser.setUserType(UserType.valueOf(userType));
-    }
-
-    /**
-     * checks if a given user exists
-     * @param username to check
-     * @return whether it exists or not
-     */
-    public boolean checkIfUserExists(String username) {
-        return Users.hasUser(username);
-    }
-
-    /**
-     * adds a new user to the model
-     * @param firstName
-     * @param lastName
-     * @param username
-     * @param password
-     * @param email
-     * @param phone
-     * @param birthday
-     * @param address
-     * @param type
-     */
-    public void addUser(String firstName, String lastName, String username, String password,
-                        String email, String phone, String birthday, String address, String type) {
-        Users.add(new User(firstName, lastName, username, password, email, phone, birthday,
-                address, UserType.valueOf(type)));
-    }
-
-    public void setActiveReport(int reportId) {
-        activeReport = Reports.getReport(reportId);
-    }
-
-    public boolean hasActiveReport() {
-        return activeReport != null;
-    }
-
-    public int getReportNumber() {
-            return activeReport.getReportNumber();
-    }
-
-    public String getReporterName() {
-        return activeReport.getReporterName();
-    }
-
-    public double getLatitude() {
-        return activeReport.getLatitude();
-    }
-
-    public double getLongitude() {
-        return activeReport.getLongitude();
-    }
-
-    public String getDateTime() {
-        return activeReport.getDateTime().toString();
-    }
-
-    public String getWaterCondition() {
-        if (activeReport instanceof SourceReport) {
-            return ((SourceReport) activeReport).getWaterCondition().toString();
-        } else if (activeReport instanceof PurityReport) {
-            return ((PurityReport) activeReport).getOverallCondition().toString();
+    public Boolean logIn(String username, String password) {
+        String query = "SELECT username, password, userType FROM Users";
+        Cursor c = mDb.rawQuery(query, null);
+        try {
+            if (c.moveToFirst()){
+                do{
+                    String user = c.getString(0);
+                    String pass = c.getString(1);
+                    if (user.equals(username) && pass.equals(password)) {
+                        currUserType = c.getString(2);
+                        c.close();
+                        mDb.close();
+                        return true;
+                    }
+                    if (user.equals(username) && !pass.equals(password)) {
+                        c.close();
+                        mDb.close();
+                        throw new InvalidParameterException("Incorrect Password");
+                    }
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
         }
-        return "";
-    }
-
-    public String getWaterType() {
-        return ((SourceReport) activeReport).getWaterType().toString();
-    }
-
-    public double getVirusPPM() {
-        return ((PurityReport) activeReport).getVirusPPM();
-    }
-
-    public double getContaminantPPM() {
-        return ((PurityReport) activeReport).getContaminantPPM();
+        mDb.close();
+        throw new NoSuchElementException("User not found.");
     }
 
     public boolean canFilePurityReport() {
-        return currentUser.getUserType() == UserType.WORKER || currentUser.getUserType() == UserType.MANAGER;
+        return currUserType.equals("WORKER") || currUserType.equals("MANAGER");
     }
 
     public boolean canViewPurityReport() {
-        return currentUser.getUserType() == UserType.MANAGER;
+        return currUserType.equals("MANAGER");
     }
 
-    public List<Report> getSourceReportArray() {
-        List<Report> reports = Reports.getReportArray();
-        ArrayList<Report> toReturn = new ArrayList<>();
-        for (Report r : reports) {
-            if ((r instanceof SourceReport)) {
-                toReturn.add(r);
-            }
-        }
-        return toReturn;
+    public void close() {
+        mDbHelper.close();
     }
 
-    public List<Report> getPurityReportArray() {
-        List<Report> reports = Reports.getReportArray();
-        ArrayList<Report> toReturn = new ArrayList<>();
-        for (Report r : reports) {
-            if ((r instanceof PurityReport)) {
-                toReturn.add(r);
+    private static class DatabaseHelper extends SQLiteOpenHelper {
+
+        Context helperContext;
+
+        DatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+            helperContext = context;
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.w(TAG, "Upgrading database!!!!!");
+            //db.execSQL("");
+            onCreate(db);
+        }
+
+        public void createDataBase() throws IOException {
+            boolean dbExist = checkDataBase();
+            if (dbExist) {
+            } else {
+                String command = "create table if not exists Users (_id integer primary key autoincrement, " +
+                        "firstName text, lastName text, username text, password text, " +
+                        "email text, phone text, birthday text, address text, userType text)";
+                mDb.execSQL(command);
+                this.getReadableDatabase();
             }
         }
-        return toReturn;
+
+        private boolean checkDataBase() {
+            SQLiteDatabase checkDB = null;
+            try {
+                String myPath = DB_PATH + DATABASE_NAME;
+                checkDB = SQLiteDatabase.openDatabase(myPath, null,
+                        SQLiteDatabase.OPEN_READONLY);
+            } catch (SQLiteException e) {
+            }
+            if (checkDB != null) {
+                checkDB.close();
+            }
+            return checkDB != null ? true : false;
+        }
+
+        public void openDataBase() throws SQLException {
+            // Open the database
+            String myPath = DB_PATH + DATABASE_NAME;
+            mDb = SQLiteDatabase.openDatabase(myPath, null,
+                    SQLiteDatabase.OPEN_READWRITE);
+        }
+
+        @Override
+        public synchronized void close() {
+
+            if (mDb != null) {
+                mDb.close();
+            }
+
+            super.close();
+
+        }
     }
+
 }
