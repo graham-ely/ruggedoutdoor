@@ -300,6 +300,10 @@ public class Model {
         return currentUser.getUserType() == UserType.MANAGER;
     }
 
+    public boolean canViewHistoryGraph() {
+        return currentUser.getUserType() == UserType.MANAGER;
+    }
+
     public List<SourceReport> getSourceReportArray() {
         return srmf.getSourceReportsAsList();
     }

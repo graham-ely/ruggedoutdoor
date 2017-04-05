@@ -94,12 +94,19 @@ public class HomescreenActivity extends AppCompatActivity {
         });
 
         Button mHistoryGraphButton = (Button) findViewById(R.id.historyGraphButton);
-        mHistoryGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent nextScreen = new Intent(getApplicationContext(), GraphActivity.class);
-                startActivity(nextScreen);
-            }
-        });
+
+        if (model.canViewHistoryGraph()) {
+            mHistoryGraphButton.setVisibility(View.VISIBLE);
+            mHistoryGraphButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent nextScreen = new Intent(getApplicationContext(), GraphActivity.class);
+                    startActivity(nextScreen);
+                }
+            });
+        } else {
+            mHistoryGraphButton.setVisibility(View.GONE);
+        }
+
     }
 }
