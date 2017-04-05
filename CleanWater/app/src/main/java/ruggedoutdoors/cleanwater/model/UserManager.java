@@ -128,19 +128,4 @@ class UserManager implements Serializable {
             userMap.put(s.getUsername(), s);
         }
     }
-
-    /**
-     * used by command pattern, should be not called otherwise
-     *
-     * @param user the user to add
-     */
-    void addUser(User user) {
-        users.add(user);
-        userMap.put(user.getUsername(), user);
-    }
-
-    void removeUser(User user) {
-        users.remove(user);
-        userMap.remove(user.getUsername());
-    }
 }

@@ -29,10 +29,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
+import java.io.File;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.SourceReport;
+import ruggedoutdoors.cleanwater.model.SourceReportManagementFacade;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -43,6 +45,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model.loadSourceReportData(new File(getFilesDir(), SourceReportManagementFacade.SOURCE_REPORT_TEXT_FILE_NAME));
         setContentView(R.layout.activity_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -65,38 +68,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//        // Setting a click event handler for the map
-//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//
-//
-//
-//                // Creating a marker
-//                MarkerOptions markerOptions = new MarkerOptions();
-//
-//                // Setting the position for the marker
-//                markerOptions.position(latLng);
-//
-//
-//
-//                // Clears the previously touched position
-//                // mMap.clear();
-//                reports.add(new Report());
-//
-//                // Setting the title for the marker.
-//                // This will be displayed on taping the marker
-//                markerOptions.title(mFacade.getLastReport().getName());
-//                markerOptions.snippet(mFacade.getLastReport().getDescription());
-//
-//                // Animating to the touched position
-//                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-//
-//                // Placing a marker on the touched position
-//                mMap.addMarker(markerOptions);
-//            }
-//        });
 
         for (SourceReport r : reports) {
             LatLng loc = new LatLng(r.getLatitude(), r.getLongitude());
