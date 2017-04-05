@@ -273,7 +273,7 @@ public class Model {
 
     public String getWaterCondition() {
         if (activeReport instanceof SourceReport) {
-            return ((SourceReport) activeReport).getWaterCondition().toString();
+            return activeReport.getWaterCondition().toString();
         } else if (activeReport instanceof PurityReport) {
             return ((PurityReport) activeReport).getOverallCondition().toString();
         }
@@ -281,7 +281,7 @@ public class Model {
     }
 
     public String getWaterType() {
-        return ((SourceReport) activeReport).getWaterType().toString();
+        return activeReport.getWaterType().toString();
     }
 
     public double getVirusPPM() {

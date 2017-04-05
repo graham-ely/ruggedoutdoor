@@ -5,5 +5,5 @@ package ruggedoutdoors.cleanwater.model;
  */
 
 public enum OverallCondition {
-    SAFE, TREATABLE, UNSAFE;
+    SAFE, TREATABLE, UNSAFE
 }
