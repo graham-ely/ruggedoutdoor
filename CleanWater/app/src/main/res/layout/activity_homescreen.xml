@@ -11,6 +11,14 @@
     tools:context="ruggedoutdoors.cleanwater.controller.HomescreenActivity">
 
     <Button
+        android:id="@+id/viewMapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewPurityReportsButton"
+        android:layout_centerHorizontal="true"
+        android:text="Map of Source Reports" />
+
+    <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,19 +79,19 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Map of Source Reports"
+        android:id="@+id/historyGraphButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/viewMapButton"
-        android:layout_below="@+id/viewPurityReportsButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/viewMapButton"
+        android:layout_centerHorizontal="true"
+        android:text="History Graph" />
 
     <Button
         android:text="@string/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logoutButton"
-        android:layout_below="@+id/viewMapButton"
+        android:layout_below="@+id/historyGraphButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
