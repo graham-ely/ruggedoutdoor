@@ -34,4 +34,6 @@
     <string name="title_activity_file_purity_report">FilePurityReportActivity</string>
     <string name="title_purityreport_list">PurityReports</string>
     <string name="title_purityreport_detail">PurityReport Detail</string>
+    <string name="title_activity_login_test">Sign in</string>
+    <string name="action_sign_in">Sign in or register</string>
 </resources>
