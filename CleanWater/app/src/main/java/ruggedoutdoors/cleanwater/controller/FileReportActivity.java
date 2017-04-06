@@ -46,8 +46,6 @@ public class FileReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_report);
 
-        Model model = new Model(this);
-
         // Set up the file report form.
         mWaterLocationLatView = (EditText) findViewById(R.id.water_location_latitude);
         mWaterLocationLonView = (EditText) findViewById(R.id.water_location_longitude);
@@ -102,8 +100,6 @@ public class FileReportActivity extends AppCompatActivity {
 
         boolean cancel = false;
         View focusView = null;
-
-        Model model = new Model(this);
 
         try {
             lat = Double.valueOf(waterLocationLat);

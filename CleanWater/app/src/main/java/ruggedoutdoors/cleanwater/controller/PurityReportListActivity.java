@@ -61,7 +61,9 @@ public class PurityReportListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        model.open();
         recyclerView.setAdapter(new SimpleReportRecyclerViewAdapter(model.getPurityReportArray()));
+        model.close();
     }
 
     public class SimpleReportRecyclerViewAdapter

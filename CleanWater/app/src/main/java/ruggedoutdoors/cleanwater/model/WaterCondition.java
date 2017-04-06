@@ -9,23 +9,23 @@ public enum WaterCondition {
     WASTE {
         @Override
         public String toString() {
-            return "Waste";
+            return "WASTE";
         }
     },
     TREATABLECLEAR {
         @Override
-        public String toString() { return "Treatable and Clear"; }
+        public String toString() { return "TREATABLECLEAR"; }
     },
     TREATABLEMUDDY {
         @Override
         public String toString() {
-            return "Treatable and Muddy";
+            return "TREATABLEMUDDY";
         }
     },
     POTABLE {
         @Override
         public String toString() {
-            return "Potable";
+            return "POTABLE";
         }
     }
 }

@@ -50,7 +50,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        model.open();
         reports = model.getSourceReportArray();
+        model.close();
     }
 
 

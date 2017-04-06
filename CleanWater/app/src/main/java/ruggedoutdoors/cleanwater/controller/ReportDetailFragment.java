@@ -44,7 +44,9 @@ public class ReportDetailFragment extends Fragment {
 
         //Check if we got a valid report passed to us
         if (getArguments().containsKey(ARG_REPORT_ID)) {
+            model.open();
             model.setActiveReport(getArguments().getInt(ARG_REPORT_ID));
+            model.close();
             //Log.d("CourseDetailFragment", "Passing over course: " + mCourse);
             //Log.d("CourseDetailFragment", "Got students: " + mCourse.getStudents().size());
 

@@ -9,35 +9,35 @@ public enum WaterType {
     BOTTLED {
         @Override
         public String toString() {
-            return "Bottled";
+            return "BOTTLED";
         }
     },
     WELL {
         @Override
-        public String toString() { return "Well"; }
+        public String toString() { return "WELL"; }
     },
     STREAM {
         @Override
         public String toString() {
-            return "Stream";
+            return "STREAM";
         }
     },
     LAKE {
         @Override
         public String toString() {
-            return "Lake";
+            return "LAKE";
         }
     },
     SPRING {
         @Override
         public String toString() {
-            return "Spring";
+            return "SPRING";
         }
     },
     OTHER {
         @Override
         public String toString() {
-            return "Other";
+            return "OTHER";
         }
     }
 }

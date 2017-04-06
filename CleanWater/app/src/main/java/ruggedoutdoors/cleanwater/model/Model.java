@@ -94,6 +94,21 @@ public class Model {
         mDb.execSQL(command3);
     }
 
+    public void clearUsers() {
+        String command = "DELETE FROM Users";
+        mDb.execSQL(command);
+    }
+
+    public void clearSourceReports() {
+        String command = "DELETE FROM SourceReports";
+        mDb.execSQL(command);
+    }
+
+    public void clearPurityReports() {
+        String command = "DELETE FROM PurityReports";
+        mDb.execSQL(command);
+    }
+
     public void addUser(String firstname, String lastname, String username, String password,
                         String email, String phone, String birthday, String address,
                         String userType) {

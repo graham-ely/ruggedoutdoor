@@ -60,7 +60,9 @@ public class ReportListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        model.open();
         recyclerView.setAdapter(new SimpleReportRecyclerViewAdapter(model.getSourceReportArray()));
+        model.close();
     }
 
     public class SimpleReportRecyclerViewAdapter

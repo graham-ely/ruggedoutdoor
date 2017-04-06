@@ -173,6 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         } else {
             // Add the user to the system and advance to the login screen
+            model.open();
             model.addUser(firstName, lastName, username, password, email, phone, birthday,
                     address, type);
             model.close();

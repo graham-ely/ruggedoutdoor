@@ -8,17 +8,17 @@ public enum OverallCondition {
     SAFE {
         @Override
         public String toString() {
-            return "Safe";
+            return "SAFE";
         }
     }, TREATABLE {
         @Override
         public String toString() {
-            return "Treatable";
+            return "TREATABLE";
         }
     }, UNSAFE {
         @Override
         public String toString() {
-            return "Unsafe";
+            return "UNSAFE";
         }
     };
 }
