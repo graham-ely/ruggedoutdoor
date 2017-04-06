@@ -396,16 +396,6 @@ public class Model {
             boolean dbExist = checkDataBase();
             if (dbExist) {
             } else {
-                String command1 = "create table if not exists Users (_id integer primary key autoincrement, " +
-                        "firstName text, lastName text, username text, password text, " +
-                        "email text, phone text, birthday text, address text, userType text)";
-                mDb.execSQL(command1);
-                String command2 = "create table if not exists SourceReports (_id integer primary key autoincrement, " +
-                        "latitude text, longitude text, waterType text, waterCondition text)";
-                mDb.execSQL(command2);
-                String command3 = "create table if not exists PurityReports (_id integer primary key autoincrement, " +
-                        "latitude text, longitude text, overallCondition text, vPPM text, cPPM text)";
-                mDb.execSQL(command3);
                 this.getReadableDatabase();
             }
         }
