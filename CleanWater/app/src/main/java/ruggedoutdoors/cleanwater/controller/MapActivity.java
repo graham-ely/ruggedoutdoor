@@ -39,7 +39,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     private List<Report> reports;
-    private Model model = Model.getInstance();
+    private Model model = new Model(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -40,15 +40,13 @@ public class FilePurityReportActivity extends AppCompatActivity {
     private Spinner mOverallCondition;
     private EditText mVirusPPM;
     private EditText mContaminantPPM;
-    Model model = Model.getInstance();
-    private String username;
+
+    private Model model = new Model(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_purity_report);
-
-        username = model.getUsername();
 
         // Set up the file report form.
         mWaterLocationLatView = (EditText) findViewById(R.id.water_location_latitude);
@@ -161,7 +159,10 @@ public class FilePurityReportActivity extends AppCompatActivity {
 
         } else {
             // Add the report to the system and advance to the homescreen
-            model.addPurityReport(lat, lon, overallCondition, vPPM, cPPM);
+            model.open();
+            model.addPurityReport(String.valueOf(lat), String.valueOf(lon), overallCondition,
+                    String.valueOf(vPPM), String.valueOf(cPPM));
+            model.close();
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);
         }

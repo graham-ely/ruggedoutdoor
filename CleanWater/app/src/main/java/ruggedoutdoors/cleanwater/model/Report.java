@@ -37,8 +37,6 @@ public abstract class Report implements Comparable{
     private static int reportsTotal = 0;
     private User reporter;
     private Location waterLocation;
-    private WaterType waterType;
-    private WaterCondition waterCondition;
 
     /*
      * Creates a new Report
@@ -110,42 +108,6 @@ public abstract class Report implements Comparable{
     public void setReporterName(String firstName, String lastName) {
         reporter.setFirstName(firstName);
         reporter.setLastName(lastName);
-    }
-
-    /**
-     * Returns the water type at the location
-     *
-     * @return waterType    the water type at the location
-     */
-    public WaterType getWaterType() {
-        return waterType;
-    }
-
-    /**
-     * Sets the water type at the location
-     *
-     * @param wt    water type
-     */
-    public void setWaterType(WaterType wt) {
-        waterType = wt;
-    }
-
-    /**
-     * Returns the water condition at the location
-     *
-     * @return waterCondition    the water condition at the location
-     */
-    public WaterCondition getWaterCondition() {
-        return waterCondition;
-    }
-
-    /**
-     * Sets the water condition
-     *
-     * @param wc    new water condition
-     */
-    public void setWaterCondition(WaterCondition wc) {
-        waterCondition = wc;
     }
 
     /**

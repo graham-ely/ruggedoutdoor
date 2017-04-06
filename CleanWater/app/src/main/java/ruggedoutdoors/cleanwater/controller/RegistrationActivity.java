@@ -34,6 +34,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mBirthdayView;
     private Spinner  mUserTypeView;
 
+    private Model model = new Model(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,6 @@ public class RegistrationActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        Model model = new Model(RegistrationActivity.this);
         model.open();
 
         // Check for a valid first name.

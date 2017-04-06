@@ -1,8 +1,5 @@
 package ruggedoutdoors.cleanwater.model;
 
-import java.security.InvalidParameterException;
-import java.util.Date;
-
 /**
  * Created by gde on 3/2/17.
  * Modified by Austin Dunn on 3/13/17

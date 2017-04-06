@@ -18,9 +18,7 @@ import android.widget.TextView;
 
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
-import ruggedoutdoors.cleanwater.model.User;
 import ruggedoutdoors.cleanwater.model.UserType;
-import ruggedoutdoors.cleanwater.model.Users;
 
 /**
  * An edit screen that allows the user to update his/her details
@@ -35,7 +33,8 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
     private EditText mAddressView;
     private EditText mBirthdayView;
     private Spinner mUserTypeView;
-    private Model model = Model.getInstance();
+
+    private Model model = new Model(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
         mNameTextView.setText(model.getFirstName() + " " + model.getLastName());
 
         mUsernameTextView = (TextView) findViewById(R.id.editUser_username_label_dynamic);
-        mUsernameTextView.setText(model.getUsername());
+        mUsernameTextView.setText(model.getUserName());
 
         mEmailView = (EditText) findViewById(R.id.editUser_email);
         mEmailView.setText(model.getEmail());
@@ -105,6 +104,8 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
 
         boolean cancel = false;
         View focusView = null;
+
+        Model model = new Model(this);
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {

@@ -5,5 +5,20 @@ package ruggedoutdoors.cleanwater.model;
  */
 
 public enum OverallCondition {
-    SAFE, TREATABLE, UNSAFE;
+    SAFE {
+        @Override
+        public String toString() {
+            return "Safe";
+        }
+    }, TREATABLE {
+        @Override
+        public String toString() {
+            return "Treatable";
+        }
+    }, UNSAFE {
+        @Override
+        public String toString() {
+            return "Unsafe";
+        }
+    };
 }

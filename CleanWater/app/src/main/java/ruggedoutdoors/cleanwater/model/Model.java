@@ -2,7 +2,10 @@ package ruggedoutdoors.cleanwater.model;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -18,10 +21,32 @@ import android.util.Log;
 
 public class Model {
 
-    private static final String TAG = "AnyDBAdapter";
+    private static final String TAG = "Model";
     private DatabaseHelper mDbHelper;
     private static SQLiteDatabase mDb;
+
+    // current user variables
+    private static String currFirstName;
+    private static String currLastName;
+    private static String currUserName;
+    private static String currPassword;
+    private static String currEmail;
+    private static String currPhone;
+    private static String currBirthday;
+    private static String currAddress;
     private static String currUserType;
+
+    // active report variables
+    private static int activeReportNumber;
+    private static String activeReporterName;
+    private static Date activeDateTime;
+    private static double activeLatitude;
+    private static double activeLongitude;
+    private static WaterType activeWaterType;
+    private static WaterCondition activeWaterCondition;
+    private static OverallCondition activeOverallCondition;
+    private static double activeVPPM;
+    private static double activeCPPM;
 
     private static String DB_PATH = "/data/data/ruggedoutdoors.cleanwater/databases/";
 
@@ -30,6 +55,10 @@ public class Model {
     private static final int DATABASE_VERSION = 3;
 
     private final Context adapterContext;
+
+    public Model() {
+        this.adapterContext = null;
+    }
 
     public Model(Context context) {
         this.adapterContext = context;
@@ -52,20 +81,17 @@ public class Model {
         return this;
     }
 
-    public Cursor ExampleSelect()
-    {
-        String query = "SELECT username FROM Users";
-        return mDb.rawQuery(query, null);
-    }
-
-    public void ExampleCommand(String myVariable1)
-    {
-//        String command = "create table Users (_id integer primary key autoincrement, " +
-//                "firstName text, lastName text, username text, password text, " +
-//                "email text, phone text, birthday text, address text, userType text)";
-        String command = "INSERT INTO Users (firstName, lastName, username, password, email, phone, birthday, address, userType) " +
-                "VALUES ('Bob', 'Builder', 'builder', '12345', '@build', '890674381', '00/00/00', 'random address', 'MANAGER')";
-        mDb.execSQL(command);
+    public void init() {
+        String command1 = "create table if not exists Users (_id integer primary key autoincrement, " +
+                "firstName text, lastName text, username text, password text, " +
+                "email text, phone text, birthday text, address text, userType text)";
+        mDb.execSQL(command1);
+        String command2 = "create table if not exists SourceReports (_id integer primary key autoincrement, " +
+                "latitude text, longitude text, waterType text, waterCondition text)";
+        mDb.execSQL(command2);
+        String command3 = "create table if not exists PurityReports (_id integer primary key autoincrement, " +
+                "latitude text, longitude text, overallCondition text, vPPM text, cPPM text)";
+        mDb.execSQL(command3);
     }
 
     public void addUser(String firstname, String lastname, String username, String password,
@@ -78,10 +104,155 @@ public class Model {
         mDb.execSQL(command);
     }
 
-    public Cursor selectUser() {
-        String query = "SELECT firstName, lastName, username, password, email, phone, birthday, " +
-                "address, userType FROM Users";
-        return mDb.rawQuery(query, null);
+    public void addSourceReport(String lat, String lon, String waterType, String waterCondition) {
+        String command = "INSERT INTO SourceReports (latitude, longitude, waterType, " +
+                "waterCondition) " + "VALUES ('" + lon + "', '" + lat + "', '" + waterType +
+                "', '" + waterCondition + "')";
+        mDb.execSQL(command);
+    }
+
+    public void addPurityReport(String lat, String lon, String overallCondition, String vPPM,
+                                String cPPM) {
+        String command = "INSERT INTO PurityReports (latitude, longitude, OverallCondition, " +
+                "vPPM, cPPM) " + "VALUES ('" + lon + "', '" + lat + "', '" + overallCondition +
+                "', '" + vPPM + "', '" + cPPM + "')";
+        mDb.execSQL(command);
+    }
+
+    public List<Report> getSourceReportArray() {
+        ArrayList<Report> toReturn = new ArrayList<>();
+        String query = "SELECT latitude, longitude, waterType, waterCondition FROM SourceReports";
+        Cursor c = mDb.rawQuery(query, null);
+        try {
+            if (c.moveToFirst()){
+                do{
+                    SourceReport temp = new SourceReport(new User(currFirstName, currLastName,
+                            currUserName, currPassword, currEmail, currPhone, currBirthday,
+                            currAddress, UserType.valueOf(currUserType)),
+                            new Location(Double.parseDouble(c.getString(0)),
+                                    Double.parseDouble(c.getString(1))),
+                                    WaterType.valueOf(c.getString(2)),
+                                    WaterCondition.valueOf(c.getString(3)));
+                    toReturn.add(temp);
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
+        }
+        mDb.close();
+        return toReturn;
+    }
+
+    public List<Report> getPurityReportArray() {
+        ArrayList<Report> toReturn = new ArrayList<>();
+        String query = "SELECT latitude, longitude, overallCondition, vPPM, cPPM FROM PurityReports";
+        Cursor c = mDb.rawQuery(query, null);
+        try {
+            if (c.moveToFirst()){
+                do{
+                    PurityReport temp = new PurityReport(new User(currFirstName, currLastName,
+                            currUserName, currPassword, currEmail, currPhone, currBirthday,
+                            currAddress, UserType.valueOf(currUserType)),
+                            new Location(Double.parseDouble(c.getString(0)), Double.parseDouble(c.getString(1))), OverallCondition.valueOf(c.getString(2)), Double.parseDouble(c.getString(3)), Double.parseDouble(c.getString(4)));
+                    toReturn.add(temp);
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
+        }
+        mDb.close();
+        return toReturn;
+    }
+
+    public void setActiveReport(Report report) {
+        activeReportNumber = report.getReportNumber();
+        activeReporterName = report.getReporterName();
+        activeDateTime = report.getDateTime();
+        activeLatitude = report.getLatitude();
+        activeLongitude = report.getLongitude();
+        if (report instanceof PurityReport) {
+            activeOverallCondition = ((PurityReport) report).getOverallCondition();
+            activeCPPM = ((PurityReport) report).getContaminantPPM();
+            activeVPPM = ((PurityReport) report).getVirusPPM();
+        } else {
+            activeWaterCondition = ((SourceReport) report).getWaterCondition();
+            activeWaterType = ((SourceReport) report).getWaterType();
+        }
+    }
+
+    public void setActiveReport(int id) {
+        List<Report> reports = getSourceReportArray();
+        Report report1 = null;
+        for (Report r : reports) {
+            if (r.getReportNumber() == id) {
+                report1 = r;
+            }
+        }
+        activeReportNumber = report1.getReportNumber();
+        activeReporterName = report1.getReporterName();
+        activeDateTime = report1.getDateTime();
+        activeLatitude = report1.getLatitude();
+        activeLongitude = report1.getLongitude();
+        if (report1 instanceof PurityReport) {
+            activeOverallCondition = ((PurityReport) report1).getOverallCondition();
+            activeCPPM = ((PurityReport) report1).getContaminantPPM();
+            activeVPPM = ((PurityReport) report1).getVirusPPM();
+        } else {
+            activeWaterCondition = ((SourceReport) report1).getWaterCondition();
+            activeWaterType = ((SourceReport) report1).getWaterType();
+        }
+    }
+
+    public Boolean hasActiveReport() {
+        return activeDateTime != null;
+    }
+
+    public int getReportNumber() {
+        return activeReportNumber;
+    }
+
+    public String getDateTime() {
+        return activeDateTime.toString();
+    }
+
+    public double getLatitude() {
+        return activeLatitude;
+    }
+
+    public double getLongitude() {
+        return activeLongitude;
+    }
+
+    public String getWaterCondition() {
+        return activeWaterCondition.toString();
+    }
+
+    public String getWaterType() {
+        return activeWaterType.toString();
+    }
+
+    public String getOverallCondition() {
+        return activeOverallCondition.toString();
+    }
+
+    public double getVirusPPM() {
+        return activeVPPM;
+    }
+
+    public double getContaminantPPM() {
+        return activeCPPM;
+    }
+
+    public String getReporterName() {
+        return activeReporterName;
+    }
+
+    public void updateUserInfo(String birthday, String email, String phone, String address,
+                               String userType) {
+        String command = "UPDATE Users SET birthday = '"+ birthday +"', email = '"+ email +
+                "', phone = '"+ phone +"', address = '"+ address +"', userType = '"+ userType +
+                "' WHERE username = '"+ currUserName +"'";
+        mDb.execSQL(command);
     }
 
     public Boolean checkUsername(String username) {
@@ -106,15 +277,24 @@ public class Model {
     }
 
     public Boolean logIn(String username, String password) {
-        String query = "SELECT username, password, userType FROM Users";
+        String query = "SELECT firstName, lastName, username, password, email, phone, birthday, " +
+                "address, userType FROM Users";
         Cursor c = mDb.rawQuery(query, null);
         try {
             if (c.moveToFirst()){
                 do{
-                    String user = c.getString(0);
-                    String pass = c.getString(1);
+                    String user = c.getString(2);
+                    String pass = c.getString(3);
                     if (user.equals(username) && pass.equals(password)) {
-                        currUserType = c.getString(2);
+                        currFirstName = c.getString(0);
+                        currLastName = c.getString(1);
+                        currUserName = c.getString(2);
+                        currPassword = c.getString(3);
+                        currEmail = c.getString(4);
+                        currPhone = c.getString(5);
+                        currBirthday = c.getString(6);
+                        currAddress = c.getString(7);
+                        currUserType = c.getString(8);
                         c.close();
                         mDb.close();
                         return true;
@@ -131,6 +311,38 @@ public class Model {
         }
         mDb.close();
         throw new NoSuchElementException("User not found.");
+    }
+
+    public String getFirstName() {
+        return currFirstName;
+    }
+
+    public String getLastName() {
+        return currLastName;
+    }
+
+    public String getUserName() {
+        return currUserName;
+    }
+
+    public String getEmail() {
+        return currEmail;
+    }
+
+    public String getPhone() {
+        return currPhone;
+    }
+
+    public String getBirthday() {
+        return currBirthday;
+    }
+
+    public String getAddress() {
+        return currAddress;
+    }
+
+    public String getUserType() {
+        return currUserType;
     }
 
     public boolean canFilePurityReport() {
@@ -169,10 +381,16 @@ public class Model {
             boolean dbExist = checkDataBase();
             if (dbExist) {
             } else {
-                String command = "create table if not exists Users (_id integer primary key autoincrement, " +
+                String command1 = "create table if not exists Users (_id integer primary key autoincrement, " +
                         "firstName text, lastName text, username text, password text, " +
                         "email text, phone text, birthday text, address text, userType text)";
-                mDb.execSQL(command);
+                mDb.execSQL(command1);
+                String command2 = "create table if not exists SourceReports (_id integer primary key autoincrement, " +
+                        "latitude text, longitude text, waterType text, waterCondition text)";
+                mDb.execSQL(command2);
+                String command3 = "create table if not exists PurityReports (_id integer primary key autoincrement, " +
+                        "latitude text, longitude text, overallCondition text, vPPM text, cPPM text)";
+                mDb.execSQL(command3);
                 this.getReadableDatabase();
             }
         }

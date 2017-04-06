@@ -38,15 +38,15 @@ public class FileReportActivity extends AppCompatActivity {
     private EditText mWaterLocationLonView;
     private Spinner mWaterTypeView;
     private Spinner mWaterConditionView;
-    Model model = Model.getInstance();
-    private String username;
+
+    private Model model = new Model(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_report);
 
-        username = model.getUsername();
+        Model model = new Model(this);
 
         // Set up the file report form.
         mWaterLocationLatView = (EditText) findViewById(R.id.water_location_latitude);
@@ -103,6 +103,8 @@ public class FileReportActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
+        Model model = new Model(this);
+
         try {
             lat = Double.valueOf(waterLocationLat);
             if (lat < -90.0 || lat > 90.0) {
@@ -137,8 +139,9 @@ public class FileReportActivity extends AppCompatActivity {
 
         } else {
             // Add the report to the system and advance to the homescreen
-            model.addSourceReport(lat, lon, waterType.toString(), waterCondition.toString());
-
+            model.open();
+            model.addSourceReport(String.valueOf(lat), String.valueOf(lon), waterType.toString(), waterCondition.toString());
+            model.close();
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);
         }

@@ -24,16 +24,13 @@ public class PurityReportDetailFragment extends Fragment {
 
     private TextView mReporterTextView, mLocationTextView, mTimestampTextView, mConditionTextView, mVirusPPMView, mContaminantPPMView;
 
+    private Model model = new Model();
+
     /**
      * The fragment arguments representing the  ID's that this fragment
      * represents.  Used to pass keys into other activities through Bundle/Intent
      */
     public static final String ARG_REPORT_ID = "report_id";
-
-    /**
-     * The report that this detail view is for.
-     */
-    private Model model = Model.getInstance();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,7 +75,7 @@ public class PurityReportDetailFragment extends Fragment {
             mTimestampTextView.setText(model.getDateTime());
 
             mConditionTextView = (TextView) rootView.findViewById(R.id.viewPurityReport_conditionLabel);
-            mConditionTextView.setText(model.getWaterCondition());
+            mConditionTextView.setText(model.getOverallCondition());
 
             mVirusPPMView = (TextView) rootView.findViewById(R.id.viewPurityReport_virusPPMLabel);
             mVirusPPMView.setText(String.format("%.2f", model.getVirusPPM()));

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.Report;
-import ruggedoutdoors.cleanwater.model.Reports;
 
 /**
  * A fragment representing a single Report detail screen.
@@ -30,10 +29,7 @@ public class ReportDetailFragment extends Fragment {
      */
     public static final String ARG_REPORT_ID = "report_id";
 
-    /**
-     * The report that this detail view is for.
-     */
-    private Model model = Model.getInstance();
+    private Model model = new Model();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

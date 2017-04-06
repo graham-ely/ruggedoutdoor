@@ -24,27 +24,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Model model = new Model(this);
         model.open();
-//        dba.ExampleCommand("en-CA");
-
-        Cursor c = model.ExampleSelect();
-        String select = "";
-        Boolean test = false;
-        try {
-            if (c.moveToFirst()){
-                do{
-                    String data = c.getString(c.getColumnIndex("username"));
-                    if (data.equals("builder")) {
-                        test = true;
-                    }
-                }while(c.moveToNext());
-            }
-        } finally {
-            c.close();
-        }
+        model.init();
         model.close();
-        if (!test) {
-            throw new IllegalArgumentException("Logic Failed");
-        }
 
         // for ease of testing
         //Users.add(new User("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", UserType.MANAGER));

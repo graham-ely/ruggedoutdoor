@@ -35,7 +35,7 @@ public class ReportListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-    private Model model = Model.getInstance();
+    private Model model = new Model();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

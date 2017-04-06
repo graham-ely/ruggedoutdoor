@@ -35,7 +35,8 @@ public class PurityReportListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-    private Model model = Model.getInstance();
+
+    private Model model = new Model(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class PurityReportListActivity extends AppCompatActivity {
                     if (mTwoPane) {
                         //if a two pane window, we change the contents on the main screen
                         Bundle arguments = new Bundle();
-                        model.setActiveReport(holder.mReport.getReportNumber());
+                        model.setActiveReport(holder.mReport);
 
                         ReportDetailFragment fragment = new ReportDetailFragment();
                         fragment.setArguments(arguments);
@@ -120,7 +121,7 @@ public class PurityReportListActivity extends AppCompatActivity {
                             pass along the id of the course so we can retrieve the correct data in
                             the next window
                          */
-                        model.setActiveReport(holder.mReport.getReportNumber());
+                        model.setActiveReport(holder.mReport);
 
                         //now just display the new window
                         context.startActivity(intent);

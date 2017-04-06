@@ -12,11 +12,6 @@ public class User {
     private UserType userType;
 
     /**
-     * Blank constructor required for firebase support
-     */
-    public User () {}
-
-    /**
      * constructor
      * @param fn first name
      * @param ln last name
