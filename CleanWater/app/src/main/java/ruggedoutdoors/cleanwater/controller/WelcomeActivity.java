@@ -24,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         // for ease of testing
-        model.addUser("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", "MANAGER");
+        //model.addUser("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", "MANAGER");
 
         Button mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {

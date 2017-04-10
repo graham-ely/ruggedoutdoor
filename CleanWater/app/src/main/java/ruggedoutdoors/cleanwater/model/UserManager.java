@@ -115,7 +115,6 @@ class UserManager implements Serializable {
             e.printStackTrace();
         }
         System.out.println("Done loading text file with " + users.size() + " students");
-
     }
 
 
