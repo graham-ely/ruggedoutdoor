@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import ruggedoutdoors.cleanwater.R;
-import ruggedoutdoors.cleanwater.controller.LoginActivity;
-import ruggedoutdoors.cleanwater.controller.RegistrationActivity;
 import ruggedoutdoors.cleanwater.model.*;
 
 
@@ -18,10 +16,15 @@ import ruggedoutdoors.cleanwater.model.*;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    private Model model = Model.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        
+        // for ease of testing
+        //model.addUser("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", "MANAGER");
 
         Button mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
