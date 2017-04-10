@@ -17,7 +17,7 @@ public class ModelTest {
     /**
      * The test fixture
      */
-    Model model;
+    private Model model;
 
     /**
      * This method is run before each test
@@ -35,7 +35,7 @@ public class ModelTest {
     @Test
     public void testlogIn() {
         try {
-            model.logIn("tester", "12345");
+            model.logIn("pablo", "12345");
         } catch (Exception e) {
             Assert.fail("Exception should not have been thrown here");
         }
@@ -48,7 +48,7 @@ public class ModelTest {
         }
 
         try {
-            model.logIn("tester", "89237424");
+            model.logIn("pablo", "89237424");
             Assert.fail("Exception should have been thrown here for invalid password");
         } catch (InvalidParameterException e) {
 

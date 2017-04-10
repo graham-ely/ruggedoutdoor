@@ -94,7 +94,13 @@ class UserManager implements Serializable {
         try {
             String countStr = reader.readLine();
             assert countStr != null;
-            int count = Integer.parseInt(countStr);
+            int count;
+            try {
+                count = Integer.parseInt(countStr);
+            } catch (NumberFormatException e) {
+                count = 0;
+            }
+
 
             //then read in each user to model
             for (int i = 0; i < count; ++i) {
