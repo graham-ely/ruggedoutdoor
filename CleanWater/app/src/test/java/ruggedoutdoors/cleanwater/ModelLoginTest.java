@@ -13,7 +13,7 @@ import ruggedoutdoors.cleanwater.model.Model;
  * Created by Austin Dunn on 4/9/2017.
  */
 
-public class ModelTest {
+public class ModelLoginTest {
     /**
      * The test fixture
      */
@@ -26,11 +26,11 @@ public class ModelTest {
     @Before
     public void setUp() throws Exception {
         model = Model.getInstance();
+        model.addUser("test", "er", "pablo", "12345", "t@t.com", "123", "01/02/1995", "test st", "MANAGER");
     }
 
     /**
-     * Test method for {@link
-     * ruggedoutdoors.cleanwater.model.Model#logIn(String username, String password)}.
+     * Test method for {@link ruggedoutdoors.cleanwater.model.Model#logIn(String username, String password)}.
      */
     @Test
     public void testlogIn() {
