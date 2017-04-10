@@ -2,7 +2,6 @@
     <string name="app_name">Clean Water</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_register_submit">Register</string>
     <string name="register_email">Email</string>
@@ -13,19 +12,14 @@
     <string name="action_register">Register</string>
     <string name="action_file_report">File Report</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_email_not_found">This email address was not found in the system.</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_duplicate_username">This username is already taken</string>
     <string name="error_invalid_latitude">This latitude is not valid</string>
     <string name="error_invalid_longitude">This longitude is not valid</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="title_activity_registration">Registration</string>
     <string name="edit_user_info">Edit User Info</string>
-    <string name="file_report">File Report</string>
     <string name="logout">Logout</string>
     <string name="homescreen_message">Welcome to the App!</string>
     <string name="title_report_list">Reports</string>
@@ -35,5 +29,4 @@
     <string name="title_purityreport_list">PurityReports</string>
     <string name="title_purityreport_detail">PurityReport Detail</string>
     <string name="title_activity_login_test">Sign in</string>
-    <string name="action_sign_in">Sign in or register</string>
 </resources>

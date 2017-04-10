@@ -22,7 +22,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        
+
         // for ease of testing
         //model.addUser("test", "person", "tester", "12345", "test@gatech.edu", "1234567890", "", "123 test ave", "MANAGER");
 

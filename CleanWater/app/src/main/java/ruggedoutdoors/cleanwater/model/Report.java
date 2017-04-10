@@ -35,7 +35,6 @@ public abstract class Report implements Comparable{
     }
 
     private int reportNumber;
-    private static int reportsTotal = 0;
     private User reporter;
     private Location waterLocation;
     private WaterType waterType;
@@ -49,7 +48,7 @@ public abstract class Report implements Comparable{
      * @param waterType      - enum value representing water source
      * @param waterCondition - enum value representing water condition
      */
-    public Report(User reporter, Location waterLocation)
+    Report(User reporter, Location waterLocation)
     {
         this.dateTime = new Date();
         this.reportNumber = (new Random()).nextInt(9999);
@@ -71,7 +70,7 @@ public abstract class Report implements Comparable{
      *
      * @param dt   new dateTime to initiatialize
      */
-    public void setDateTime(Date dt) {
+    void setDateTime(Date dt) {
         dateTime = dt;
     }
 
@@ -89,7 +88,7 @@ public abstract class Report implements Comparable{
      *
      * @param rnum    new report number
      */
-    public void setReportNumber(int rnum) {
+    void setReportNumber(int rnum) {
         reportNumber = rnum;
     }
 
@@ -102,7 +101,7 @@ public abstract class Report implements Comparable{
         return ( reporter.getFirstName() + " " + reporter.getLastName() );
     }
 
-    public String getReporterUsername() {
+    String getReporterUsername() {
         return reporter.getUsername();
     }
 
@@ -153,14 +152,6 @@ public abstract class Report implements Comparable{
         waterCondition = wc;
     }
 
-    /**
-     * Returns the total number of reports in the system
-     *
-     * @return reportsTotal    total number of reports in the system
-     */
-    public int getReportsTotal() {
-        return reportsTotal;
-    }
 
     /**
      * Returns the latitude of the report

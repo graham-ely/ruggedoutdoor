@@ -4,7 +4,7 @@ package ruggedoutdoors.cleanwater.model;
  * Created by Austin Dunn on 3/13/2017.
  */
 
-public class Location {
+class Location {
     private double latitude;
     private double longitude;
 

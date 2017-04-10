@@ -43,7 +43,7 @@ class UserManager implements Serializable {
      *
      * @param uid user id of user
      * @param pwd password of user
-     * @return  the Student object is login successfull, null otherwise
+     * @return  the Student object is login successful, null otherwise
      */
     User doLogin(String uid, String pwd) {
         // first lookup the user by their login id

@@ -1,8 +1,5 @@
 package ruggedoutdoors.cleanwater.model;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.PrintWriter;
 
 /**
@@ -15,11 +12,6 @@ public class User {
     private String birthday;
     private String address;
     private UserType userType;
-
-    /**
-     * Blank constructor required for firebase support
-     */
-    public User () {}
 
     /**
      * constructor
@@ -213,9 +205,7 @@ public class User {
         assert line != null;
         String[] tokens = line.split("\t");
         assert tokens.length == 9;
-        User u = new User(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
-
-        return u;
+        return new User(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
     }
 
     /**

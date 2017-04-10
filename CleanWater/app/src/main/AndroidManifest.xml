@@ -85,9 +85,6 @@
             android:name=".controller.GraphActivity"
             android:label="Graph Activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".LoginActivityTest"
-            android:label="@string/title_activity_login_test"></activity>
     </application>
 
 </manifest>

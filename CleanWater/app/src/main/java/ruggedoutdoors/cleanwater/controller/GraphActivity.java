@@ -37,7 +37,7 @@ public class GraphActivity extends AppCompatActivity {
     private Button latGo;
     private Button longGo;
 
-    private Model model = Model.getInstance();
+    private final Model model = Model.getInstance();
     private ArrayList<PurityReport> purityReports;
 
     @Override
@@ -116,7 +116,7 @@ public class GraphActivity extends AppCompatActivity {
         mGraph2.addSeries(series2);
     }
 
-    public void updateGraphs() {
+    private void updateGraphs() {
         model.loadPurityReportData(new File(getFilesDir(), PurityReportManagementFacade.PURITY_REPORT_TEXT_FILE_NAME));
         List<PurityReport> purityReports = model.getPurityReportArray();
         mGraph.removeAllSeries();
@@ -132,7 +132,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = 0; i < purityReports.size(); i++) {
                 cal.setTime(purityReports.get(i).getDateTime());
                 int year1 = cal.get(Calendar.YEAR);
-                if (year != (int) year1) {
+                if (year != year1) {
                     purityReports.remove(i);
                     i--;
                 }

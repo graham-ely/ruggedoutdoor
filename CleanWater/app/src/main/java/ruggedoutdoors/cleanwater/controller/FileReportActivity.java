@@ -31,15 +31,12 @@ public class FileReportActivity extends AppCompatActivity {
     private EditText mWaterLocationLonView;
     private Spinner mWaterTypeView;
     private Spinner mWaterConditionView;
-    Model model = Model.getInstance();
-    private String username;
+    private final Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_report);
-
-        username = model.getUsername();
 
         // Set up the file report form.
         mWaterLocationLatView = (EditText) findViewById(R.id.water_location_latitude);

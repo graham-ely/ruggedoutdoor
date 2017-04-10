@@ -36,7 +36,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
     private EditText mAddressView;
     private EditText mBirthdayView;
     private Spinner mUserTypeView;
-    private Model model = Model.getInstance();
+    private final Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

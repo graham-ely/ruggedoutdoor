@@ -11,7 +11,7 @@ import ruggedoutdoors.cleanwater.model.Model;
 
 public class HomescreenActivity extends AppCompatActivity {
 
-    Model model = Model.getInstance();
+    private Model model = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,13 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ruggedoutdoors.cleanwater.controller.FileReportActivity">
 
-
-    <LinearLayout
-        android:id="@+id/email_login_form"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
         <EditText
             android:id="@+id/water_location_latitude"
             android:layout_width="match_parent"
@@ -80,5 +73,4 @@
             android:textStyle="bold"
             tools:text="Cancel" />
 
-</LinearLayout>
 </LinearLayout>
