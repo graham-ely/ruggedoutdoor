@@ -16,8 +16,6 @@ import ruggedoutdoors.cleanwater.model.*;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private Model model = Model.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +43,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(nextScreen);
             }
         });
-
-        Button mCancelButton = (Button) findViewById(R.id.login_button);
     }
 
 }

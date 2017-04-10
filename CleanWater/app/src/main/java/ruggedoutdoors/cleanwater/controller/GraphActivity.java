@@ -21,12 +21,12 @@ import ruggedoutdoors.cleanwater.R;
 import ruggedoutdoors.cleanwater.model.Model;
 import ruggedoutdoors.cleanwater.model.PurityReport;
 import ruggedoutdoors.cleanwater.model.PurityReportManagementFacade;
-import ruggedoutdoors.cleanwater.model.UserManagementFacade;
 
 /**
- * Created by gde on 4/5/17.
+ * Created by Graham Ely on 4/5/17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class GraphActivity extends AppCompatActivity {
     private GraphView mGraph;
     private GraphView mGraph2;
@@ -46,7 +46,7 @@ public class GraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_graph);
         model.loadPurityReportData(new File(getFilesDir(), PurityReportManagementFacade.PURITY_REPORT_TEXT_FILE_NAME));
 
-        purityReports = (ArrayList) model.getPurityReportArray();
+        purityReports = (ArrayList<PurityReport>) model.getPurityReportArray();
 
         mGraph = (GraphView) findViewById(R.id.graph);
         mGraph2 = (GraphView) findViewById(R.id.graph2);

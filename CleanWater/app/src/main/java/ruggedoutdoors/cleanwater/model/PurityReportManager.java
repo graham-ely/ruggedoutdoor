@@ -41,7 +41,7 @@ class PurityReportManager implements Serializable {
     /**
      * this is package vis because only model should be asking for this data
      *
-     * @return
+     * @return returns a list of all the purity reports
      */
     List<PurityReport> getPurityReports() {
         return purityReports;
@@ -53,7 +53,7 @@ class PurityReportManager implements Serializable {
 
     /**
      *
-     * @param writer
+     * @param writer writer to use to save
      */
     void saveAsText(PrintWriter writer) {
         System.out.println("Manager saving: " + purityReports.size() + " purityReports" );

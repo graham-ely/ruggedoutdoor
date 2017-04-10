@@ -1,17 +1,9 @@
 package ruggedoutdoors.cleanwater.model;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.io.File;
-import android.content.Context;
 
 /**
  * Created by karanachtani on 3/19/17.
@@ -50,7 +42,7 @@ public class Model {
      * @return whether the user has been logged in or not
      */
     public boolean logIn(String username, String password) {
-        umf.loadJson(new File(UserManagementFacade.DEFAULT_JSON_FILE_NAME));
+        umf.loadText(new File(UserManagementFacade.DEFAULT_TEXT_FILE_NAME));
         User u = umf.getUserByUsername(username);
         if (u == null) {
             throw new NoSuchElementException();
@@ -141,9 +133,14 @@ public class Model {
      */
     public boolean addSourceReport(double latitude, double longitude, String waterType,
                              String waterCondition) {
-        srmf.addNewSourceReport(currentUser, new Location(latitude, longitude),
-                WaterType.valueOf(waterType.toUpperCase()), WaterCondition.valueOf(waterCondition.toUpperCase()));
-        return true;
+        try {
+            srmf.addNewSourceReport(currentUser, new Location(latitude, longitude),
+                    WaterType.valueOf(waterType.toUpperCase()), WaterCondition.valueOf(waterCondition.toUpperCase()));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     /**
@@ -157,9 +154,15 @@ public class Model {
      */
     public boolean addPurityReport(double latitude, double longitude,
                                    String overallCondition, double virusPPM, double contaminantPPM) {
-        prmf.addNewPurityReport(currentUser, new Location(latitude, longitude),
-                OverallCondition.valueOf(overallCondition), virusPPM, contaminantPPM);
-        return true;
+        try {
+            prmf.addNewPurityReport(currentUser, new Location(latitude, longitude),
+                    OverallCondition.valueOf(overallCondition), virusPPM, contaminantPPM);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+
     }
 
     /**

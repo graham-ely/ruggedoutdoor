@@ -39,25 +39,6 @@ class UserManager implements Serializable {
 
 
     /**
-     * Attempt to login a user
-     *
-     * @param uid user id of user
-     * @param pwd password of user
-     * @return  the Student object is login successful, null otherwise
-     */
-    User doLogin(String uid, String pwd) {
-        // first lookup the user by their login id
-        User s = userMap.get(uid);
-        //if that user id not there, return null
-        if (s == null) return null;
-        // we have a good user at this point, so check their password
-        if (s.checkPassword(pwd)) return s;
-        //return null if a bad password
-        return null;
-    }
-
-
-    /**
      * this is package vis because only model should be asking for this data
      *
      * @return
@@ -115,22 +96,5 @@ class UserManager implements Serializable {
             e.printStackTrace();
         }
         System.out.println("Done loading text file with " + users.size() + " students");
-    }
-
-
-    /**
-     * This should only be called during serialization (reading in).
-     *
-     * This recomputes the student map which is derived from the student collection.
-     *
-     */
-    void regenMap() {
-        if (userMap != null)
-            userMap.clear();
-        else
-            userMap = new HashMap<>();
-        for (User s : users) {
-            userMap.put(s.getUsername(), s);
-        }
     }
 }

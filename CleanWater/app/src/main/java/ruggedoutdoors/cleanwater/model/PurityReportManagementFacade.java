@@ -61,7 +61,9 @@ public class PurityReportManagementFacade {
         try {
             //make an input object for reading
             if (!file.isFile()) {
-                file.createNewFile();
+                if (!file.createNewFile()) {
+                    throw new IOException("Unable to create file");
+                }
             }
             BufferedReader reader = new BufferedReader(new FileReader(file));
             prm.loadFromText(reader);

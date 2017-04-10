@@ -1,5 +1,7 @@
 package ruggedoutdoors.cleanwater.model;
 
+import android.support.annotation.NonNull;
+
 import java.security.InvalidParameterException;
 import java.util.Date;
 import java.util.Random;
@@ -19,7 +21,7 @@ public abstract class Report implements Comparable{
      * @return boolean     true if reports match, false otherwise
      */
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(@NonNull Object o) {
         if (!(o instanceof Report)) {
             throw new InvalidParameterException("Can't pass in non reports.");
         }

@@ -41,7 +41,7 @@ class SourceReportManager implements Serializable {
     /**
      * this is package vis because only model should be asking for this data
      *
-     * @return
+     * @return a list of all source reports
      */
     List<SourceReport> getSourceReports() {
         return sourceReports;
@@ -53,7 +53,7 @@ class SourceReportManager implements Serializable {
 
     /**
      *
-     * @param writer
+     * @param writer writer to use for saving
      */
     void saveAsText(PrintWriter writer) {
         System.out.println("Manager saving: " + sourceReports.size() + " sourceReports" );
