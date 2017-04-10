@@ -47,7 +47,7 @@ public class User {
 
     /**
      * sets first name
-     * @param firstName
+     * @param firstName first name to set on user
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -63,7 +63,7 @@ public class User {
 
     /**
      * sets last name
-     * @param lastName
+     * @param lastName last name to set on user
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -87,7 +87,7 @@ public class User {
 
     /**
      * sets password
-     * @param password
+     * @param password password to set on user
      */
     public void setPassword(String password) {
         this.password = password;
@@ -103,7 +103,7 @@ public class User {
 
     /**
      * sets email
-     * @param email
+     * @param email email to set on user
      */
     public void setEmail(String email) {
         this.email = email;
@@ -119,7 +119,7 @@ public class User {
 
     /**
      * sets phone number
-     * @param phone number
+     * @param phone phone number to set on user
      */
     public void setPhone(String phone) {
         this.phone = phone;
@@ -135,7 +135,7 @@ public class User {
 
     /**
      * sets birthday
-     * @param birthday
+     * @param birthday birthday to set on user
      */
     public void setBirthday(String birthday) {
         this.birthday = birthday;
@@ -151,7 +151,7 @@ public class User {
 
     /**
      * sets address
-     * @param address
+     * @param address address to set on user
      */
     public void setAddress(String address) {
         this.address = address;
@@ -167,7 +167,7 @@ public class User {
 
     /**
      * sets UserTyper of user
-     * @param userType of user
+     * @param userType user type to set on user
      */
     public void setUserType(UserType userType) {
         this.userType = userType;
@@ -211,7 +211,6 @@ public class User {
     /**
      * check an entered password for a match
      *
-     * @pre pwd is not null
      * @param pwd the password to check
      * @return true is passwords match, false otherwise
      */

@@ -41,7 +41,7 @@ class UserManager implements Serializable {
     /**
      * this is package vis because only model should be asking for this data
      *
-     * @return
+     * @return list of Users
      */
     List<User> getUsers() {
         return users;
@@ -53,7 +53,7 @@ class UserManager implements Serializable {
 
     /**
      *
-     * @param writer
+     * @param writer writer used to save text
      */
     void saveAsText(PrintWriter writer) {
         System.out.println("Manager saving: " + users.size() + " users" );

@@ -125,10 +125,10 @@ public class Model {
 
     /**
      * adds a new source report to the model
-     * @param latitude
-     * @param longitude
-     * @param waterType
-     * @param waterCondition
+     * @param latitude latitude coordinate for report location
+     * @param longitude longitude coordinate for report location
+     * @param waterType water type of report
+     * @param waterCondition water condition of report
      * @return whether it was added or not
      */
     public boolean addSourceReport(double latitude, double longitude, String waterType,
@@ -145,11 +145,11 @@ public class Model {
 
     /**
      * adds a new purity report to the model
-     * @param latitude
-     * @param longitude
-     * @param overallCondition
-     * @param virusPPM
-     * @param contaminantPPM
+     * @param latitude latitude coordinate for report location
+     * @param longitude longitude coordinate for report location
+     * @param overallCondition overall condition of report
+     * @param virusPPM virus PPM of report
+     * @param contaminantPPM contaminant of report
      * @return whether it was added or not
      */
     public boolean addPurityReport(double latitude, double longitude,
@@ -176,11 +176,11 @@ public class Model {
 
     /**
      * updates user information
-     * @param birthday
-     * @param email
-     * @param phone
-     * @param address
-     * @param userType
+     * @param birthday new birthday of user
+     * @param email new email of user
+     * @param phone new phone of user
+     * @param address new address of user
+     * @param userType new user type of user
      */
     public void updateUserInfo(String birthday, String email, String phone, String address, String userType) {
         currentUser.setAddress(address);
@@ -201,15 +201,15 @@ public class Model {
 
     /**
      * adds a new user to the model
-     * @param firstName
-     * @param lastName
-     * @param username
-     * @param password
-     * @param email
-     * @param phone
-     * @param birthday
-     * @param address
-     * @param type
+     * @param firstName first name of new user
+     * @param lastName last name of new user
+     * @param username username of new user
+     * @param password password of new user
+     * @param email email of new user
+     * @param phone phone of new user
+     * @param birthday birthday of new user
+     * @param address address of new user
+     * @param type type of new user
      */
     public void addUser(String firstName, String lastName, String username, String password,
                         String email, String phone, String birthday, String address, String type) {
@@ -218,62 +218,122 @@ public class Model {
                 address, type);
     }
 
+    /**
+     * saves user data
+     * @param file file to save data to
+     */
     public void saveUserData(File file) {
         umf.saveText(file);
     }
 
+    /**
+     * loads user data
+     * @param file file to load data from
+     */
     public void loadUserData(File file) {
         umf.loadText(file);
     }
 
+    /**
+     * saves source report data
+     * @param file file to save data to
+     */
     public void saveSourceReportData(File file) {
         srmf.saveText(file);
     }
 
+    /**
+     * loads source report data
+     * @param file file to load data from
+     */
     public void loadSourceReportData(File file) {
         srmf.loadText(file);
     }
 
+    /**
+     * saves purity report data
+     * @param file file to save data to
+     */
     public void savePurityReportData(File file) {
         prmf.saveText(file);
     }
 
+    /**
+     * loads purity report data
+     * @param file file to load data from
+     */
     public void loadPurityReportData(File file) {
         prmf.loadText(file);
     }
 
+    /**
+     * sets active source report
+     * @param reportId report id of report to set active
+     */
     public void setActiveSourceReport(int reportId) {
         activeReport = srmf.getSourceReportById(reportId);
     }
 
+    /**
+     * sets active purity report
+     * @param reportId report id of report to set active
+     */
     public void setActivePurityReport(int reportId) {
         activeReport = prmf.getPurityReportById(reportId);
     }
 
+    /**
+     * checks for an active report
+     * @return whether there is an active report
+     */
     public boolean hasActiveReport() {
         return activeReport != null;
     }
 
+    /**
+     * gets active report number
+     * @return report number
+     */
     public int getReportNumber() {
             return activeReport.getReportNumber();
     }
 
+    /**
+     * gets active report reporter name
+     * @return reporter name
+     */
     public String getReporterName() {
         return activeReport.getReporterName();
     }
 
+    /**
+     * gets active report latitude
+     * @return latitude
+     */
     public double getLatitude() {
         return activeReport.getLatitude();
     }
 
+    /**
+     * gets active report longitude
+     * @return longitude
+     */
     public double getLongitude() {
         return activeReport.getLongitude();
     }
 
+    /**
+     * gets active report date and time
+     * @return date and time
+     */
     public String getDateTime() {
         return activeReport.getDateTime().toString();
     }
 
+    /**
+     * gets active report water condition
+     * @return water condition
+     */
     public String getWaterCondition() {
         if (activeReport instanceof SourceReport) {
             return activeReport.getWaterCondition().toString();
@@ -283,34 +343,66 @@ public class Model {
         return "";
     }
 
+    /**
+     * gets active report water type
+     * @return water type
+     */
     public String getWaterType() {
         return activeReport.getWaterType().toString();
     }
 
+    /**
+     * gets active report virus PPM
+     * @return virus PPM
+     */
     public double getVirusPPM() {
         return ((PurityReport) activeReport).getVirusPPM();
     }
 
+    /**
+     * gets active report contaminant PPM
+     * @return contaminant PPM
+     */
     public double getContaminantPPM() {
         return ((PurityReport) activeReport).getContaminantPPM();
     }
 
+    /**
+     * checks whether current user can file purity reports
+     * @return whether current user can file purity reports
+     */
     public boolean canFilePurityReport() {
         return currentUser.getUserType() == UserType.WORKER || currentUser.getUserType() == UserType.MANAGER;
     }
 
+    /**
+     * checks whether current user can view purity reports
+     * @return whether current user can view purity reports
+     */
     public boolean canViewPurityReport() {
         return currentUser.getUserType() == UserType.MANAGER;
     }
 
+    /**
+     * checks whether current user can view graph
+     * @return whether current user can view graph
+     */
     public boolean canViewHistoryGraph() {
         return currentUser.getUserType() == UserType.MANAGER;
     }
 
+    /**
+     * gets list of source reports
+     * @return list of source reports
+     */
     public List<SourceReport> getSourceReportArray() {
         return srmf.getSourceReportsAsList();
     }
 
+    /**
+     * gets list of purity report
+     * @return list of purity reports
+     */
     public List<PurityReport> getPurityReportArray() {
         return prmf.getPurityReportsAsList();
     }
