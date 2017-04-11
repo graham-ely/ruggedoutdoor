@@ -25,7 +25,10 @@ public class ModelLoginTest {
      */
     @Before
     public void setUp() throws Exception {
+        // instantiate model
         model = Model.getInstance();
+
+        // add test user to model
         model.addUser("test", "er", "pablo", "12345", "t@t.com", "123", "01/02/1995", "test st", "MANAGER");
     }
 

@@ -70,8 +70,6 @@ class UserManager implements Serializable {
      */
     void loadFromText(BufferedReader reader) {
         System.out.println("Loading Text File");
-        userMap.clear();
-        users.clear();
         try {
             String countStr = reader.readLine();
             assert countStr != null;
