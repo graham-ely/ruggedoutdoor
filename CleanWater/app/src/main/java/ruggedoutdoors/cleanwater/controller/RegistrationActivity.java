@@ -176,6 +176,7 @@ public class RegistrationActivity extends AppCompatActivity {
             model.open();
             model.addUser(firstName, lastName, username, password, email, phone, birthday,
                     address, type);
+            model.addLog(false, "Register", "Success", "None");
             model.close();
 
             Intent nextScreen = new Intent(getApplicationContext(), LoginActivity.class);

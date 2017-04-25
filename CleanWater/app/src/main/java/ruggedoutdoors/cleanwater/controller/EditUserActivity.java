@@ -138,6 +138,7 @@ public class EditUserActivity extends AppCompatActivity implements LoaderCallbac
             // Update the fields changed, then progress to the next screen
             model.open();
             model.updateUserInfo(birthday, email, phone, address, type);
+            model.addLog(true, "Updated User Info", "Success", "None");
             model.close();
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);

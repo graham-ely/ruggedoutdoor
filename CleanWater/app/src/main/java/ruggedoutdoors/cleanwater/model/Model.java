@@ -109,6 +109,9 @@ public class Model {
         String command3 = "create table if not exists PurityReports (_id integer primary key autoincrement, " +
                 "latitude text, longitude text, overallCondition text, vPPM text, cPPM text)";
         mDb.execSQL(command3);
+        String command4 = "create table if not exists SecurityLog (_id integer primary key autoincrement, " +
+                "username text, userType text, action text, outcome text, errorType text)";
+        mDb.execSQL(command4);
     }
 
     /**
@@ -133,6 +136,62 @@ public class Model {
     public void clearPurityReports() {
         String command = "DELETE FROM PurityReports";
         mDb.execSQL(command);
+    }
+
+    /**
+     * clear SecurityLog table from SQL database
+     */
+    public void clearSecurityLog() {
+        String command = "DELETE FROM SecurityLog";
+        mDb.execSQL(command);
+    }
+
+    /**
+     * Add log to SecurityLog table in Database
+     *
+     * @param curr whether to use current user
+     * @param action string of user action
+     * @param outcome string of outcome
+     * @param errorType string of error type
+     */
+    public void addLog(Boolean curr, String action, String outcome,
+                       String errorType) {
+        mDbHelper.openDataBase();
+        if (curr) {
+            String command = "INSERT INTO SecurityLog (username, userType, action, outcome, errorType) " +
+                    "VALUES ('" + currUserName + "', '" + currUserType + "', '" + action + "', '" +
+                    outcome + "', '" + errorType + "')";
+            mDb.execSQL(command);
+        } else {
+            String command = "INSERT INTO SecurityLog (username, userType, action, outcome, errorType) " +
+                    "VALUES ('Guest', 'GUEST', '" + action + "', '" +
+                    outcome + "', '" + errorType + "')";
+            mDb.execSQL(command);
+        }
+        mDb.close();
+    }
+
+    /**
+     * creates array list of logs from database
+     * @return List of security logs
+     */
+    public List<SecurityLog> getLogArray() {
+        ArrayList<SecurityLog> toReturn = new ArrayList<>();
+        String query = "SELECT username, userType, action, outcome, errorType FROM SecurityLog";
+        Cursor c = mDb.rawQuery(query, null);
+        try {
+            if (c.moveToFirst()){
+                do{
+                    SecurityLog temp = new SecurityLog(c.getString(0), c.getString(1), c.getString(2),
+                            c.getString(3), c.getString(4));
+                    toReturn.add(temp);
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
+        }
+        mDb.close();
+        return toReturn;
     }
 
     /**
@@ -233,7 +292,11 @@ public class Model {
                     PurityReport temp = new PurityReport(new User(currFirstName, currLastName,
                             currUserName, currPassword, currEmail, currPhone, currBirthday,
                             currAddress, UserType.valueOf(currUserType)),
-                            new Location(Double.parseDouble(c.getString(0)), Double.parseDouble(c.getString(1))), OverallCondition.valueOf(c.getString(2)), Double.parseDouble(c.getString(3)), Double.parseDouble(c.getString(4)));
+                            new Location(Double.parseDouble(c.getString(0)),
+                                    Double.parseDouble(c.getString(1))),
+                                    OverallCondition.valueOf(c.getString(2)),
+                                    Double.parseDouble(c.getString(3)),
+                                    Double.parseDouble(c.getString(4)));
                     toReturn.add(temp);
                 }while(c.moveToNext());
             }

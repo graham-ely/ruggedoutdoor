@@ -162,6 +162,7 @@ public class FilePurityReportActivity extends AppCompatActivity {
             model.open();
             model.addPurityReport(String.valueOf(lat), String.valueOf(lon), overallCondition,
                     String.valueOf(vPPM), String.valueOf(cPPM));
+            model.addLog(true, "Added Purity Report", "Success", "None");
             model.close();
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);

@@ -137,6 +137,7 @@ public class FileReportActivity extends AppCompatActivity {
             // Add the report to the system and advance to the homescreen
             model.open();
             model.addSourceReport(String.valueOf(lat), String.valueOf(lon), waterType.toString(), waterCondition.toString());
+            model.addLog(true, "Added Source Report", "Success", "None");
             model.close();
             Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
             startActivity(nextScreen);

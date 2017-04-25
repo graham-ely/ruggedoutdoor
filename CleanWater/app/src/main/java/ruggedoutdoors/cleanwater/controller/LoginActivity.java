@@ -110,17 +110,20 @@ public class LoginActivity extends AppCompatActivity {
             model.open();
             try {
                 if (model.logIn(username, password)) {
+                    model.addLog(true, "Login", "Success", "None");
                     model.close();
                     Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
                     nextScreen.putExtra("USERNAME", mUsernameView.getText().toString());
                     startActivity(nextScreen);
                 }
             } catch (NoSuchElementException e) {
+                model.addLog(false, "Login", "Failure", "username not found");
                 model.close();
                 mUsernameView.setError("This username was not found");
                 focusView = mUsernameView;
                 cancel = true;
             } catch (InvalidParameterException e) {
+                model.addLog(false, "Login", "Failure", "incorrect password");
                 model.close();
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 cancel = true;
