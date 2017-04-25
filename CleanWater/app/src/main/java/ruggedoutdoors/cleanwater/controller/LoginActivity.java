@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private int invalidAttempts = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,11 @@ public class LoginActivity extends AppCompatActivity {
                     Intent nextScreen = new Intent(getApplicationContext(), HomescreenActivity.class);
                     nextScreen.putExtra("USERNAME", mUsernameView.getText().toString());
                     startActivity(nextScreen);
+                } else {
+                    model.close();
+                    mUsernameView.setError("Unable to log user in. Contact admin.");
+                    focusView = mUsernameView;
+                    cancel = true;
                 }
             } catch (NoSuchElementException e) {
                 model.addLog(false, "Login", "Failure", "username not found");
@@ -124,11 +130,16 @@ public class LoginActivity extends AppCompatActivity {
                 cancel = true;
             } catch (InvalidParameterException e) {
                 model.addLog(false, "Login", "Failure", "incorrect password");
-                model.close();
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 cancel = true;
                 mPasswordView.setText("");
                 focusView = mPasswordView;
+                invalidAttempts++;
+                if (invalidAttempts >= 3) {
+                    model.blockUser(username);
+                    mPasswordView.setError("3 incorrect login attempts. Your user is blocked until an admin enables it again.");
+                }
+                model.close();
             }
         }
 

@@ -36,6 +36,7 @@ public class Model {
     private static String currBirthday;
     private static String currAddress;
     private static String currUserType;
+    private static String currBlockedStatus;
 
     // active report variables
     private static int activeReportNumber;
@@ -101,7 +102,7 @@ public class Model {
     public void init() {
         String command1 = "create table if not exists Users (_id integer primary key autoincrement, " +
                 "firstName text, lastName text, username text, password text, " +
-                "email text, phone text, birthday text, address text, userType text)";
+                "email text, phone text, birthday text, address text, userType text, blocked integer)";
         mDb.execSQL(command1);
         String command2 = "create table if not exists SourceReports (_id integer primary key autoincrement, " +
                 "latitude text, longitude text, waterType text, waterCondition text)";
@@ -119,6 +120,14 @@ public class Model {
      */
     public void clearUsers() {
         String command = "DELETE FROM Users";
+        mDb.execSQL(command);
+    }
+
+    /**
+     * deletes the Users table if you need to reset it. Only for debugging purposes.
+     */
+    public void deleteUserTable() {
+        String command = "DROP TABLE Users";
         mDb.execSQL(command);
     }
 
@@ -211,9 +220,9 @@ public class Model {
                         String email, String phone, String birthday, String address,
                         String userType) {
         String command = "INSERT INTO Users (firstName, lastName, username, password, email, " +
-                "phone, birthday, address, userType) " + "VALUES ('" + firstname + "', '" +
+                "phone, birthday, address, userType, blocked) " + "VALUES ('" + firstname + "', '" +
                 lastname + "', '" + username + "', '" + password + "', '" + email + "', " + "'" +
-                phone + "', '" + birthday + "', '" + address + "', '" + userType + "')";
+                phone + "', '" + birthday + "', '" + address + "', '" + userType + "', 0)";
         mDb.execSQL(command);
     }
 
@@ -454,6 +463,21 @@ public class Model {
                 "', phone = '"+ phone +"', address = '"+ address +"', userType = '"+ userType +
                 "' WHERE username = '"+ currUserName +"'";
         mDb.execSQL(command);
+        logIn(currUserName, currPassword);
+    }
+
+    public void blockUser(String username) {
+        open();
+        String command = "UPDATE Users SET blocked = 1 WHERE username = '"+ username +"'";
+        mDb.execSQL(command);
+        close();
+    }
+
+    public void unblockUser(String username) {
+        open();
+        String command = "UPDATE Users SET blocked = 0 WHERE username = '"+ username +"'";
+        mDb.execSQL(command);
+        close();
     }
 
     /**
@@ -492,7 +516,7 @@ public class Model {
      */
     public Boolean logIn(String username, String password) {
         String query = "SELECT firstName, lastName, username, password, email, phone, birthday, " +
-                "address, userType FROM Users";
+                "address, userType, blocked FROM Users";
         Cursor c = mDb.rawQuery(query, null);
         try {
             if (c.moveToFirst()){
@@ -509,8 +533,12 @@ public class Model {
                         currBirthday = c.getString(6);
                         currAddress = c.getString(7);
                         currUserType = c.getString(8);
+                        currBlockedStatus = c.getString(9);
                         c.close();
                         mDb.close();
+                        if (Integer.parseInt(currBlockedStatus) == 1) {
+                            return false;
+                        }
                         return true;
                     }
                     if (user.equals(username) && !pass.equals(password)) {
@@ -605,6 +633,62 @@ public class Model {
      */
     public boolean canViewPurityReport() {
         return currUserType.equals("MANAGER");
+    }
+
+    public boolean canFileSourceReport() {
+        return !currUserType.equals("ADMIN");
+    }
+
+    public boolean canViewSourceReports() {
+        return !currUserType.equals("ADMIN");
+    }
+
+    public boolean canViewMap() {
+        return !currUserType.equals("ADMIN");
+    }
+
+    public boolean canViewGraph() {
+        return !currUserType.equals("ADMIN");
+    }
+
+    public boolean canUnblockUser() {
+        return currUserType.equals("ADMIN");
+    }
+
+    public List<String> getBlockedUserList() {
+        List<String> blockedUsers = new ArrayList<>();
+        open();
+        String query = "SELECT username FROM Users WHERE blocked = 1";
+        Cursor c = mDb.rawQuery(query, null);
+        try {
+            if (c.moveToFirst()){
+                do{
+                    blockedUsers.add(c.getString(0));
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
+        }
+        close();
+        return blockedUsers;
+    }
+
+    public List<String> getUnblockedUserList() {
+        List<String> unblockedUsers = new ArrayList<>();
+        open();
+        String query = "SELECT username FROM Users WHERE blocked = 0";
+        Cursor c = mDb.rawQuery(query, null);
+        try {
+            if (c.moveToFirst()){
+                do{
+                    unblockedUsers.add(c.getString(0));
+                }while(c.moveToNext());
+            }
+        } finally {
+            c.close();
+        }
+        close();
+        return unblockedUsers;
     }
 
     /**

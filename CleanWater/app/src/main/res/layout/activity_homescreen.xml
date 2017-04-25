@@ -10,22 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ruggedoutdoors.cleanwater.controller.HomescreenActivity">
 
-    <Button
-        android:id="@+id/viewMapButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/viewPurityReportsButton"
-        android:layout_centerHorizontal="true"
-        android:text="Map of Source Reports" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/fileReportButton"
-        android:layout_centerHorizontal="true"
-        android:text="View Reports" />
-
     <TextView
         android:text="@string/homescreen_message"
         android:layout_width="wrap_content"
@@ -79,6 +63,14 @@
         android:layout_centerHorizontal="true" />
 
     <Button
+        android:id="@+id/viewMapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewPurityReportsButton"
+        android:layout_centerHorizontal="true"
+        android:text="Map of Source Reports" />
+
+    <Button
         android:id="@+id/historyGraphButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,12 +78,66 @@
         android:layout_centerHorizontal="true"
         android:text="History Graph" />
 
+    <LinearLayout
+        android:id="@+id/unblockUserLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/historyGraphButton"
+
+
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/unblockUserSpinner"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/unblockUserButton"
+            android:layout_centerHorizontal="true"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unblock" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/blockUserLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/unblockUserLayout"
+
+
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/blockUserSpinner"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/blockUserButton"
+            android:layout_centerHorizontal="true"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block" />
+    </LinearLayout>
+
     <Button
         android:text="@string/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logoutButton"
-        android:layout_below="@+id/historyGraphButton"
+        android:layout_below="@+id/blockUserLayout"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
