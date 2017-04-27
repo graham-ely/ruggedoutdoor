@@ -177,13 +177,13 @@ public class HomescreenActivity extends AppCompatActivity {
         }
 
         Button mLogButton = (Button) findViewById(R.id.logButton);
-        if (model.canUnblockUser()) {
+        if (false) {
             mLogButton.setVisibility(View.VISIBLE);
 
             mLogButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent nextScreen = new Intent(getApplicationContext(), PurityReportListActivity.class);
+                    Intent nextScreen = new Intent(getApplicationContext(), LogListActivity.class);
                     startActivity(nextScreen);
                 }
             });
