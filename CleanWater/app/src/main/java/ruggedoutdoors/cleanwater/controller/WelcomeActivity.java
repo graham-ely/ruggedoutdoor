@@ -24,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Model model = new Model(this);
         model.open();
-        model.clearSecurityLog();
+//        model.clearSecurityLog();
 //        model.clearSourceReports();
 //        model.clearPurityReports();
         model.init();
