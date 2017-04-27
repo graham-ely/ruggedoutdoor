@@ -67,6 +67,19 @@
                 android:value="ruggedoutdoors.cleanwater.controller.ReportListActivity" />
         </activity>
         <activity
+            android:name=".controller.LogListActivity"
+            android:label="@string/title_report_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".controller.LogDetailActivity"
+            android:label="@string/title_report_detail"
+            android:parentActivityName=".controller.LogListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ruggedoutdoors.cleanwater.controller.LogListActivity" />
+        </activity>
+        <activity
             android:name=".controller.FilePurityReportActivity"
             android:label="@string/title_activity_file_purity_report"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -87,9 +100,6 @@
             android:name=".controller.GraphActivity"
             android:label="Graph Activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".LoginActivityTest"
-            android:label="@string/title_activity_login_test"></activity>
     </application>
 
 </manifest>
