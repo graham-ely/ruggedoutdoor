@@ -50,6 +50,14 @@ public class Model {
     private static double activeVPPM;
     private static double activeCPPM;
 
+    // active log variables
+    private static int activeLogNumber;
+    private static String activeUsername;
+    private static String activeUserType;
+    private static String activeAction;
+    private static String activeOutcome;
+    private static String activeErrorType;
+
     // database info variables
     private static String DB_PATH = "/data/data/ruggedoutdoors.cleanwater/databases/";
     private static final String DATABASE_NAME = "model";
@@ -365,8 +373,81 @@ public class Model {
         }
     }
 
+    /**
+     * adds an active report to the model and its attributes
+     *
+     * @param id id of report to set as active
+     */
+    public void setActiveLog(int id) {
+        List<SecurityLog> logs = getLogArray();
+        SecurityLog log1 = null;
+        for (SecurityLog l : logs) {
+            if (l.getLogNumber() == id) {
+                log1 = l;
+            }
+        }
+        activeLogNumber = log1.getLogNumber();
+        activeUsername = log1.getUsername();
+        activeUserType = log1.getUserType();
+        activeAction = log1.getAction();
+        activeOutcome = log1.getOutcome();
+        activeErrorType = log1.getErrorType();
+    }
+
     public Boolean hasActiveReport() {
         return activeDateTime != null;
+    }
+
+    public Boolean hasActiveLog() {
+        return activeUsername != null;
+    }
+
+    /**
+     * gets log number
+     * @return active log number
+     */
+    public int getLogNumber() {
+        return activeLogNumber;
+    }
+
+    /**
+     * gets Username
+     * @return active username
+     */
+    public String getActiveUsername() {
+        return activeUsername;
+    }
+
+    /**
+     * gets userType
+     * @return user type
+     */
+    public String getActiveUserType() {
+        return activeUserType;
+    }
+
+    /**
+     * gets action
+     * @return active action
+     */
+    public String getActiveAction() {
+        return activeAction;
+    }
+
+    /**
+     * gets outcome
+     * @return outcome
+     */
+    public String getActiveOutcome() {
+        return activeOutcome;
+    }
+
+    /**
+     * gets error type
+     * @return active error type
+     */
+    public String getActiveErrorType() {
+        return activeErrorType;
     }
 
     /**

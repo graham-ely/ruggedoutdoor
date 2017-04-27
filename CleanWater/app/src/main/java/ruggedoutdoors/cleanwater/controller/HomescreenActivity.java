@@ -176,6 +176,21 @@ public class HomescreenActivity extends AppCompatActivity {
             mBlockUserSpinner.setVisibility(View.GONE);
         }
 
+        Button mLogButton = (Button) findViewById(R.id.logButton);
+        if (model.canUnblockUser()) {
+            mLogButton.setVisibility(View.VISIBLE);
+
+            mLogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent nextScreen = new Intent(getApplicationContext(), PurityReportListActivity.class);
+                    startActivity(nextScreen);
+                }
+            });
+        } else {
+            mLogButton.setVisibility(View.GONE);
+        }
+
         model.close();
     }
 
